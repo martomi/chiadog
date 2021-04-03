@@ -1,0 +1,10 @@
+log_level: INFO
+chia_logs:
+  file_log_consumer:
+    enable: true
+    file_path: '~/.chia/mainnet/log/debug.log'
+notifier:
+  pushover:
+    enable: false
+    api_token: 'dummy_token'
+    user_key: 'dummy_key'
