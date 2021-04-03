@@ -1,0 +1,1 @@
+10:40:03.331 harvester src.harvester.harvester : INFO     0 plots were eligible for farming e25et6cb36... Found 0 proofs. Time: 28.12348 s. Total 43 plots
