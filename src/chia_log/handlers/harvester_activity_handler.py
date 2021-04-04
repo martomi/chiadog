@@ -72,6 +72,7 @@ class TimeSinceLastFarmEvent(HarvesterConditionChecker):
     """
 
     def __init__(self):
+        logging.info("Enabled check for farming events.")
         self._warning_threshold = 60
         self._last_timestamp = None
 
@@ -104,6 +105,7 @@ class NonDecreasingPlots(HarvesterConditionChecker):
     """
 
     def __init__(self):
+        logging.info("Enabled check for non-decreasing total plot count.")
         self._max_farmed_plots = 0
 
     def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:
@@ -132,6 +134,7 @@ class QuickPlotSearchTime(HarvesterConditionChecker):
     """
 
     def __init__(self):
+        logging.info("Enabled check for time taken to respond to challenges.")
         self._warning_threshold = 25  # seconds
 
     def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:
@@ -147,6 +150,9 @@ class QuickPlotSearchTime(HarvesterConditionChecker):
 
 class FoundProofs(HarvesterConditionChecker):
     """Check if any proofs were found."""
+
+    def __init__(self):
+        logging.info("Enabled check for found proofs.")
 
     def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:
         if obj.found_proofs_count > 0:
