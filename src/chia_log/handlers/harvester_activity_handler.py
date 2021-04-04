@@ -150,7 +150,7 @@ class FoundProofs(HarvesterConditionChecker):
 
     def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:
         if obj.found_proofs_count > 0:
-            message = f"Found {obj.found_proofs_count} proofs!"
+            message = f"Found {obj.found_proofs_count} proof(s)!"
             logging.info(message)
             return Event(
                 type=EventType.USER, priority=EventPriority.LOW, service=EventService.HARVESTER, message=message
