@@ -55,6 +55,7 @@ class NonSkippedSignagePoints(ConditionChecker):
     """
 
     def __init__(self):
+        logging.info("Enabled check for finished signage points.")
         self._last_processed_signage_point = None
         self._roll_over_point = 64
 

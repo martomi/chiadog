@@ -28,9 +28,14 @@ class NotifyManager:
                 logging.warning(f"Cannot find mapping for {key} notifier.")
             if self._config[key]["enable"]:
                 self._notifiers.append(key_notifier_mapping[key](self._config[key]))
+        if len(self._notifiers) == 0:
+            logging.warning("Cannot process user events: 0 notifiers are enabled!")
 
     def process_events(self, events: List[Event]):
         """Process all keep-alive and user events"""
+        if not len(events):
+            return
+
         self._keep_alive_monitor.process_events(events)
         for notifier in self._notifiers:
             notifier.send_events_to_user(events)
