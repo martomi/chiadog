@@ -14,7 +14,7 @@ class Config:
             self._config = yaml.safe_load(config_file)
 
     def _get_child_config(self, key):
-        if not key in self._config.keys():
+        if key not in self._config.keys():
             raise ValueError(f"Invalid config - cannot find {key} key")
 
         return self._config[key]
