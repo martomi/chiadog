@@ -24,14 +24,9 @@ class DummyNotifyManager:
 class TestKeepAliveMonitor(unittest.TestCase):
     def setUp(self) -> None:
         self.threshold_seconds = 3
-        self.keep_alive_monitor = KeepAliveMonitor(thresholds={
-            EventService.HARVESTER: self.threshold_seconds
-        })
+        self.keep_alive_monitor = KeepAliveMonitor(thresholds={EventService.HARVESTER: self.threshold_seconds})
         self.keep_alive_event = Event(
-            type=EventType.KEEPALIVE,
-            priority=EventPriority.NORMAL,
-            service=EventService.HARVESTER,
-            message=""
+            type=EventType.KEEPALIVE, priority=EventPriority.NORMAL, service=EventService.HARVESTER, message=""
         )
 
     def tearDown(self) -> None:
@@ -67,5 +62,5 @@ class TestKeepAliveMonitor(unittest.TestCase):
         self.assertGreater(seconds_elapsed, 2 * self.threshold_seconds - 1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

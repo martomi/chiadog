@@ -21,9 +21,7 @@ class LogHandler(LogConsumerSubscriber):
     def __init__(self, log_consumer: LogConsumer, notify_manager: NotifyManager):
         log_consumer.subscribe(self)
         self._notify_manager = notify_manager
-        self._handlers = [
-            HarvesterActivityHandler()
-        ]
+        self._handlers = [HarvesterActivityHandler()]
 
     def consume_logs(self, logs: str):
         for handler in self._handlers:
