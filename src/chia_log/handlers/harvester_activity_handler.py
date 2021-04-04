@@ -72,7 +72,7 @@ class TimeSinceLastFarmEvent(HarvesterConditionChecker):
     """
 
     def __init__(self):
-        self._warning_threshold = 30
+        self._warning_threshold = 60
         self._last_timestamp = None
 
     def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:
