@@ -21,6 +21,7 @@ Chiadog helps with automated monitoring and sends you a mobile notification in c
 | Harvester | Harvester did not participate in any challenge for 120 seconds. This might indicate networking issues. | NORMAL |
 | Harvester | Seeking plots took too long: 40 seconds! | NORMAL |
 | Harvester | Found 1 proof(s)! | LOW |
+| Full Node | Skipped some signage points! Last processed 12/64, current 43/64. This indicates networking issues. | NORMAL |
 
 ## How it works?
 

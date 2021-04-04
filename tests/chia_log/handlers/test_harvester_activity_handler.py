@@ -29,7 +29,7 @@ class TestHarvesterActivityHandler(unittest.TestCase):
                 self.assertEqual(events[1].type, EventType.USER, "Unexpected event type")
                 self.assertEqual(events[1].priority, EventPriority.LOW, "Unexpected priority")
                 self.assertEqual(events[1].service, EventService.HARVESTER, "Unexpected service")
-                self.assertEqual(events[1].message, "Found 1 proofs!")
+                self.assertEqual(events[1].message, "Found 1 proof(s)!")
 
     def testDecreasedPlots(self):
         with open(self.example_logs_path / "plots_decreased.txt") as f:

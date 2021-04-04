@@ -1,5 +1,6 @@
 # project
 from src.chia_log.handlers.harvester_activity_handler import HarvesterActivityHandler
+from src.chia_log.handlers.finished_signage_point_handler import FinishedSignagePointHandler
 from src.chia_log.log_consumer import LogConsumerSubscriber, LogConsumer
 from src.notifier.notify_manager import NotifyManager
 
@@ -21,7 +22,7 @@ class LogHandler(LogConsumerSubscriber):
     def __init__(self, log_consumer: LogConsumer, notify_manager: NotifyManager):
         log_consumer.subscribe(self)
         self._notify_manager = notify_manager
-        self._handlers = [HarvesterActivityHandler()]
+        self._handlers = [HarvesterActivityHandler(), FinishedSignagePointHandler()]
 
     def consume_logs(self, logs: str):
         for handler in self._handlers:
