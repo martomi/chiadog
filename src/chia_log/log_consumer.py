@@ -46,6 +46,7 @@ class FileLogConsumer(LogConsumer):
     """Specific implementation for a simple file consumer"""
 
     def __init__(self, log_path: Path):
+        logging.info("Enabled file log parser.")
         super().__init__()
         self._log_path = log_path
         self._is_running = True
