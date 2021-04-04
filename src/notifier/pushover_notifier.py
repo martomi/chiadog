@@ -1,7 +1,7 @@
 # std
 import http.client
 import logging
-import urllib
+import urllib.parse
 from typing import List
 
 # project

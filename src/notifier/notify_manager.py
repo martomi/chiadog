@@ -3,7 +3,7 @@ import logging
 from typing import List
 
 # project
-from . import Event
+from . import Event, Notifier
 from .keep_alive_monitor import KeepAliveMonitor
 from .pushover_notifier import PushoverNotifier
 
@@ -17,7 +17,7 @@ class NotifyManager:
     def __init__(self, config: dict, keep_alive_monitor: KeepAliveMonitor = None):
         self._keep_alive_monitor = keep_alive_monitor or KeepAliveMonitor()
         self._keep_alive_monitor.set_notify_manager(self)
-        self._notifiers = []
+        self._notifiers: List[Notifier] = []
         self._config = config
         self._initialize_notifiers()
 

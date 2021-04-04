@@ -1,10 +1,11 @@
 # std
 import logging
+from abc import ABC, abstractmethod
 from typing import List, Optional
 
 # project
 from src.notifier import Event, EventService, EventType, EventPriority
-from . import LogHandler, ConditionChecker
+from . import LogHandler
 from ..parsers.harvester_activity_parser import HarvesterActivityParser, HarvesterActivityMessage
 
 
@@ -17,7 +18,12 @@ class HarvesterActivityHandler(LogHandler):
 
     def __init__(self):
         self._parser = HarvesterActivityParser()
-        self._cond_checkers = [TimeSinceLastFarmEvent(), NonDecreasingPlots(), QuickPlotSearchTime(), FoundProofs()]
+        self._cond_checkers: List[HarvesterConditionChecker] = [
+            TimeSinceLastFarmEvent(),
+            NonDecreasingPlots(),
+            QuickPlotSearchTime(),
+            FoundProofs(),
+        ]
 
     def handle(self, logs: str) -> List[Event]:
         """Process incoming logs, check all conditions
@@ -47,7 +53,15 @@ class HarvesterActivityHandler(LogHandler):
         return events
 
 
-class TimeSinceLastFarmEvent(ConditionChecker):
+class HarvesterConditionChecker(ABC):
+    """Common interface for harvester condition checkers"""
+
+    @abstractmethod
+    def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:
+        pass
+
+
+class TimeSinceLastFarmEvent(HarvesterConditionChecker):
     """Check that elapsed time since last eligible farming event was
     inline with expectations. Usually every < 10 seconds.
 
@@ -83,7 +97,7 @@ class TimeSinceLastFarmEvent(ConditionChecker):
         return event
 
 
-class NonDecreasingPlots(ConditionChecker):
+class NonDecreasingPlots(HarvesterConditionChecker):
     """The total number of farmed plots is not expected
     to decrease. Decreasing number of plots may be a sign
     of unstable USB connection for external HDDs.
@@ -111,7 +125,7 @@ class NonDecreasingPlots(ConditionChecker):
         return event
 
 
-class QuickPlotSearchTime(ConditionChecker):
+class QuickPlotSearchTime(HarvesterConditionChecker):
     """Farming challenges need to be responded in 30 or less
     seconds. Ensure that HDD seek time for plots is quick
     enough that this condition is always satisfied
@@ -131,7 +145,7 @@ class QuickPlotSearchTime(ConditionChecker):
         return None
 
 
-class FoundProofs(ConditionChecker):
+class FoundProofs(HarvesterConditionChecker):
     """Check if any proofs were found."""
 
     def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:
