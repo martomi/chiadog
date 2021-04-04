@@ -9,8 +9,8 @@ from src.chia_log.parsers import harvester_activity_parser
 class TestHarvesterActivityParser(unittest.TestCase):
     def setUp(self) -> None:
         self.parser = harvester_activity_parser.HarvesterActivityParser()
-        self.example_logs_path = Path(__file__).resolve().parents[1] / 'logs/harvester_activity'
-        with open(self.example_logs_path / 'nominal.txt') as f:
+        self.example_logs_path = Path(__file__).resolve().parents[1] / "logs/harvester_activity"
+        with open(self.example_logs_path / "nominal.txt") as f:
             self.nominal_logs = f.read()
 
     def tearDown(self) -> None:
@@ -23,11 +23,13 @@ class TestHarvesterActivityParser(unittest.TestCase):
         expected_proofs_found_counts = [0, 0, 1, 0, 0]
         expected_search_times = [0.55515, 1.05515, 0.23412, 0.12348, 0.34952]
         expected_total_plots_counts = [42, 42, 42, 43, 43]
-        for msg, eligible, found, search, total in zip(activity_messages,
-                                                       expected_eligible_plot_counts,
-                                                       expected_proofs_found_counts,
-                                                       expected_search_times,
-                                                       expected_total_plots_counts):
+        for msg, eligible, found, search, total in zip(
+            activity_messages,
+            expected_eligible_plot_counts,
+            expected_proofs_found_counts,
+            expected_search_times,
+            expected_total_plots_counts,
+        ):
             self.assertEqual(msg.eligible_plots_count, eligible, "Eligible plots count don't match")
             self.assertEqual(msg.found_proofs_count, found, "Found proofs count don't match")
             self.assertEqual(msg.search_time_seconds, search, "Search time seconds don't match")
@@ -41,5 +43,5 @@ class TestHarvesterActivityParser(unittest.TestCase):
             prev_timestamp = msg.timestamp
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

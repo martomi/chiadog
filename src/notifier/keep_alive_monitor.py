@@ -21,25 +21,23 @@ class KeepAliveMonitor:
     def __init__(self, thresholds: dict = None):
         self._notify_manager = None
 
-        self._last_keep_alive = {
-            EventService.HARVESTER: datetime.now()
-        }
-        self._last_keep_alive_threshold_seconds = thresholds or {
-            EventService.HARVESTER: 300
-        }
+        self._last_keep_alive = {EventService.HARVESTER: datetime.now()}
+        self._last_keep_alive_threshold_seconds = thresholds or {EventService.HARVESTER: 300}
 
         # Infer check period from minimum threshold (arbitrary decision)
         # Note that this period defines how often high priority notifications
         # will be re-triggered so < 5 min is not recommended
-        self._check_period = float('inf')
+        self._check_period = float("inf")
         for threshold in self._last_keep_alive_threshold_seconds.values():
             self._check_period = min(threshold, self._check_period)
 
         logging.info(f"Keep-alive check period: {self._check_period} seconds")
         if self._check_period < 300:
-            logging.warning("Check period below 5 minutes might result "
-                            "in very frequent high priority notifications "
-                            "in case something stops working. Is it intended?")
+            logging.warning(
+                "Check period below 5 minutes might result "
+                "in very frequent high priority notifications "
+                "in case something stops working. Is it intended?"
+            )
 
         # Start thread
         self._is_running = True
@@ -67,12 +65,14 @@ class KeepAliveMonitor:
                 if seconds_since_last > self._last_keep_alive_threshold_seconds[service]:
                     message = f"No keep-alive events from harvester for the past {seconds_since_last} seconds"
                     logging.warning(message)
-                    events.append(Event(
-                        type=EventType.USER,
-                        priority=EventPriority.HIGH,
-                        service=EventService.HARVESTER,
-                        message=message
-                    ))
+                    events.append(
+                        Event(
+                            type=EventType.USER,
+                            priority=EventPriority.HIGH,
+                            service=EventService.HARVESTER,
+                            message=message,
+                        )
+                    )
             if len(events):
                 if self._notify_manager:
                     self._notify_manager.process_events(events)

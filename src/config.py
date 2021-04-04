@@ -10,7 +10,7 @@ class Config:
         if not config_path.is_file():
             raise ValueError(f"Invalid config.yaml path: {config_path}")
 
-        with open(config_path, 'r') as config_file:
+        with open(config_path, "r") as config_file:
             self._config = yaml.safe_load(config_file)
 
     def _get_child_config(self, key):

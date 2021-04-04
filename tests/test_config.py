@@ -12,9 +12,9 @@ class TestConfig(unittest.TestCase):
 
     def testBasic(self):
         with self.assertRaises(ValueError):
-            _ = Config(self.config_dir / 'wrong.yaml')
+            _ = Config(self.config_dir / "wrong.yaml")
 
-        config = Config(self.config_dir / 'config-example.yaml')
+        config = Config(self.config_dir / "config-example.yaml")
         notifier_config = config.get_notifier_config()
         self.assertEqual(notifier_config["pushover"]["enable"], False)
         self.assertEqual(notifier_config["pushover"]["api_token"], "dummy_token")
@@ -25,5 +25,5 @@ class TestConfig(unittest.TestCase):
         self.assertEqual(chia_logs_config["file_log_consumer"]["file_path"], "~/.chia/mainnet/log/debug.log")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

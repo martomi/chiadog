@@ -13,8 +13,8 @@ class PushoverNotifier(Notifier):
         logging.info("Initializing Pushover notifier.")
         super().__init__()
         try:
-            self.token = config['api_token']
-            self.user = config['user_key']
+            self.token = config["api_token"]
+            self.user = config["user_key"]
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
 
@@ -23,14 +23,20 @@ class PushoverNotifier(Notifier):
         for event in events:
             if event.type == EventType.USER:
                 conn = http.client.HTTPSConnection("api.pushover.net:443")
-                conn.request("POST", "/1/messages.json",
-                             urllib.parse.urlencode({
-                                 "token": self.token,
-                                 "user": self.user,
-                                 "title": f"Chia {event.service.name}",
-                                 "message": event.message,
-                                 "priority": event.priority.value
-                             }), {"Content-type": "application/x-www-form-urlencoded"})
+                conn.request(
+                    "POST",
+                    "/1/messages.json",
+                    urllib.parse.urlencode(
+                        {
+                            "token": self.token,
+                            "user": self.user,
+                            "title": f"Chia {event.service.name}",
+                            "message": event.message,
+                            "priority": event.priority.value,
+                        }
+                    ),
+                    {"Content-type": "application/x-www-form-urlencoded"},
+                )
                 response = conn.getresponse()
                 if response.getcode() != 200:
                     logging.warning(f"Problem sending event to user, code: {response.getcode()}")

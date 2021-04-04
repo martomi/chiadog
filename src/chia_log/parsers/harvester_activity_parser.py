@@ -11,6 +11,7 @@ from dateutil import parser as dateutil_parser
 @dataclass
 class HarvesterActivityMessage:
     """Parsed information from harvester logs"""
+
     timestamp: datetime
     eligible_plots_count: int
     challenge_hash: str
@@ -27,9 +28,11 @@ class HarvesterActivityParser:
     """
 
     def __init__(self):
-        self._regex = re.compile(r'([0-9:.]*) harvester src.harvester.harvester : INFO\s*([0-9]) plots were '
-                                 r'eligible for farming ([0-9a-z.]*) Found ([0-9]) proofs. Time: ([0-9.]*) s. '
-                                 r'Total ([0-9]*) plots')
+        self._regex = re.compile(
+            r"([0-9:.]*) harvester src.harvester.harvester : INFO\s*([0-9]) plots were "
+            r"eligible for farming ([0-9a-z.]*) Found ([0-9]) proofs. Time: ([0-9.]*) s. "
+            r"Total ([0-9]*) plots"
+        )
 
     def parse(self, logs: str) -> List[HarvesterActivityMessage]:
         """Parses all harvester activity messages from a bunch of logs
@@ -41,13 +44,15 @@ class HarvesterActivityParser:
         parsed_messages = []
         matches = self._regex.findall(logs)
         for match in matches:
-            parsed_messages.append(HarvesterActivityMessage(
-                timestamp=dateutil_parser.parse(match[0]),
-                eligible_plots_count=int(match[1]),
-                challenge_hash=match[2],
-                found_proofs_count=int(match[3]),
-                search_time_seconds=float(match[4]),
-                total_plots_count=int(match[5])
-            ))
+            parsed_messages.append(
+                HarvesterActivityMessage(
+                    timestamp=dateutil_parser.parse(match[0]),
+                    eligible_plots_count=int(match[1]),
+                    challenge_hash=match[2],
+                    found_proofs_count=int(match[3]),
+                    search_time_seconds=float(match[4]),
+                    total_plots_count=int(match[5]),
+                )
+            )
 
         return parsed_messages

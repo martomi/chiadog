@@ -13,9 +13,10 @@ from src.notifier.notify_manager import NotifyManager
 
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description='ChiaFarmWatch: Watch your crops '
-                                                 'with a piece in mind for the yield.')
-    parser.add_argument('--config', required=True, type=str, help='path to config.yaml')
+    parser = argparse.ArgumentParser(
+        description="ChiaFarmWatch: Watch your crops " "with a piece in mind for the yield."
+    )
+    parser.add_argument("--config", required=True, type=str, help="path to config.yaml")
     return parser.parse_args()
 
 
@@ -35,14 +36,16 @@ def get_log_level(log_level: str) -> int:
     return logging.INFO
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Parse config and configure logger
     args = parse_arguments()
     config = Config(Path(args.config))
     log_level = get_log_level(config.get_log_level_config())
     logging.basicConfig(
-        format='[%(asctime)s] [%(levelname)8s] --- %(message)s (%(filename)s:%(lineno)s)',
-        level=log_level, datefmt='%Y-%m-%d %H:%M:%S')
+        format="[%(asctime)s] [%(levelname)8s] --- %(message)s (%(filename)s:%(lineno)s)",
+        level=log_level,
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
 
     # Using file log consumer by default TODO: make configurable
     chia_logs_config = config.get_chia_logs_config()
@@ -56,18 +59,11 @@ if __name__ == '__main__':
     keep_alive_monitor = KeepAliveMonitor()
 
     # Notify manager is responsible for the lifecycle of all notifiers
-    notify_manager = NotifyManager(
-        config=config.get_notifier_config(),
-        keep_alive_monitor=keep_alive_monitor
-    )
+    notify_manager = NotifyManager(config=config.get_notifier_config(), keep_alive_monitor=keep_alive_monitor)
 
     # Link stuff up in the log handler
     # Pipeline: Consume -> Handle -> Notify
-    log_handler = LogHandler(
-        log_consumer=log_consumer,
-        notify_manager=notify_manager
-    )
-
+    log_handler = LogHandler(log_consumer=log_consumer, notify_manager=notify_manager)
 
     def interrupt(signal_number, frame):
         if signal_number == signal.SIGINT:
@@ -75,7 +71,6 @@ if __name__ == '__main__':
             log_consumer.stop()
             keep_alive_monitor.stop()
             exit(0)
-
 
     signal.signal(signal.SIGINT, interrupt)
     signal.pause()

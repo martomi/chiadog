@@ -17,12 +17,7 @@ class HarvesterActivityHandler(LogHandler):
 
     def __init__(self):
         self._parser = HarvesterActivityParser()
-        self._cond_checkers = [
-            TimeSinceLastFarmEvent(),
-            NonDecreasingPlots(),
-            QuickPlotSearchTime(),
-            FoundProofs()
-        ]
+        self._cond_checkers = [TimeSinceLastFarmEvent(), NonDecreasingPlots(), QuickPlotSearchTime(), FoundProofs()]
 
     def handle(self, logs: str) -> List[Event]:
         """Process incoming logs, check all conditions
@@ -36,12 +31,11 @@ class HarvesterActivityHandler(LogHandler):
         # activity have been successfully parsed
         if len(activity_messages) > 0:
             logging.debug(f"Parsed {len(activity_messages)} activity messages")
-            events.append(Event(
-                type=EventType.KEEPALIVE,
-                priority=EventPriority.NORMAL,
-                service=EventService.HARVESTER,
-                message=""
-            ))
+            events.append(
+                Event(
+                    type=EventType.KEEPALIVE, priority=EventPriority.NORMAL, service=EventService.HARVESTER, message=""
+                )
+            )
 
         # Run messages through all condition checkers
         for msg in activity_messages:
@@ -76,14 +70,13 @@ class TimeSinceLastFarmEvent(ConditionChecker):
         seconds_since_last = (obj.timestamp - self._last_timestamp).seconds
 
         if seconds_since_last > self._warning_threshold:
-            message = f"Harvester did not participate in any challenge for {seconds_since_last} seconds. " \
-                      f"This might indicate networking issues. It's now working again."
+            message = (
+                f"Harvester did not participate in any challenge for {seconds_since_last} seconds. "
+                f"This might indicate networking issues. It's now working again."
+            )
             logging.warning(message)
             event = Event(
-                type=EventType.USER,
-                priority=EventPriority.NORMAL,
-                service=EventService.HARVESTER,
-                message=message
+                type=EventType.USER, priority=EventPriority.NORMAL, service=EventService.HARVESTER, message=message
             )
 
         self._last_timestamp = obj.timestamp
@@ -109,10 +102,7 @@ class NonDecreasingPlots(ConditionChecker):
             message = f"The total plot count decreased from {self._max_farmed_plots} to {obj.total_plots_count}."
             logging.warning(message)
             event = Event(
-                type=EventType.USER,
-                priority=EventPriority.HIGH,
-                service=EventService.HARVESTER,
-                message=message
+                type=EventType.USER, priority=EventPriority.HIGH, service=EventService.HARVESTER, message=message
             )
 
         # Update max plots to prevent repeated alarms
@@ -135,10 +125,7 @@ class QuickPlotSearchTime(ConditionChecker):
             message = f"Seeking plots took too long: {obj.search_time_seconds} seconds!"
             logging.warning(message)
             return Event(
-                type=EventType.USER,
-                priority=EventPriority.NORMAL,
-                service=EventService.HARVESTER,
-                message=message
+                type=EventType.USER, priority=EventPriority.NORMAL, service=EventService.HARVESTER, message=message
             )
 
         return None
@@ -152,10 +139,7 @@ class FoundProofs(ConditionChecker):
             message = f"Found {obj.found_proofs_count} proofs!"
             logging.info(message)
             return Event(
-                type=EventType.USER,
-                priority=EventPriority.LOW,
-                service=EventService.HARVESTER,
-                message=message
+                type=EventType.USER, priority=EventPriority.LOW, service=EventService.HARVESTER, message=message
             )
 
         return None

@@ -15,8 +15,7 @@ from src.notifier import Event
 
 
 class LogHandler(ABC):
-    """Common interface for log handlers
-    """
+    """Common interface for log handlers"""
 
     @abstractmethod
     def handle(self, logs: str) -> List[Event]:
