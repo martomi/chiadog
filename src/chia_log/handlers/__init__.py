@@ -20,11 +20,3 @@ class LogHandler(ABC):
     @abstractmethod
     def handle(self, logs: str) -> List[Event]:
         pass
-
-
-class ConditionChecker(ABC):
-    """Common interface for condition checkers"""
-
-    @abstractmethod
-    def check(self, obj: object) -> Event:
-        pass
