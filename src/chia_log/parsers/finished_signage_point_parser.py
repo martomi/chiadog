@@ -1,5 +1,6 @@
 # std
 import re
+import logging
 from dataclasses import dataclass
 from datetime import datetime
 from typing import List
@@ -24,6 +25,7 @@ class FinishedSignagePointParser:
     """
 
     def __init__(self):
+        logging.info("Enabled parser for finished signage points.")
         # Doing some "smart" tricks with this expression to also match the 64th signage point
         # with the same regex expression. See test examples to see how they differ.
         self._regex = re.compile(r"([0-9:.]*) full_node src.full_node.full_node : INFO\s* ⏲️  [a-z A-Z,]* ([0-9]*)\/64")
