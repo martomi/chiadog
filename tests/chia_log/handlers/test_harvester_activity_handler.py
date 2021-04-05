@@ -48,7 +48,7 @@ class TestHarvesterActivityHandler(unittest.TestCase):
                 self.assertEqual(events[1].type, EventType.USER, "Unexpected event type")
                 self.assertEqual(events[1].priority, EventPriority.HIGH, "Unexpected priority")
                 self.assertEqual(events[1].service, EventService.HARVESTER, "Unexpected service")
-                self.assertEqual(events[1].message, "The total plot count decreased from 43 to 30.")
+                self.assertEqual(events[1].message, "Disconnected HDD? The total plot count decreased from 43 to 30.")
 
     def testLostSyncTemporarily(self):
         with open(self.example_logs_path / "lost_sync_temporary.txt") as f:
@@ -69,8 +69,8 @@ class TestHarvesterActivityHandler(unittest.TestCase):
                 self.assertEqual(events[1].service, EventService.HARVESTER, "Unexpected service")
                 self.assertEqual(
                     events[1].message,
-                    "Harvester did not participate in any challenge for 608 seconds. "
-                    "This might indicate networking issues. It's now working again.",
+                    "Experiencing networking issues? Harvester did not participate in any "
+                    "challenge for 608 seconds. It's now working again.",
                 )
 
     def testSlowSeekTime(self):

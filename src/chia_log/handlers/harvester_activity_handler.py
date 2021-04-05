@@ -86,8 +86,8 @@ class TimeSinceLastFarmEvent(HarvesterConditionChecker):
 
         if seconds_since_last > self._warning_threshold:
             message = (
-                f"Harvester did not participate in any challenge for {seconds_since_last} seconds. "
-                f"This might indicate networking issues. It's now working again."
+                f"Experiencing networking issues? Harvester did not participate in any challenge "
+                f"for {seconds_since_last} seconds. It's now working again."
             )
             logging.warning(message)
             event = Event(
@@ -115,7 +115,10 @@ class NonDecreasingPlots(HarvesterConditionChecker):
 
         event = None
         if obj.total_plots_count < self._max_farmed_plots:
-            message = f"The total plot count decreased from {self._max_farmed_plots} to {obj.total_plots_count}."
+            message = (
+                f"Disconnected HDD? The total plot count decreased from "
+                f"{self._max_farmed_plots} to {obj.total_plots_count}."
+            )
             logging.warning(message)
             event = Event(
                 type=EventType.USER, priority=EventPriority.HIGH, service=EventService.HARVESTER, message=message
