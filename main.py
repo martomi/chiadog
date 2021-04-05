@@ -5,7 +5,7 @@ import signal
 from pathlib import Path
 
 # project
-from src.chia_log.log_consumer import FileLogConsumer
+from src.chia_log.log_consumer import create_log_consumer_from_config
 from src.chia_log.log_handler import LogHandler
 from src.config import Config
 from src.notifier.keep_alive_monitor import KeepAliveMonitor
@@ -47,12 +47,11 @@ if __name__ == "__main__":
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 
-    # Using file log consumer by default TODO: make configurable
+    # Create log consumer based on provided configuration
     chia_logs_config = config.get_chia_logs_config()
-    if not chia_logs_config["file_log_consumer"]["enable"]:
-        logging.warning("Currently only file log consumer is supported. Cannot be disabled.")
-    log_path = Path(chia_logs_config["file_log_consumer"]["file_path"])
-    log_consumer = FileLogConsumer(log_path=log_path)
+    log_consumer = create_log_consumer_from_config(chia_logs_config)
+    if log_consumer is None:
+        exit(0)
 
     # Keep a reference here so we can stop the thread
     # TODO: read keep-alive thresholds from config
