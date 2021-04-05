@@ -20,6 +20,9 @@ class Config:
 
         return self._config[key]
 
+    def get_config(self):
+        return self._config
+
     def get_notifier_config(self):
         return self._get_child_config("notifier")
 

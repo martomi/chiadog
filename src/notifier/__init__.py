@@ -55,6 +55,10 @@ class Notifier(ABC):
     Pushover, E-mail, Slack, WhatsApp, etc
     """
 
+    def __init__(self, title_prefix: str, config: dict):
+        self._title_prefix = title_prefix
+        self._config = config
+
     @abstractmethod
     def send_events_to_user(self, events: List[Event]) -> bool:
         """Implementation specific to the integration"""
