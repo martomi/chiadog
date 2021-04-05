@@ -31,8 +31,8 @@ class TestFinishedSignagePointHandler(unittest.TestCase):
         expected_messages = []
         for expected in expected_list:
             expected_messages.append(
-                f"Skipped some signage points! Last processed {expected[0]}/64, "
-                f"current {expected[1]}/64. This indicates networking issues."
+                f"Experiencing networking issues? Skipped some signage points! "
+                f"Last {expected[0]}/64, current {expected[1]}/64."
             )
 
         checked = 0
