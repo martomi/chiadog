@@ -3,6 +3,11 @@ chia_logs:
   file_log_consumer:
     enable: true
     file_path: '~/.chia/mainnet/log/debug.log'
+  network_log_consumer:
+    enable: false
+    remote_file_path: '~/.chia/mainnet/log/debug.log'
+    remote_host: "192.168.0.100"
+    remote_user: "chia"
 notifier:
   pushover:
     enable: false

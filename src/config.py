@@ -1,4 +1,5 @@
 # std
+import logging
 from pathlib import Path
 
 # lib
@@ -27,3 +28,11 @@ class Config:
 
     def get_log_level_config(self):
         return self._get_child_config("log_level")
+
+
+def check_keys(required_keys, config) -> bool:
+    for key in required_keys:
+        if key not in config.keys():
+            logging.error(f"Incompatible configuration. Missing {key} in {config}.")
+            return False
+    return True
