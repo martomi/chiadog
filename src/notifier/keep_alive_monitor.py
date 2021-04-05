@@ -62,11 +62,11 @@ class KeepAliveMonitor:
             events = []
             for service in self._last_keep_alive.keys():
                 seconds_since_last = (datetime.now() - self._last_keep_alive[service]).seconds
-                logging.info(f"Keep-alive check for {service.name}: Last activity {seconds_since_last} seconds ago.")
+                logging.debug(f"Keep-alive check for {service.name}: Last activity {seconds_since_last} seconds ago.")
                 if seconds_since_last > self._last_keep_alive_threshold_seconds[service]:
                     message = (
-                        f"No keep-alive events from harvester for the past {seconds_since_last} seconds. "
-                        f"Your harvester appears to be offline!"
+                        f"Your harvester appears to be offline! "
+                        f"No events for the past {seconds_since_last} seconds."
                     )
                     logging.warning(message)
                     events.append(

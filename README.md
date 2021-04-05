@@ -16,12 +16,12 @@ helps with automated monitoring and sends you a mobile notification in case some
 
 | Subsystem | Notification (example values) | Priority |
 | ------------- | ------------- | ------|
-| Harvester | No keep-alive events from harvester for the past 400 seconds. Your harvester appears to be offline! | HIGH |
-| Harvester | The total plot count decreased from 100 to 40.  | HIGH |
-| Harvester | Harvester did not participate in any challenge for 120 seconds. This might indicate networking issues. | NORMAL |
+| Harvester | Your harvester appears to be offline! No events for the past 400 seconds. | HIGH |
+| Harvester | Disconnected HDD? The total plot count decreased from 100 to 40. | HIGH |
+| Harvester | Experiencing networking issues? Harvester did not participate in any challenge for 120 seconds. It's now working again. | NORMAL |
 | Harvester | Seeking plots took too long: 40 seconds! | NORMAL |
 | Harvester | Found 1 proof(s)! | LOW |
-| Full Node | Skipped some signage points! Last processed 12/64, current 43/64. This indicates networking issues. | NORMAL |
+| Full Node | Experiencing networking issues? Skipped some signage points! Last 12/64, current 43/64. | NORMAL |
 
 ## How it works?
 

@@ -69,8 +69,8 @@ class NonSkippedSignagePoints(ConditionChecker):
 
         if diff <= 0 or diff > 1:
             message = (
-                f"Skipped some signage points! Last processed {self._last_processed_signage_point}/64, "
-                f"current {obj.signage_point}/64. This indicates networking issues."
+                f"Experiencing networking issues? Skipped some signage points! "
+                f"Last {self._last_processed_signage_point}/64, current {obj.signage_point}/64."
             )
             logging.warning(message)
             event = Event(
