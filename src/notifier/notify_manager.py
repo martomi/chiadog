@@ -6,6 +6,7 @@ from typing import List
 from . import Event, Notifier
 from .keep_alive_monitor import KeepAliveMonitor
 from .pushover_notifier import PushoverNotifier
+from src.config import Config
 
 
 class NotifyManager:
@@ -14,11 +15,12 @@ class NotifyManager:
     delivered to multiple services at once.
     """
 
-    def __init__(self, config: dict, keep_alive_monitor: KeepAliveMonitor = None):
+    def __init__(self, config: Config, keep_alive_monitor: KeepAliveMonitor = None):
         self._keep_alive_monitor = keep_alive_monitor or KeepAliveMonitor()
         self._keep_alive_monitor.set_notify_manager(self)
         self._notifiers: List[Notifier] = []
-        self._config = config
+        self._config = config.get_notifier_config()
+        self._notification_title_prefix = config.get_config()["notification_title_prefix"]
         self._initialize_notifiers()
 
     def _initialize_notifiers(self):
@@ -27,7 +29,9 @@ class NotifyManager:
             if key not in key_notifier_mapping.keys():
                 logging.warning(f"Cannot find mapping for {key} notifier.")
             if self._config[key]["enable"]:
-                self._notifiers.append(key_notifier_mapping[key](self._config[key]))
+                self._notifiers.append(
+                    key_notifier_mapping[key](title_prefix=self._notification_title_prefix, config=self._config[key])
+                )
         if len(self._notifiers) == 0:
             logging.warning("Cannot process user events: 0 notifiers are enabled!")
 
