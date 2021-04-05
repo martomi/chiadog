@@ -46,6 +46,19 @@ class TestFinishedSignagePointHandler(unittest.TestCase):
                 self.assertEqual(events[0].message, expected_messages[checked], "Unexpected message")
                 checked += 1
 
+    def testNetworkScramble(self):
+        """This test case covers a case that I've observed happen on the actual mainnet
+        where signage points are arriving completely out of order and in very rapid succession.
+        It's currently unclear to me why this happens, but it seems to be network-wide issue
+        rather than individual node problem. So this test checks that the handler is robust
+        to ignoring these events and doesn't generate any false alarms for our node."""
+        with open(self.example_logs_path / "scrambled.txt") as f:
+            logs = f.readlines()
+
+        for log in logs:
+            events = self.handler.handle(log)
+            self.assertEqual(len(events), 0)
+
 
 if __name__ == "__main__":
     unittest.main()
