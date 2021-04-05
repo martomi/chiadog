@@ -12,7 +12,13 @@ import subprocess
 from abc import ABC, abstractmethod
 from pathlib import Path
 from threading import Thread
-from typing import List
+from typing import List, Optional
+
+# project
+from src.config import check_keys
+
+# lib
+import paramiko
 
 
 class LogConsumerSubscriber(ABC):
@@ -46,7 +52,7 @@ class FileLogConsumer(LogConsumer):
     """Specific implementation for a simple file consumer"""
 
     def __init__(self, log_path: Path):
-        logging.info("Enabled file log parser.")
+        logging.info("Enabled file log consumer.")
         super().__init__()
         self._log_path = log_path
         self._is_running = True
@@ -64,3 +70,70 @@ class FileLogConsumer(LogConsumer):
         while self._is_running:
             log_line = f.stdout.readline().decode(encoding="utf-8")
             self._notify_subscribers(log_line)
+
+
+class NetworkLogConsumer(LogConsumer):
+    """Consume logs over the network"""
+
+    def __init__(self, remote_log_path: Path, remote_user, remote_host):
+        logging.info("Enabled network log consumer.")
+        super().__init__()
+
+        self._remote_user = remote_user
+        self._remote_host = remote_host
+        self._remote_log_path = remote_log_path
+
+        self._ssh_client = paramiko.client.SSHClient()
+        self._ssh_client.load_system_host_keys()
+        self._ssh_client.connect(hostname=self._remote_host, username=self._remote_user)
+
+        # Start thread
+        self._is_running = True
+        self._thread = Thread(target=self._consume_loop)
+        self._thread.start()
+
+    def stop(self):
+        logging.info("Stopping")
+        self._is_running = False
+
+    def _consume_loop(self):
+        logging.info(f"Consuming remote log file {self._remote_log_path} from {self._remote_host}")
+        stdin, stdout, stderr = self._ssh_client.exec_command(f"tail -F {self._remote_log_path}")
+
+        while self._is_running:
+            log_line = stdout.readline()
+            self._notify_subscribers(log_line)
+
+
+def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
+    enabled_consumer = None
+    for consumer in config.keys():
+        if config[consumer]["enable"]:
+            if enabled_consumer:
+                logging.error("Detected multiple enabled consumers. This is unsupported configuration!")
+                return None
+            enabled_consumer = consumer
+    if enabled_consumer is None:
+        logging.error("Couldn't find enabled log consumer in config.yaml")
+        return None
+
+    enabled_consumer_config = config[enabled_consumer]
+
+    if enabled_consumer == "file_log_consumer":
+        if not check_keys(required_keys=["file_path"], config=enabled_consumer_config):
+            return None
+        return FileLogConsumer(log_path=Path(enabled_consumer_config["file_path"]))
+
+    if enabled_consumer == "network_log_consumer":
+        if not check_keys(
+            required_keys=["remote_file_path", "remote_host", "remote_user"], config=enabled_consumer_config
+        ):
+            return None
+        return NetworkLogConsumer(
+            remote_log_path=Path(enabled_consumer_config["remote_file_path"]),
+            remote_host=enabled_consumer_config["remote_host"],
+            remote_user=enabled_consumer_config["remote_user"],
+        )
+
+    logging.error("Unhandled consumer type")
+    return None
