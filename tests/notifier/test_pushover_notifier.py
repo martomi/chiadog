@@ -13,7 +13,9 @@ class TestPushoverNotifier(unittest.TestCase):
         user_key = os.getenv("PUSHOVER_USER_KEY")
         self.assertIsNotNone(api_token, "You must export PUSHOVER_API_TOKEN as env variable")
         self.assertIsNotNone(user_key, "You must export PUSHOVER_USER_KEY as env variable")
-        self.notifier = PushoverNotifier(config={"enable": True, "api_token": api_token, "user_key": user_key})
+        self.notifier = PushoverNotifier(
+            title_prefix="Test", config={"enable": True, "api_token": api_token, "user_key": user_key}
+        )
 
     def testLowPrioriyNotifications(self):
         errors = self.notifier.send_events_to_user(

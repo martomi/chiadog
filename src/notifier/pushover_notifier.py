@@ -9,9 +9,9 @@ from . import Notifier, Event, EventType
 
 
 class PushoverNotifier(Notifier):
-    def __init__(self, config: dict):
+    def __init__(self, title_prefix: str, config: dict):
         logging.info("Initializing Pushover notifier.")
-        super().__init__()
+        super().__init__(title_prefix, config)
         try:
             self.token = config["api_token"]
             self.user = config["user_key"]
@@ -30,7 +30,7 @@ class PushoverNotifier(Notifier):
                         {
                             "token": self.token,
                             "user": self.user,
-                            "title": f"Chia {event.service.name}",
+                            "title": f"{self._title_prefix} {event.service.name}",
                             "message": event.message,
                             "priority": event.priority.value,
                         }

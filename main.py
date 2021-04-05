@@ -58,7 +58,7 @@ if __name__ == "__main__":
     keep_alive_monitor = KeepAliveMonitor()
 
     # Notify manager is responsible for the lifecycle of all notifiers
-    notify_manager = NotifyManager(config=config.get_notifier_config(), keep_alive_monitor=keep_alive_monitor)
+    notify_manager = NotifyManager(config=config, keep_alive_monitor=keep_alive_monitor)
 
     # Link stuff up in the log handler
     # Pipeline: Consume -> Handle -> Notify

@@ -1,3 +1,4 @@
+notification_title_prefix: 'Chia'
 log_level: INFO
 chia_logs:
   file_log_consumer:
