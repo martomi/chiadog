@@ -14,3 +14,6 @@ notifier:
     enable: false
     api_token: 'dummy_token'
     user_key: 'dummy_key'
+  script:
+    enable: false
+    script_path: 'tests/test_script.sh'
