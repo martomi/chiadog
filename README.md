@@ -91,7 +91,7 @@ python3 -m venv venv
 3. Install the dependencies:
 
 ```
-pip3 install -r requirements.txt
+pip3 install wheel && pip3 install -r requirements.txt
 ```
 
 4. Copy the example config file
