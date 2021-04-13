@@ -31,11 +31,38 @@ one of your external HDDs disconnected and your harvester doesn't have access to
 
 ## Supported Integrations for Notifications
 
+### Telegram
+
+We're using [Telegram's Bot API](https://core.telegram.org/bots). To create a new bot for
+yourself, [send a message to BotFather](https://core.telegram.org/bots#6-botfather).
+
+For `chat_id` you need to enter your Telegram username or ID. For me only ID worked, you can find out your Telegram ID
+by messaging the [IDBot](https://telegram.me/myidbot). You need to also first message your bot to make sure it knows
+about you and can send you notifications.
+
+- **Costs**: $0
+- **Advantages**: It's free and not additional apps are required.
+
+You can test if your bot works correctly with:
+
+```
+TELEGRAM_BOT_TOKEN=<bot_token> TELEGRAM_CHAT_ID=<your_id> python3 -m unittest tests.notifier.test_telegram_notifier
+```
+
 ### Pushover
 
 [Pushover](https://pushover.net/) is available for both Android and iOS. High priority notifications can be configured
 from the Pushover app to overwrite any Silence or Do-Not-Disturb modes on your phone and sound a loud alarm at any time
 of the day to make you aware of any issues in a timely manner.
+
+- **Costs**: ~$5 one time payment for mobile app after 30 day trial.
+- **Advantages**: Easy setup, high priority notifications can override your phone's silent mode.
+
+You can test if your the setup works correctly with:
+
+```
+PUSHOVER_API_TOKEN=<api_token> PUSHOVER_USER_KEY=<user_key> python3 -m unittest tests.notifier.test_pushover_notifier
+```
 
 ### Slack, WhatsApp, E-Mail, ...?
 
@@ -198,14 +225,14 @@ python3 main.py --config config-harvester-3.yaml
 The best way to check that everything works on your system is to run the unit tests:
 
 ```
-PUSHOVER_API_TOKEN=<your_token> PUSHOVER_USER_KEY=<your_key> python3 -m unittest
+python3 -m unittest
 ```
 
-If your Pushover API token and user key are correctly set in the snippet above, you should receive notifications on your
-phone and the tests should complete with an `OK` status:
+All tests are expected to complete with an `OK` status. It's highly recommended to also run the notification specific
+tests described in the notification section above.
 
-You can also enable more verbose logging from `config.yaml` by changing `INFO` to `DEBUG`. Then you'll be able to see
-logs for every keep-alive event from the harvester.
+You can enable more verbose logging from `config.yaml` by changing `INFO` to `DEBUG`. You should see logs for every
+keep-alive event from the harvester.
 
 # Contributing
 
