@@ -64,6 +64,18 @@ You can test if your the setup works correctly with:
 PUSHOVER_API_TOKEN=<api_token> PUSHOVER_USER_KEY=<user_key> python3 -m unittest tests.notifier.test_pushover_notifier
 ```
 
+### Custom Script (beta)
+
+*Beware: This feature is in **beta** stage and future versions might not maintain backward compatibility!
+Currently, you need to parse out information from the message text which might change. In the future there'll be a
+different mechanism for identifying message type and payload.*
+
+Test your script is called correctly with:
+
+```
+python3 -m unittest tests.notifier.test_script_notifier
+```
+
 ### Slack, WhatsApp, E-Mail, ...?
 
 These integrations can be easily added. Contributions are welcome!
