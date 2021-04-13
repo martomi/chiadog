@@ -234,6 +234,17 @@ tests described in the notification section above.
 You can enable more verbose logging from `config.yaml` by changing `INFO` to `DEBUG`. You should see logs for every
 keep-alive event from the harvester.
 
+## Advanced Stuff
+
+### Running `chiadog` in the background
+
+```
+nohup python3 -u main.py --config config.yaml > output.log &
+```
+
+To stop chiadog, you can find the Process ID (PID) via `ps aux | grep main.py` and then softly interrupt the process
+with `kill -SIGINT <pid_here>`.
+
 # Contributing
 
 Contributions are always welcome! Please refer to [CONTRIBUTING](CONTRIBUTING.md) documentation.
