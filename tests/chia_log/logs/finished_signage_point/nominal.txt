@@ -1,76 +1,76 @@
-22:33:40.494 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 62/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:33:50.422 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 63/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:33:58.845 full_node src.full_node.full_node : INFO     ⏲️  Finished sub slot, SP 64/64, 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01, number of sub-slots: 2, RC hash: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01, Deficit 16
-22:34:08.165 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 1/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:34:17.566 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 2/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:34:25.655 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 3/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:34:35.265 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 4/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:34:43.202 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 5/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:34:51.553 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 6/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:35:00.421 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 7/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:35:09.581 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 8/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:35:20.242 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 9/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:35:28.221 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 10/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:35:36.480 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 11/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:35:45.516 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 12/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:35:55.342 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 13/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:36:03.303 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 14/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:36:12.735 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 15/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:36:24.145 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 16/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:36:33.394 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 17/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:36:41.305 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 18/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:36:49.508 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 19/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:36:59.071 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 20/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:37:09.643 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 21/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:37:17.268 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 22/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:37:26.119 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 23/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:37:35.697 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 24/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:37:44.030 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 25/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:37:53.671 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 26/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:38:01.767 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 27/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:38:10.437 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 28/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:38:21.137 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 29/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:38:30.804 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 30/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:38:38.708 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 31/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:38:46.896 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 32/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:38:55.989 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 33/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:39:06.292 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 34/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:39:14.034 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 35/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:39:23.631 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 36/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:39:31.823 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 37/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:39:41.352 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 38/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:39:49.434 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 39/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:39:57.618 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 40/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:40:28.810 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 41/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:40:37.020 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 42/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:40:45.514 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 43/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:40:54.249 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 44/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:41:04.039 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 45/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:41:16.055 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 46/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:41:27.634 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 47/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:41:39.622 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 48/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:41:49.572 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 49/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:41:57.517 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 50/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:42:05.933 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 51/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:42:16.171 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 52/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:42:26.835 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 53/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:42:37.359 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 54/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:42:45.399 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 55/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:42:54.825 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 56/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:43:03.076 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 57/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:43:13.648 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 58/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:43:23.249 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 59/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:43:31.028 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 60/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:43:39.657 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 61/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:43:49.079 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 62/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:43:57.131 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 63/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:44:05.770 full_node src.full_node.full_node : INFO     ⏲️  Finished sub slot, SP 64/64, 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01, number of sub-slots: 2, RC hash: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01, Deficit 16
-22:44:16.207 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 1/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:44:24.317 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 2/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:44:33.818 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 3/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:44:41.780 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 4/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:44:51.970 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 5/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:44:59.713 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 6/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:45:07.999 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 7/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:45:16.596 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 8/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
-22:45:24.923 full_node src.full_node.full_node : INFO     ⏲️  Finished signage point 9/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:33:40.494 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 62/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:33:50.422 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 63/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:33:58.845 full_node chia.full_node.full_node: INFO     ⏲️  Finished sub slot, SP 64/64, 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01, number of sub-slots: 2, RC hash: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01, Deficit 16
+22:34:08.165 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 1/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:34:17.566 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 2/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:34:25.655 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 3/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:34:35.265 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 4/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:34:43.202 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 5/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:34:51.553 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 6/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:35:00.421 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 7/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:35:09.581 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 8/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:35:20.242 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 9/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:35:28.221 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 10/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:35:36.480 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 11/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:35:45.516 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 12/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:35:55.342 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 13/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:36:03.303 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 14/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:36:12.735 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 15/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:36:24.145 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 16/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:36:33.394 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 17/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:36:41.305 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 18/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:36:49.508 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 19/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:36:59.071 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 20/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:37:09.643 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 21/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:37:17.268 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 22/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:37:26.119 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 23/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:37:35.697 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 24/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:37:44.030 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 25/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:37:53.671 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 26/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:38:01.767 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 27/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:38:10.437 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 28/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:38:21.137 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 29/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:38:30.804 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 30/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:38:38.708 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 31/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:38:46.896 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 32/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:38:55.989 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 33/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:39:06.292 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 34/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:39:14.034 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 35/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:39:23.631 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 36/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:39:31.823 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 37/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:39:41.352 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 38/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:39:49.434 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 39/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:39:57.618 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 40/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:40:28.810 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 41/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:40:37.020 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 42/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:40:45.514 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 43/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:40:54.249 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 44/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:41:04.039 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 45/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:41:16.055 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 46/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:41:27.634 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 47/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:41:39.622 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 48/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:41:49.572 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 49/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:41:57.517 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 50/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:42:05.933 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 51/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:42:16.171 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 52/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:42:26.835 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 53/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:42:37.359 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 54/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:42:45.399 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 55/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:42:54.825 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 56/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:43:03.076 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 57/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:43:13.648 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 58/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:43:23.249 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 59/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:43:31.028 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 60/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:43:39.657 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 61/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:43:49.079 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 62/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:43:57.131 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 63/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:44:05.770 full_node chia.full_node.full_node: INFO     ⏲️  Finished sub slot, SP 64/64, 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01, number of sub-slots: 2, RC hash: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01, Deficit 16
+22:44:16.207 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 1/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:44:24.317 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 2/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:44:33.818 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 3/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:44:41.780 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 4/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:44:51.970 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 5/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:44:59.713 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 6/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:45:07.999 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 7/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:45:16.596 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 8/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
+22:45:24.923 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 9/64: 1n4dxa2d720755a72fe6507193d8d441732cb083a0128d9ye915125y9c01
