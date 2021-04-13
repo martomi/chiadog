@@ -12,17 +12,22 @@ class TestFinishedSignagePointParser(unittest.TestCase):
         self.example_logs_path = Path(__file__).resolve().parents[1] / "logs/finished_signage_point"
         with open(self.example_logs_path / "nominal.txt") as f:
             self.nominal_logs = f.read()
+        with open(self.example_logs_path / "nominal_old_log_format.txt") as f:
+            self.nominal_logs_old_format = f.read()
 
     def tearDown(self) -> None:
         pass
 
     def testBasicParsing(self):
-        # Check that important fields are correctly parsed
-        signage_point_messages = self.parser.parse(self.nominal_logs)
-        expected_sequence = list(range(62, 65)) + list(range(1, 65)) + list(range(1, 10))
+        for logs in [self.nominal_logs, self.nominal_logs_old_format]:
+            # Check that important fields are correctly parsed
+            signage_point_messages = self.parser.parse(logs)
+            self.assertNotEqual(len(signage_point_messages), 0, 'No log messages found')
 
-        for signage_point_message, expected in zip(signage_point_messages, expected_sequence):
-            self.assertEqual(signage_point_message.signage_point, expected)
+            expected_sequence = list(range(62, 65)) + list(range(1, 65)) + list(range(1, 10))
+
+            for signage_point_message, expected in zip(signage_point_messages, expected_sequence):
+                self.assertEqual(signage_point_message.signage_point, expected)
 
 
 if __name__ == "__main__":
