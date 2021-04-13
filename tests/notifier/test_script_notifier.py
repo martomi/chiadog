@@ -12,7 +12,7 @@ class TestScriptNotifier(unittest.TestCase):
             title_prefix="Test", config={"enable": True, "script_path": "tests/test_script.sh"}
         )
 
-    def testLowPrioriyNotifications(self):
+    def testLowPriorityNotifications(self):
         errors = self.notifier.send_events_to_user(
             events=[
                 Event(
@@ -31,7 +31,7 @@ class TestScriptNotifier(unittest.TestCase):
         )
         self.assertFalse(errors)
 
-    def testNormalPrioriyNotifications(self):
+    def testNormalPriorityNotifications(self):
         errors = self.notifier.send_events_to_user(
             events=[
                 Event(
@@ -44,7 +44,7 @@ class TestScriptNotifier(unittest.TestCase):
         )
         self.assertFalse(errors)
 
-    def testHighPrioriyNotifications(self):
+    def testHighPriorityNotifications(self):
         errors = self.notifier.send_events_to_user(
             events=[
                 Event(
