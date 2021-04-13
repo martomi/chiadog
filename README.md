@@ -257,6 +257,17 @@ nohup python3 -u main.py --config config.yaml > output.log &
 To stop chiadog, you can find the Process ID (PID) via `ps aux | grep main.py` and then softly interrupt the process
 with `kill -SIGINT <pid_here>`.
 
+### I'm getting spammed by skipped signage point notifications!
+
+You might be plotting too hard or your computer cannot keep up for some other reason. You shouldn't be getting more than
+10 of these notifications per day. In a future version there'll be configuration to adjust the threshold or to only send
+a daily summary on skipped signage points.
+
+For now, if you don't want to get bothered by them, I recommend to
+replace [this line](https://github.com/martomi/chiadog/blob/main/src/chia_log/handlers/finished_signage_point_handler.py#L96)
+with `return None`. This will only stop the signage point notifications. You still will get notified about more critical
+issues.
+
 # Contributing
 
 Contributions are always welcome! Please refer to [CONTRIBUTING](CONTRIBUTING.md) documentation.
