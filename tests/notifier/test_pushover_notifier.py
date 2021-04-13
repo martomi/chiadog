@@ -17,6 +17,7 @@ class TestPushoverNotifier(unittest.TestCase):
             title_prefix="Test", config={"enable": True, "api_token": self.api_token, "user_key": self.user_key}
         )
 
+    @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
     def testLowPrioriyNotifications(self):
         errors = self.notifier.send_events_to_user(
             events=[
@@ -36,6 +37,7 @@ class TestPushoverNotifier(unittest.TestCase):
         )
         self.assertFalse(errors)
 
+    @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
     def testNormalPrioriyNotifications(self):
         errors = self.notifier.send_events_to_user(
             events=[
@@ -49,6 +51,7 @@ class TestPushoverNotifier(unittest.TestCase):
         )
         self.assertFalse(errors)
 
+    @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
     def testHighPrioriyNotifications(self):
         errors = self.notifier.send_events_to_user(
             events=[
