@@ -22,7 +22,7 @@ class TestFinishedSignagePointParser(unittest.TestCase):
         for logs in [self.nominal_logs, self.nominal_logs_old_format]:
             # Check that important fields are correctly parsed
             signage_point_messages = self.parser.parse(logs)
-            self.assertNotEqual(len(signage_point_messages), 0, 'No log messages found')
+            self.assertNotEqual(len(signage_point_messages), 0, "No log messages found")
 
             expected_sequence = list(range(62, 65)) + list(range(1, 65)) + list(range(1, 10))
 
