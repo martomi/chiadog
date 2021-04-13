@@ -268,6 +268,13 @@ replace [this line](https://github.com/martomi/chiadog/blob/main/src/chia_log/ha
 with `return None`. This will only stop the signage point notifications. You still will get notified about more critical
 issues.
 
+### Running `chiadog` in sandboxed environment
+
+We're in the early stages of exploring the best way to provide easy to setup sandboxed environment where the `chiadog`
+process is completely isolated from potentially accessing your private keys. Contributions in that direction are very
+welcome. Meanwhile you can check out @ajacobson repository
+for [chiadog-docker](https://github.com/ajacobson/chiadog-docker).
+
 # Contributing
 
 Contributions are always welcome! Please refer to [CONTRIBUTING](CONTRIBUTING.md) documentation.
