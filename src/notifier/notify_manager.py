@@ -7,6 +7,7 @@ from . import Event, Notifier
 from .keep_alive_monitor import KeepAliveMonitor
 from .pushover_notifier import PushoverNotifier
 from .script_notifier import ScriptNotifier
+from .telegram_notifier import TelegramNotifier
 from src.config import Config
 
 
@@ -25,7 +26,7 @@ class NotifyManager:
         self._initialize_notifiers()
 
     def _initialize_notifiers(self):
-        key_notifier_mapping = {"pushover": PushoverNotifier, "script": ScriptNotifier}
+        key_notifier_mapping = {"pushover": PushoverNotifier, "script": ScriptNotifier, "telegram": TelegramNotifier}
         for key in self._config.keys():
             if key not in key_notifier_mapping.keys():
                 logging.warning(f"Cannot find mapping for {key} notifier.")
