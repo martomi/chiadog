@@ -37,7 +37,7 @@ black src tests && mypy src tests && flake8 src tests
 Run all tests:
 
 ```
-PUSHOVER_API_TOKEN=<your_token> PUSHOVER_USER_KEY=<your_key> python3 -m unittest
+PUSHOVER_API_TOKEN=<your_token> PUSHOVER_USER_KEY=<your_key> TELEGRAM_BOT_TOKEN=<your_token> TELEGRAM_CHAT_ID=<your_chat_id>  python3 -m unittest
 ```
 
 Check that all passes and there aren't any warnings.
