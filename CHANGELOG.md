@@ -7,6 +7,20 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.0] - 2021-04-13
+
+### Added
+
+- (Optional) Telegram notifications (thanks [@MiguelCarranza](https://github.com/MiguelCarranza)
+  and [@greimela](https://github.com/greimela))
+- (Optional) Custom script notifications (thanks [@ajacobson](https://github.com/ajacobson))
+
+### Fixed
+
+- Parser adjusted to new log format for Chia 1.0.4 (thanks [@greimela](https://github.com/greimela)). The new log format
+  from Chia breaks all previous versions of `chiadog`. The changed parser is backward compatible with the old format
+  too, so you're safe to install this even if still using an older version.
+
 ## [0.2.0] - 2021-04-05
 
 ### Added
@@ -35,7 +49,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Adds basic condition checks for harvester operations.
 - Adds integration for Pushover (mobile notifications).
 
-[Unreleased]: https://github.com/martomi/chiadog/compare/v0.2.0...dev
+[Unreleased]: https://github.com/martomi/chiadog/compare/v0.3.0...dev
+
+[0.3.0]: https://github.com/martomi/chiadog/releases/tag/v0.3.0
 
 [0.2.0]: https://github.com/martomi/chiadog/releases/tag/v0.2.0
 
