@@ -18,5 +18,6 @@ notifier:
     enable: false
     script_path: 'tests/test_script.sh'
   telegram:
+    enable: false
     bot_token: 'dummy_bot_token'
     chat_id: 'dummy_chat_id'
