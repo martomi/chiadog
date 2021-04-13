@@ -23,7 +23,7 @@ class TestHarvesterActivityParser(unittest.TestCase):
 
             # Check that important fields are correctly parsed
             activity_messages = self.parser.parse(logs)
-            self.assertNotEqual(len(activity_messages), 0, 'No log messages found')
+            self.assertNotEqual(len(activity_messages), 0, "No log messages found")
 
             expected_eligible_plot_counts = [0, 1, 2, 3, 0]
             expected_proofs_found_counts = [0, 0, 1, 0, 0]
