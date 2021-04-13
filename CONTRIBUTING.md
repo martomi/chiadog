@@ -52,8 +52,12 @@ PUSHOVER_API_TOKEN=<your_token> PUSHOVER_USER_KEY=<your_key> TELEGRAM_BOT_TOKEN=
 
 Check that all passes and there aren't any warnings.
 
-> TODO: Make notifier tests optional so that not everyone needs to get tokens for all integrations.
-> For now, if you don't have all tokens, you can selectively run just the tests for your feature.
+If you did not modify any logic in one of the notifiers, you can skip these tests and run all others without specifying
+any tokens:
+
+```
+python3 -m unittest
+```
 
 ## Have fun
 
