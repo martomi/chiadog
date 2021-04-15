@@ -78,7 +78,7 @@ python3 -m unittest tests.notifier.test_script_notifier
 
 ### Discord
 
-[Discord](https://pushover.net/) built in Webhooks are a super simple way to get notifications sent to a text channel in your server. Follow the instructions for *Making a Webhook* on the [Intro to Webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) page. Copy & paste the Webhook URL into your `config.yaml', that's it!
+[Discord](https://pushover.net/)'s built in Webhooks are a super simple way to get notifications sent to a text channel in your server. Follow the instructions for *Making a Webhook* on the [Intro to Webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) page. Copy & paste the Webhook URL into your `config.yaml`, that's it!
 
 - **Costs**: $0
 - **Advantages**: Easy setup
