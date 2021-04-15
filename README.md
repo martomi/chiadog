@@ -31,23 +31,10 @@ one of your external HDDs disconnected and your harvester doesn't have access to
 
 ## Supported Integrations for Notifications
 
-### Telegram
-
-We're using [Telegram's Bot API](https://core.telegram.org/bots). To create a new bot for
-yourself, [send a message to BotFather](https://core.telegram.org/bots#6-botfather).
-
-For `chat_id` you need to enter your Telegram username or ID. For me only ID worked, you can find out your Telegram ID
-by messaging the [IDBot](https://telegram.me/myidbot). You need to also first message your bot to make sure it knows
-about you and can send you notifications.
-
-- **Costs**: $0
-- **Advantages**: It's free and not additional apps are required.
-
-You can test if your bot works correctly with:
-
-```
-TELEGRAM_BOT_TOKEN=<bot_token> TELEGRAM_CHAT_ID=<your_id> python3 -m unittest tests.notifier.test_telegram_notifier
-```
+The following integrations are **optional** - `chiadog`
+is not dependent on any of them and can also run standalone. That being said, you'll get the most value out of it, when
+you connect with one of the services below to receive real-time notifications about important events. You can also
+enable more than one at the same time - please refer to the [config-example.yaml](config-example.yaml).
 
 ### Pushover
 
@@ -62,6 +49,24 @@ You can test if your the setup works correctly with:
 
 ```
 PUSHOVER_API_TOKEN=<api_token> PUSHOVER_USER_KEY=<user_key> python3 -m unittest tests.notifier.test_pushover_notifier
+```
+
+### Telegram
+
+This integration uses the [Telegram's Bot API](https://core.telegram.org/bots). You can create a new bot for yourself
+by [sending a message to BotFather](https://core.telegram.org/bots#6-botfather).
+
+For `chat_id` you need to enter your Telegram username or ID. For me only ID worked, you can find out your Telegram ID
+by messaging the [IDBot](https://telegram.me/myidbot). You need to also first message your bot to make sure it knows
+about you and can send you notifications.
+
+- **Costs**: $0
+- **Advantages**: It's free and not additional apps are required.
+
+You can test if your bot works correctly with:
+
+```
+TELEGRAM_BOT_TOKEN=<bot_token> TELEGRAM_CHAT_ID=<your_id> python3 -m unittest tests.notifier.test_telegram_notifier
 ```
 
 ### Custom Script (beta)
