@@ -67,7 +67,7 @@ class SMTPNotifier(Notifier):
                     server.close()
                 # Display an error message if something goes wrong.
                 except Exception as e:
-                    print("Error: ", e)
+                    logging.error("SMTP Notify Error: ", e)
                     errors = True
 
         return errors
