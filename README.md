@@ -81,7 +81,7 @@ Test your script is called correctly with:
 python3 -m unittest tests.notifier.test_script_notifier
 ```
 
-### Slack, WhatsApp, E-Mail, ...?
+### Slack, WhatsApp, ...?
 
 These integrations can be easily added. Contributions are welcome!
 
