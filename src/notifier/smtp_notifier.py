@@ -27,6 +27,26 @@ class SMTPNotifier(Notifier):
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
 
+        self._smtp = None
+
+    def get_smtp_server(self):
+        # Reuse the existing SMTP connection if it is available
+        if self._smtp and self._smtp.noop()[0]:
+            return self._smtp
+        if self._smtp:
+            self._smtp.quit()
+        self._smtp = smtplib.SMTP(self.host, self.port)
+        self._smtp.ehlo()
+        self._smtp.starttls()
+        # stmplib docs recommend calling ehlo() before & after starttls()
+        self._smtp.ehlo()
+        self._smtp.login(self.username_smtp, self.password_smtp)
+        return self._smtp
+
+    def __del__(self):
+        if self._smtp:
+            self._smtp.quit()
+
     def send_events_to_user(self, events: List[Event]) -> bool:
         errors = False
         for event in events:
@@ -57,14 +77,8 @@ class SMTPNotifier(Notifier):
 
                 # Try to send the message.
                 try:
-                    server = smtplib.SMTP(self.host, self.port)
-                    server.ehlo()
-                    server.starttls()
-                    # stmplib docs recommend calling ehlo() before & after starttls()
-                    server.ehlo()
-                    server.login(self.username_smtp, self.password_smtp)
+                    server = self.get_smtp_server()
                     server.sendmail(self.sender, self.recipient, msg.as_string())
-                    server.close()
                 # Display an error message if something goes wrong.
                 except Exception as e:
                     logging.error("SMTP Notify Error: ", e)
