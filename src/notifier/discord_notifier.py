@@ -2,7 +2,6 @@
 import http.client
 import logging
 import urllib.parse
-import socket
 from typing import List
 
 # project
@@ -22,6 +21,13 @@ class DiscordNotifier(Notifier):
         errors = False
         for event in events:
             if event.type == EventType.USER:
+                priority = ""
+
+                if event.priority == event.priority.HIGH:
+                    priority = "🚨"
+                elif event.priority == event.priority.NORMAL:
+                    priority = "⚠️"
+
                 o = urllib.parse.urlparse(self.webhook_url)
                 conn = http.client.HTTPSConnection(o.netloc)
                 conn.request(
@@ -29,8 +35,8 @@ class DiscordNotifier(Notifier):
                     o.path,
                     urllib.parse.urlencode(
                         {
-                            "username": f"chiadog on {socket.gethostname()}",
-                            "content": event.message,
+                            "username": "chiadog",
+                            "content": f"{priority} *{self._title_prefix} {event.service.name}*\n{event.message}",
                         }
                     ),
                     {"Content-type": "application/x-www-form-urlencoded"},
