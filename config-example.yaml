@@ -30,3 +30,6 @@ notifier:
   script:
     enable: false
     script_path: 'tests/test_script.sh'
+  discord:
+    enable: false
+    webhook_url: 'https://discord.com/api/webhooks/...'

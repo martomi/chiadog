@@ -9,6 +9,7 @@ from .pushover_notifier import PushoverNotifier
 from .script_notifier import ScriptNotifier
 from .smtp_notifier import SMTPNotifier
 from .telegram_notifier import TelegramNotifier
+from .discord_notifier import DiscordNotifier
 from src.config import Config
 
 
@@ -31,6 +32,7 @@ class NotifyManager:
             "pushover": PushoverNotifier,
             "script": ScriptNotifier,
             "telegram": TelegramNotifier,
+            "discord": DiscordNotifier,
             "smtp": SMTPNotifier,
         }
         for key in self._config.keys():
