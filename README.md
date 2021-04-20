@@ -94,7 +94,24 @@ You can test if your the setup works correctly with:
 DISCORD_WEBHOOK_URL=<webhook_url> python3 -m unittest tests.notifier.test_discord_notifier
 ```
 
-### Slack, WhatsApp, E-Mail, ...?
+### SMTP / E-Mail
+
+This integration uses SMTP to send an e-mail to a designated address. 
+Alert information is sent in the subject line of the e-mail. 
+There several free SMTP relay providers with reasonable limits,
+some require that you have a domain name to verify the sender email.
+
+- **Costs**: $0+
+- **Advantages**: If you already have an SMTP server this can get the alert most-anywhere.
+
+Test your email is sent correctly with:
+
+```
+SENDER="sender@example.com" SENDER_NAME="ChiaDog" RECIPIENT="you@example.com" HOST=smtp.example.com PORT=587 USERNAME_SMTP=username PASSWORD_SMTP=password python3 -m unittest tests.notifier.test_smtp_notifier
+
+```
+
+### Slack, WhatsApp, ...?
 
 These integrations can be easily added. Contributions are welcome!
 
