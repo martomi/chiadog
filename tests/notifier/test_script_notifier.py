@@ -2,8 +2,8 @@
 import unittest
 
 # project
-from src.notifier import Event, EventType, EventPriority, EventService
 from src.notifier.script_notifier import ScriptNotifier
+from .dummy_events import DummyEvents
 
 
 class TestScriptNotifier(unittest.TestCase):
@@ -13,46 +13,13 @@ class TestScriptNotifier(unittest.TestCase):
         )
 
     def testLowPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(
-            events=[
-                Event(
-                    type=EventType.USER,
-                    priority=EventPriority.LOW,
-                    service=EventService.HARVESTER,
-                    message="Low priority notification 1.",
-                ),
-                Event(
-                    type=EventType.USER,
-                    priority=EventPriority.LOW,
-                    service=EventService.HARVESTER,
-                    message="Low priority notification 2.",
-                ),
-            ]
-        )
+        errors = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
         self.assertFalse(errors)
 
     def testNormalPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(
-            events=[
-                Event(
-                    type=EventType.USER,
-                    priority=EventPriority.NORMAL,
-                    service=EventService.HARVESTER,
-                    message="Normal priority notification.",
-                )
-            ]
-        )
+        errors = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
         self.assertFalse(errors)
 
     def testHighPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(
-            events=[
-                Event(
-                    type=EventType.USER,
-                    priority=EventPriority.HIGH,
-                    service=EventService.HARVESTER,
-                    message="This is a high priority notification!",
-                )
-            ]
-        )
+        errors = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
         self.assertFalse(errors)
