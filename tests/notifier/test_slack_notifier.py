@@ -3,8 +3,8 @@ import os
 import unittest
 
 # project
-from src.notifier import Event, EventType, EventPriority, EventService
 from src.notifier.slack_notifier import SlackNotifier
+from .dummy_events import DummyEvents
 
 
 class TestSlackNotifier(unittest.TestCase):
@@ -15,60 +15,15 @@ class TestSlackNotifier(unittest.TestCase):
 
     @unittest.skipUnless(os.getenv("SLACK_WEBHOOK_URL"), "Run only if webhook available")
     def testSlackLowPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(
-            events=[
-                Event(
-                    type=EventType.USER,
-                    priority=EventPriority.LOW,
-                    service=EventService.HARVESTER,
-                    message="Low priority notification 1.",
-                ),
-                Event(
-                    type=EventType.USER,
-                    priority=EventPriority.LOW,
-                    service=EventService.HARVESTER,
-                    message="Low priority notification 2.",
-                ),
-            ]
-        )
+        errors = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
         self.assertFalse(errors)
 
     @unittest.skipUnless(os.getenv("SLACK_WEBHOOK_URL"), "Run only if webhook available")
     def testSlackNormalPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(
-            events=[
-                Event(
-                    type=EventType.USER,
-                    priority=EventPriority.NORMAL,
-                    service=EventService.HARVESTER,
-                    message="Normal priority notification 1.",
-                ),
-                Event(
-                    type=EventType.USER,
-                    priority=EventPriority.NORMAL,
-                    service=EventService.HARVESTER,
-                    message="Normal priority notification 2.",
-                ),
-            ]
-        )
+        errors = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
         self.assertFalse(errors)
 
     @unittest.skipUnless(os.getenv("SLACK_WEBHOOK_URL"), "Run only if webhook available")
     def testSlackHighPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(
-            events=[
-                Event(
-                    type=EventType.USER,
-                    priority=EventPriority.HIGH,
-                    service=EventService.HARVESTER,
-                    message="High priority notification 1.",
-                ),
-                Event(
-                    type=EventType.USER,
-                    priority=EventPriority.HIGH,
-                    service=EventService.HARVESTER,
-                    message="High priority notification 2.",
-                ),
-            ]
-        )
+        errors = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
         self.assertFalse(errors)
