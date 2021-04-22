@@ -9,6 +9,9 @@ chia_logs:
     remote_file_path: '~/.chia/mainnet/log/debug.log'
     remote_host: "192.168.0.100"
     remote_user: "chia"
+keep_alive_monitor:
+  enable_remote_ping: false
+  ping_url: ''
 notifier:
   pushover:
     enable: false
