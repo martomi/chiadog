@@ -21,13 +21,6 @@ class DiscordNotifier(Notifier):
         errors = False
         for event in events:
             if event.type == EventType.USER:
-                priority = ""
-
-                if event.priority == event.priority.HIGH:
-                    priority = "🚨"
-                elif event.priority == event.priority.NORMAL:
-                    priority = "⚠️"
-
                 o = urllib.parse.urlparse(self.webhook_url)
                 conn = http.client.HTTPSConnection(o.netloc)
                 conn.request(
@@ -36,7 +29,7 @@ class DiscordNotifier(Notifier):
                     urllib.parse.urlencode(
                         {
                             "username": "chiadog",
-                            "content": f"{priority} *{self._title_prefix} {event.service.name}*\n{event.message}",
+                            "content": f"*{self.get_title_for_event(event)}*\n{event.message}",
                         }
                     ),
                     {"Content-type": "application/x-www-form-urlencoded"},
