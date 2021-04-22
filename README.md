@@ -91,19 +91,25 @@ python3 -m venv venv
 . ./venv/bin/activate
 ```
 
-3. Install the dependencies:
+3. Update `pip3` to latest version
+
+```
+python3 -m pip install --upgrade pip
+```
+
+4. Install the dependencies:
 
 ```
 pip3 install wheel && pip3 install -r requirements.txt
 ```
 
-4. Copy the example config file
+5. Copy the example config file
 
 ```
 cp config-example.yaml config.yaml
 ```
 
-5. Open up `config.yaml` in your editor and configure Pushover.
+6. Open up `config.yaml` in your editor and configure Pushover.
     - Enable Pushover Notifier
     - Set your Pushover API token
     - Set your Pushover user key
