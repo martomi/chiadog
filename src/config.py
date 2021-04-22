@@ -1,6 +1,7 @@
 # std
 import logging
 from pathlib import Path
+from typing import Optional
 
 # lib
 import yaml
@@ -14,9 +15,12 @@ class Config:
         with open(config_path, "r") as config_file:
             self._config = yaml.safe_load(config_file)
 
-    def _get_child_config(self, key):
+    def _get_child_config(self, key: str, required: bool = True) -> Optional[dict]:
         if key not in self._config.keys():
-            raise ValueError(f"Invalid config - cannot find {key} key")
+            if required:
+                raise ValueError(f"Invalid config - cannot find {key} key")
+            else:
+                return None
 
         return self._config[key]
 
@@ -31,6 +35,9 @@ class Config:
 
     def get_log_level_config(self):
         return self._get_child_config("log_level")
+
+    def get_keep_alive_monitor_config(self):
+        return self._get_child_config("keep_alive_monitor", required=False)
 
 
 def check_keys(required_keys, config) -> bool:

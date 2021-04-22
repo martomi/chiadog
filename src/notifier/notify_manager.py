@@ -21,8 +21,8 @@ class NotifyManager:
     delivered to multiple services at once.
     """
 
-    def __init__(self, config: Config, keep_alive_monitor: KeepAliveMonitor = None):
-        self._keep_alive_monitor = keep_alive_monitor or KeepAliveMonitor()
+    def __init__(self, config: Config, keep_alive_monitor: KeepAliveMonitor):
+        self._keep_alive_monitor = keep_alive_monitor
         self._keep_alive_monitor.set_notify_manager(self)
         self._notifiers: dict[str, Notifier] = {}
         self._config = config.get_notifier_config()
