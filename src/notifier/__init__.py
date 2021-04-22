@@ -58,6 +58,7 @@ class Notifier(ABC):
     def __init__(self, title_prefix: str, config: dict):
         self._title_prefix = title_prefix
         self._config = config
+        self._conn_timeout_seconds = 10
 
     def get_title_for_event(self, event):
         icon = ""

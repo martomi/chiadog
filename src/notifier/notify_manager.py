@@ -57,9 +57,11 @@ class NotifyManager:
         self._keep_alive_monitor.process_events(events)
         for key in self._notifiers.keys():
             start = time.perf_counter()
-            errors = self._notifiers[key].send_events_to_user(events)
+            try:
+                if not self._notifiers[key].send_events_to_user(events):
+                    logging.error(f"Failed to send events over {key}")
+            except Exception as e:
+                logging.error(f"Failed to send events over {key}: {e}")
             execution_time_seconds = time.perf_counter() - start
             if execution_time_seconds > 5:
                 logging.info(f"Sending events over {key} took {execution_time_seconds:0.2f} seconds.")
-            if errors:
-                logging.warning(f"Encountered errors trying to send events over {key}")
