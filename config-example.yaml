@@ -33,3 +33,6 @@ notifier:
   discord:
     enable: false
     webhook_url: 'https://discord.com/api/webhooks/...'
+  slack:
+    enable: false
+    webhook_url: 'https://hooks.slack.com/services/...'

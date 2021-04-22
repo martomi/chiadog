@@ -111,7 +111,22 @@ SENDER="sender@example.com" SENDER_NAME="ChiaDog" RECIPIENT="you@example.com" HO
 
 ```
 
-### Slack, WhatsApp, ...?
+### Slack
+
+[Slack](https://slack.com/) apps are a simple way to get notifications in a channel in your Slack workspace. Follow the instructions for *Creating an App* on the [Getting started with Incoming Webhooks](https://api.slack.com/messaging/webhooks#getting_started) guide. 
+
+Copy & paste the Webhook URL into your `config.yaml`, that's it!
+
+- **Costs**: $0
+- **Advantages**: Easy setup
+
+You can test if the setup works correctly with:
+
+```
+SLACK_WEBHOOK_URL=<webhook_url> python3 -m unittest tests.notifier.test_slack_notifier
+```
+
+### WhatsApp, ...?
 
 These integrations can be easily added. Contributions are welcome!
 
