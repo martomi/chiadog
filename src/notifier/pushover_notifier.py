@@ -30,7 +30,7 @@ class PushoverNotifier(Notifier):
                         {
                             "token": self.token,
                             "user": self.user,
-                            "title": f"{self._title_prefix} {event.service.name}",
+                            "title": self.get_title_for_event(event),
                             "message": event.message,
                             "priority": event.priority.value,
                         }

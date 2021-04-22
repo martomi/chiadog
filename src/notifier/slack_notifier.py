@@ -22,16 +22,9 @@ class SlackNotifier(Notifier):
         errors = False
         for event in events:
             if event.type == EventType.USER:
-                priority = ""
-
-                if event.priority == event.priority.HIGH:
-                    priority = "🚨"
-                elif event.priority == event.priority.NORMAL:
-                    priority = "⚠️"
-
                 request_body = json.dumps(
                     {
-                        "text": f"{priority} *{self._title_prefix} {event.service.name}*\n{event.message}",
+                        "text": f"*{self.get_title_for_event(event)}*\n{event.message}",
                     }
                 )
 

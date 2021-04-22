@@ -31,13 +31,7 @@ class SMTPNotifier(Notifier):
         errors = False
         for event in events:
             if event.type == EventType.USER:
-                priority = ""
-
-                if event.priority == event.priority.HIGH:
-                    priority = "🚨"
-                elif event.priority == event.priority.NORMAL:
-                    priority = "⚠️"
-                subject = f"{priority} {self._title_prefix} {event.service.name} {event.message}"
+                subject = f"{self.get_title_for_event(event)} {event.message}"
                 text = ""
                 # Create message container - the correct MIME type is multipart/alternative.
                 msg = MIMEMultipart("alternative")

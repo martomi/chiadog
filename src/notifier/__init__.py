@@ -59,6 +59,15 @@ class Notifier(ABC):
         self._title_prefix = title_prefix
         self._config = config
 
+    def get_title_for_event(self, event):
+        icon = ""
+        if event.priority == EventPriority.HIGH:
+            icon = "🚨"
+        elif event.priority == EventPriority.NORMAL:
+            icon = "⚠️"
+
+        return f"{icon} {self._title_prefix} {event.service.name}"
+
     @abstractmethod
     def send_events_to_user(self, events: List[Event]) -> bool:
         """Implementation specific to the integration"""
