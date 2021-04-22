@@ -31,108 +31,18 @@ one of your external HDDs disconnected and your harvester doesn't have access to
 
 ## Supported Integrations for Notifications
 
-The following integrations are **optional** - `chiadog`
-is not dependent on any of them and can also run standalone. That being said, you'll get the most value out of it, when
-you connect with one of the services below to receive real-time notifications about important events. You can also
-enable more than one at the same time - please refer to the [config-example.yaml](config-example.yaml).
+You may use one (or more) of the following integrations to receive notifications from `chiadog`.
 
-### Pushover
+| Integration | Advantages | Cost |
+| ------------- | ------------- | ------|
+| [Pushover](https://pushover.net/) | High priority notifications that can override your phone's silent mode. | $5 one time purchase after 30 day trial. |
+| E-mail | You probably already have an email. No additional apps. | Free |
+| Slack | Quick & easy setup. | Free |
+| Discord | Quick & easy setup. | Free |
+| Telegram | Quick & easy setup. | Free |
+| Shell script (beta) | Execute anything in your own script. | Free |
 
-[Pushover](https://pushover.net/) is available for both Android and iOS. High priority notifications can be configured
-from the Pushover app to overwrite any Silence or Do-Not-Disturb modes on your phone and sound a loud alarm at any time
-of the day to make you aware of any issues in a timely manner.
-
-- **Costs**: ~$5 one time payment for mobile app after 30 day trial.
-- **Advantages**: Easy setup, high priority notifications can override your phone's silent mode.
-
-You can test if your the setup works correctly with:
-
-```
-PUSHOVER_API_TOKEN=<api_token> PUSHOVER_USER_KEY=<user_key> python3 -m unittest tests.notifier.test_pushover_notifier
-```
-
-### Telegram
-
-This integration uses the [Telegram's Bot API](https://core.telegram.org/bots). You can create a new bot for yourself
-by [sending a message to BotFather](https://core.telegram.org/bots#6-botfather).
-
-For `chat_id` you need to enter your Telegram username or ID. For me only ID worked, you can find out your Telegram ID
-by messaging the [IDBot](https://telegram.me/myidbot). You need to also first message your bot to make sure it knows
-about you and can send you notifications.
-
-- **Costs**: $0
-- **Advantages**: It's free and not additional apps are required.
-
-You can test if your bot works correctly with:
-
-```
-TELEGRAM_BOT_TOKEN=<bot_token> TELEGRAM_CHAT_ID=<your_id> python3 -m unittest tests.notifier.test_telegram_notifier
-```
-
-### Custom Script (beta)
-
-*Beware: This feature is in **beta** stage and future versions might not maintain backward compatibility!
-Currently, you need to parse out information from the message text which might change. In the future there'll be a
-different mechanism for identifying message type and payload.*
-
-Test your script is called correctly with:
-
-```
-python3 -m unittest tests.notifier.test_script_notifier
-```
-
-### Discord
-
-[Discord](https://discord.com/) built in Webhooks are a super simple way to get notifications sent to a text channel in
-your server. Follow the instructions for *Making a Webhook* on
-the [Intro to Webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) page. Copy & paste
-the Webhook URL into your `config.yaml`, that's it!
-
-- **Costs**: $0
-- **Advantages**: Easy setup
-
-You can test if your the setup works correctly with:
-
-```
-DISCORD_WEBHOOK_URL=<webhook_url> python3 -m unittest tests.notifier.test_discord_notifier
-```
-
-### SMTP / E-Mail
-
-This integration uses SMTP to send an e-mail to a designated address. Alert information is sent in the subject line of
-the e-mail. There several free SMTP relay providers with reasonable limits, some require that you have a domain name to
-verify the sender email.
-
-- **Costs**: $0+
-- **Advantages**: If you already have an SMTP server this can get the alert most-anywhere.
-
-Test your email is sent correctly with:
-
-```
-SENDER="sender@example.com" SENDER_NAME="ChiaDog" RECIPIENT="you@example.com" HOST=smtp.example.com PORT=587 USERNAME_SMTP=username PASSWORD_SMTP=password python3 -m unittest tests.notifier.test_smtp_notifier
-
-```
-
-### Slack
-
-[Slack](https://slack.com/) apps are a simple way to get notifications in a channel in your Slack workspace. Follow the
-instructions for *Creating an App* on
-the [Getting started with Incoming Webhooks](https://api.slack.com/messaging/webhooks#getting_started) guide.
-
-Copy & paste the Webhook URL into your `config.yaml`, that's it!
-
-- **Costs**: $0
-- **Advantages**: Easy setup
-
-You can test if the setup works correctly with:
-
-```
-SLACK_WEBHOOK_URL=<webhook_url> python3 -m unittest tests.notifier.test_slack_notifier
-```
-
-### WhatsApp, ...?
-
-These integrations can be easily added. Contributions are welcome!
+For detailed guide on how to test and configure, please refer to [INTEGRATIONS.md](INTEGRATIONS.md).
 
 # Getting started
 
