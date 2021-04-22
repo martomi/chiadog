@@ -51,7 +51,7 @@ class SMTPNotifier(Notifier):
 
                 # Try to send the message.
                 try:
-                    server = smtplib.SMTP(self.host, self.port)
+                    server = smtplib.SMTP(self.host, self.port, timeout=self._conn_timeout_seconds)
                     server.ehlo()
                     server.starttls()
                     # stmplib docs recommend calling ehlo() before & after starttls()
@@ -64,4 +64,4 @@ class SMTPNotifier(Notifier):
                     logging.error("SMTP Notify Error: ", e)
                     errors = True
 
-        return errors
+        return not errors

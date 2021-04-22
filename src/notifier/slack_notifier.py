@@ -29,7 +29,7 @@ class SlackNotifier(Notifier):
                 )
 
                 o = urllib.parse.urlparse(self.webhook_url)
-                conn = http.client.HTTPSConnection(o.netloc)
+                conn = http.client.HTTPSConnection(o.netloc, timeout=self._conn_timeout_seconds)
                 conn.request(
                     "POST",
                     o.path,
@@ -42,4 +42,4 @@ class SlackNotifier(Notifier):
                     errors = True
                 conn.close()
 
-        return errors
+        return not errors

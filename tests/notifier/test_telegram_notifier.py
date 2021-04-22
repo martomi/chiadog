@@ -19,15 +19,15 @@ class TestTelegramNotifier(unittest.TestCase):
 
     @unittest.skipUnless(os.getenv("TELEGRAM_BOT_TOKEN"), "Run only if token available")
     def testTelegramLowPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
-        self.assertFalse(errors)
+        success = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
+        self.assertTrue(success)
 
     @unittest.skipUnless(os.getenv("TELEGRAM_BOT_TOKEN"), "Run only if token available")
     def testTelegramNormalPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
-        self.assertFalse(errors)
+        success = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
+        self.assertTrue(success)
 
     @unittest.skipUnless(os.getenv("TELEGRAM_BOT_TOKEN"), "Run only if token available")
     def testTelegramHighPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
-        self.assertFalse(errors)
+        success = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
+        self.assertTrue(success)

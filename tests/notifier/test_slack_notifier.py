@@ -15,15 +15,15 @@ class TestSlackNotifier(unittest.TestCase):
 
     @unittest.skipUnless(os.getenv("SLACK_WEBHOOK_URL"), "Run only if webhook available")
     def testSlackLowPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
-        self.assertFalse(errors)
+        success = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
+        self.assertTrue(success)
 
     @unittest.skipUnless(os.getenv("SLACK_WEBHOOK_URL"), "Run only if webhook available")
     def testSlackNormalPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
-        self.assertFalse(errors)
+        success = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
+        self.assertTrue(success)
 
     @unittest.skipUnless(os.getenv("SLACK_WEBHOOK_URL"), "Run only if webhook available")
     def testSlackHighPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
-        self.assertFalse(errors)
+        success = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
+        self.assertTrue(success)

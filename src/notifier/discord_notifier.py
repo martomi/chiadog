@@ -22,7 +22,7 @@ class DiscordNotifier(Notifier):
         for event in events:
             if event.type == EventType.USER:
                 o = urllib.parse.urlparse(self.webhook_url)
-                conn = http.client.HTTPSConnection(o.netloc)
+                conn = http.client.HTTPSConnection(o.netloc, timeout=self._conn_timeout_seconds)
                 conn.request(
                     "POST",
                     o.path,
@@ -40,4 +40,4 @@ class DiscordNotifier(Notifier):
                     errors = True
                 conn.close()
 
-        return errors
+        return not errors
