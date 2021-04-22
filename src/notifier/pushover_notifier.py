@@ -22,7 +22,7 @@ class PushoverNotifier(Notifier):
         errors = False
         for event in events:
             if event.type == EventType.USER:
-                conn = http.client.HTTPSConnection("api.pushover.net:443")
+                conn = http.client.HTTPSConnection("api.pushover.net:443", timeout=self._conn_timeout_seconds)
                 conn.request(
                     "POST",
                     "/1/messages.json",
@@ -43,4 +43,4 @@ class PushoverNotifier(Notifier):
                     errors = True
                 conn.close()
 
-        return errors
+        return not errors

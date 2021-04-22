@@ -20,18 +20,18 @@ class TestPushoverNotifier(unittest.TestCase):
 
     @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
     def testLowPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
-        self.assertFalse(errors)
+        success = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
+        self.assertTrue(success)
 
     @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
     def testNormalPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
-        self.assertFalse(errors)
+        success = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
+        self.assertTrue(success)
 
     @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
     def testHighPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
-        self.assertFalse(errors)
+        success = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
+        self.assertTrue(success)
 
     @unittest.skipUnless(os.getenv("SHOWCASE_NOTIFICATIONS"), "Only for showcasing")
     def testShowcaseGoodNotifications(self):
@@ -56,8 +56,8 @@ class TestPushoverNotifier(unittest.TestCase):
             message="Found 1 proof(s)!",
         )
         for notifier in notifiers:
-            errors = notifier.send_events_to_user(events=[found_proof_event])
-            self.assertFalse(errors)
+            success = notifier.send_events_to_user(events=[found_proof_event])
+            self.assertTrue(success)
 
     @unittest.skipUnless(os.getenv("SHOWCASE_NOTIFICATIONS"), "Only for showcasing")
     def testShowcaseBadNotifications(self):
@@ -96,5 +96,5 @@ class TestPushoverNotifier(unittest.TestCase):
         )
         events = [disconnected_hdd, offline, network_issues]
         for notifier, event in zip(notifiers, events):
-            errors = notifier.send_events_to_user(events=[event])
-            self.assertFalse(errors)
+            success = notifier.send_events_to_user(events=[event])
+            self.assertTrue(success)

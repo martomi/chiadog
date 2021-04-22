@@ -30,7 +30,7 @@ class TelegramNotifier(Notifier):
                         "disable_notification": event.priority == event.priority.LOW,
                     }
                 )
-                conn = http.client.HTTPSConnection("api.telegram.org")
+                conn = http.client.HTTPSConnection("api.telegram.org", timeout=self._conn_timeout_seconds)
                 conn.request(
                     "POST",
                     f"/bot{self.bot_token}/sendMessage",
@@ -43,4 +43,4 @@ class TelegramNotifier(Notifier):
                     errors = True
                 conn.close()
 
-        return errors
+        return not errors

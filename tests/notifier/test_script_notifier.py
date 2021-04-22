@@ -13,13 +13,13 @@ class TestScriptNotifier(unittest.TestCase):
         )
 
     def testLowPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
-        self.assertFalse(errors)
+        success = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
+        self.assertTrue(success)
 
     def testNormalPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
-        self.assertFalse(errors)
+        success = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
+        self.assertTrue(success)
 
     def testHighPriorityNotifications(self):
-        errors = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
-        self.assertFalse(errors)
+        success = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
+        self.assertTrue(success)
