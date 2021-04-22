@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     # Keep a reference here so we can stop the thread
     # TODO: read keep-alive thresholds from config
-    keep_alive_monitor = KeepAliveMonitor()
+    keep_alive_monitor = KeepAliveMonitor(config=config.get_keep_alive_monitor_config())
 
     # Notify manager is responsible for the lifecycle of all notifiers
     notify_manager = NotifyManager(config=config, keep_alive_monitor=keep_alive_monitor)

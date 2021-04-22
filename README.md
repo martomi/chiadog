@@ -83,7 +83,10 @@ python3 -m unittest tests.notifier.test_script_notifier
 
 ### Discord
 
-[Discord](https://discord.com/) built in Webhooks are a super simple way to get notifications sent to a text channel in your server. Follow the instructions for *Making a Webhook* on the [Intro to Webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) page. Copy & paste the Webhook URL into your `config.yaml`, that's it!
+[Discord](https://discord.com/) built in Webhooks are a super simple way to get notifications sent to a text channel in
+your server. Follow the instructions for *Making a Webhook* on
+the [Intro to Webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) page. Copy & paste
+the Webhook URL into your `config.yaml`, that's it!
 
 - **Costs**: $0
 - **Advantages**: Easy setup
@@ -96,10 +99,9 @@ DISCORD_WEBHOOK_URL=<webhook_url> python3 -m unittest tests.notifier.test_discor
 
 ### SMTP / E-Mail
 
-This integration uses SMTP to send an e-mail to a designated address. 
-Alert information is sent in the subject line of the e-mail. 
-There several free SMTP relay providers with reasonable limits,
-some require that you have a domain name to verify the sender email.
+This integration uses SMTP to send an e-mail to a designated address. Alert information is sent in the subject line of
+the e-mail. There several free SMTP relay providers with reasonable limits, some require that you have a domain name to
+verify the sender email.
 
 - **Costs**: $0+
 - **Advantages**: If you already have an SMTP server this can get the alert most-anywhere.
@@ -113,7 +115,9 @@ SENDER="sender@example.com" SENDER_NAME="ChiaDog" RECIPIENT="you@example.com" HO
 
 ### Slack
 
-[Slack](https://slack.com/) apps are a simple way to get notifications in a channel in your Slack workspace. Follow the instructions for *Creating an App* on the [Getting started with Incoming Webhooks](https://api.slack.com/messaging/webhooks#getting_started) guide. 
+[Slack](https://slack.com/) apps are a simple way to get notifications in a channel in your Slack workspace. Follow the
+instructions for *Creating an App* on
+the [Getting started with Incoming Webhooks](https://api.slack.com/messaging/webhooks#getting_started) guide.
 
 Copy & paste the Webhook URL into your `config.yaml`, that's it!
 
@@ -297,6 +301,19 @@ You can enable more verbose logging from `config.yaml` by changing `INFO` to `DE
 keep-alive event from the harvester.
 
 ## Advanced Stuff
+
+### Setup a watchdog for `chiadog`
+
+There are failure-cases in which `chiadog` is helpless. For example, your computer completely freezes or shuts down.
+Perhaps your entire home network goes down.
+`chiadog` won't be able to send you a notification.
+
+There's a way however: in the [config](config-example.yaml) under the section of `keep_alive_monitor`, you can enable
+pinging to a remote service that will act as a watchdog of `chiadog`. A second level of redundancy, if you wish!
+
+You may chose your favourite service for that, I've tested it with
+[HealthChecks.io](https://healthchecks.io). It's free to signup and create an endpoint that expects to receive pings
+every 10 minutes. If it does not, it will notify you. It has integrations with Pushover, Email, Slack, Discord and more.
 
 ### Running `chiadog` in the background
 
