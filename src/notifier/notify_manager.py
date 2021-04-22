@@ -10,6 +10,7 @@ from .script_notifier import ScriptNotifier
 from .smtp_notifier import SMTPNotifier
 from .telegram_notifier import TelegramNotifier
 from .discord_notifier import DiscordNotifier
+from .slack_notifier import SlackNotifier
 from src.config import Config
 
 
@@ -34,6 +35,7 @@ class NotifyManager:
             "telegram": TelegramNotifier,
             "discord": DiscordNotifier,
             "smtp": SMTPNotifier,
+            "slack": SlackNotifier,
         }
         for key in self._config.keys():
             if key not in key_notifier_mapping.keys():
