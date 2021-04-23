@@ -20,8 +20,8 @@ helps with automated monitoring and sends you a mobile notification in case some
 | Harvester | Disconnected HDD? The total plot count decreased from 100 to 40. | HIGH |
 | Harvester | Experiencing networking issues? Harvester did not participate in any challenge for 120 seconds. It's now working again. | NORMAL |
 | Harvester | Seeking plots took too long: 40 seconds! | NORMAL |
-| Harvester | Found 1 proof(s)! | LOW |
-| Full Node | Experiencing networking issues? Skipped some signage points! Last 12/64, current 43/64. | NORMAL |
+| Full Node | Experiencing networking issues? Skipped 42 signage points! | NORMAL |
+| Wallet | Cha-ching! Just received 2.0 XCH. | LOW |
 
 ## How it works?
 
