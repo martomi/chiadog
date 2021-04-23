@@ -12,6 +12,9 @@ chia_logs:
 keep_alive_monitor:
   enable_remote_ping: false
   ping_url: ''
+daily_stats:
+  enable: true
+  time_of_day: 21
 notifier:
   pushover:
     enable: false

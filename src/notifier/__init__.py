@@ -28,6 +28,7 @@ class EventType(Enum):
 
     KEEPALIVE = 0
     USER = 1
+    DAILY_STATS = 2
 
 
 class EventService(Enum):
@@ -39,6 +40,7 @@ class EventService(Enum):
     FARMER = 1
     FULL_NODE = 2
     WALLET = 3
+    DAILY = 4
 
 
 @dataclass

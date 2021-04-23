@@ -10,7 +10,7 @@ from dateutil import parser as dateutil_parser
 
 
 @dataclass
-class WalletAddedCoin:
+class WalletAddedCoinMessage:
     timestamp: datetime
     amount_mojos: int
 
@@ -29,7 +29,7 @@ class WalletAddedCoinParser:
             r"INFO\s*Adding coin: {'amount': '([0-9]*)'"
         )
 
-    def parse(self, logs: str) -> List[WalletAddedCoin]:
+    def parse(self, logs: str) -> List[WalletAddedCoinMessage]:
         """Parses all harvester activity messages from a bunch of logs
 
         :param logs: String of logs - can be multi-line
@@ -40,7 +40,7 @@ class WalletAddedCoinParser:
         matches = self._regex.findall(logs)
         for match in matches:
             parsed_messages.append(
-                WalletAddedCoin(
+                WalletAddedCoinMessage(
                     timestamp=dateutil_parser.parse(match[0]),
                     amount_mojos=int(match[1]),
                 )
