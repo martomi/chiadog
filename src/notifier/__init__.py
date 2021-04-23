@@ -38,6 +38,7 @@ class EventService(Enum):
     HARVESTER = 0
     FARMER = 1
     FULL_NODE = 2
+    WALLET = 3
 
 
 @dataclass
