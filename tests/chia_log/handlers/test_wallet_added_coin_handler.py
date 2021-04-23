@@ -21,7 +21,7 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
         self.assertEqual(events[0].type, EventType.USER, "Unexpected event type")
         self.assertEqual(events[0].priority, EventPriority.LOW, "Unexpected priority")
         self.assertEqual(events[0].service, EventService.WALLET, "Unexpected service")
-        self.assertEqual(events[0].message, "Cha-ching! Just received 2.0 XCH!")
+        self.assertEqual(events[0].message, "Cha-ching! Just received 2.0 XCH ☘️")
 
 
 if __name__ == "__main__":

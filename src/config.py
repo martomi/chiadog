@@ -39,6 +39,9 @@ class Config:
     def get_keep_alive_monitor_config(self):
         return self._get_child_config("keep_alive_monitor", required=False)
 
+    def get_daily_stats_config(self):
+        return self._get_child_config("daily_stats")
+
 
 def check_keys(required_keys, config) -> bool:
     for key in required_keys:

@@ -5,6 +5,7 @@ import signal
 from pathlib import Path
 
 # project
+from src.chia_log.handlers.daily_stats.stats_manager import StatsManager
 from src.chia_log.log_consumer import create_log_consumer_from_config
 from src.chia_log.log_handler import LogHandler
 from src.config import Config
@@ -60,15 +61,19 @@ if __name__ == "__main__":
     # Notify manager is responsible for the lifecycle of all notifiers
     notify_manager = NotifyManager(config=config, keep_alive_monitor=keep_alive_monitor)
 
+    # Stats manager accumulates stats over 24 hours and sends a summary each day
+    stats_manager = StatsManager(config=config.get_daily_stats_config(), notify_manager=notify_manager)
+
     # Link stuff up in the log handler
     # Pipeline: Consume -> Handle -> Notify
-    log_handler = LogHandler(log_consumer=log_consumer, notify_manager=notify_manager)
+    log_handler = LogHandler(log_consumer=log_consumer, notify_manager=notify_manager, stats_manager=stats_manager)
 
     def interrupt(signal_number, frame):
         if signal_number == signal.SIGINT:
             logging.info("Received interrupt. Stopping...")
             log_consumer.stop()
             keep_alive_monitor.stop()
+            stats_manager.stop()
             exit(0)
 
     signal.signal(signal.SIGINT, interrupt)
