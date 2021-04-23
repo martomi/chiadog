@@ -33,6 +33,7 @@ class KeepAliveMonitor:
         self._ping_url = None
         if config and config["enable_remote_ping"]:
             self._ping_url = config["ping_url"]
+            logging.info(f"Enabled remote pinging to {self._ping_url}")
 
         # Infer check period from minimum threshold (arbitrary decision)
         # Note that this period defines how often high priority notifications
