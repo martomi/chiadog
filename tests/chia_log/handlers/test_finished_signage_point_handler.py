@@ -27,13 +27,12 @@ class TestFinishedSignagePointHandler(unittest.TestCase):
         with open(self.example_logs_path / "skipped.txt") as f:
             logs = f.readlines()
 
-        expected_list = [(64, 16), (27, 29), (63, 1), (1, 9)]
-        expected_messages = []
-        for expected in expected_list:
-            expected_messages.append(
-                f"Experiencing networking issues? Skipped some signage points! "
-                f"Last {expected[0]}/64, current {expected[1]}/64."
-            )
+        expected_messages = [
+            "Experiencing networking issues? Skipped 15 signage points!",
+            "Experiencing networking issues? Skipped 2+ signage points in the last hour.",
+            "Experiencing networking issues? Skipped 2+ signage points in the last hour.",
+            "Experiencing networking issues? Skipped 7 signage points!",
+        ]
 
         checked = 0
         for log in logs:
