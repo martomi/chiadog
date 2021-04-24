@@ -81,6 +81,8 @@ class Notifier(ABC):
             icon = "🚨"
         elif event.priority == EventPriority.NORMAL:
             icon = "⚠️"
+        elif event.priority == EventPriority.LOW:
+            icon = "ℹ️"
 
         return f"{icon} {self._title_prefix} {event.service.name}"
 
