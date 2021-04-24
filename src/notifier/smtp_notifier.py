@@ -31,8 +31,8 @@ class SMTPNotifier(Notifier):
         errors = False
         for event in events:
             if event.type == EventType.USER:
-                subject = f"{self.get_title_for_event(event)} {event.message}"
-                text = ""
+                subject = self.get_title_for_event(event)
+                text = event.message
                 # Create message container - the correct MIME type is multipart/alternative.
                 msg = MIMEMultipart("alternative")
                 msg["Subject"] = subject
