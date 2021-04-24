@@ -14,7 +14,13 @@ class TestTelegramNotifier(unittest.TestCase):
         self.assertIsNotNone(bot_token, "You must export TELEGRAM_API_KEY as env variable")
         self.assertIsNotNone(chat_id, "You must export TELEGRAM_CHAT_ID as env variable")
         self.notifier = TelegramNotifier(
-            title_prefix="Test", config={"enable": True, "bot_token": bot_token, "chat_id": chat_id}
+            title_prefix="Test",
+            config={
+                "enable": True,
+                "daily_stats": True,
+                "wallet_events": True,
+                "credentials": {"bot_token": bot_token, "chat_id": chat_id},
+            },
         )
 
     @unittest.skipUnless(os.getenv("TELEGRAM_BOT_TOKEN"), "Run only if token available")

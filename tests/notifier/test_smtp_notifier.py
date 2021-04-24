@@ -28,13 +28,17 @@ class TestSMTPNotifier(unittest.TestCase):
             title_prefix="Test",
             config={
                 "enable": True,
-                "sender": sender,
-                "sender_name": sender_name,
-                "recipient": recipient,
-                "username_smtp": username_smtp,
-                "password_smtp": password_smtp,
-                "host": host,
-                "port": port,
+                "daily_stats": True,
+                "wallet_events": True,
+                "credentials": {
+                    "sender": sender,
+                    "sender_name": sender_name,
+                    "recipient": recipient,
+                    "username_smtp": username_smtp,
+                    "password_smtp": password_smtp,
+                    "host": host,
+                    "port": port,
+                },
             },
         )
 
