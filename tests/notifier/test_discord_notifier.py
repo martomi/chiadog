@@ -11,7 +11,15 @@ class TestDiscordNotifier(unittest.TestCase):
     def setUp(self) -> None:
         webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
         self.assertIsNotNone(webhook_url, "You must export DISCORD_WEBHOOK_URL as env variable")
-        self.notifier = DiscordNotifier(title_prefix="Test", config={"enable": True, "webhook_url": webhook_url})
+        self.notifier = DiscordNotifier(
+            title_prefix="Test",
+            config={
+                "enable": True,
+                "daily_stats": True,
+                "wallet_events": True,
+                "credentials": {"webhook_url": webhook_url},
+            },
+        )
 
     @unittest.skipUnless(os.getenv("DISCORD_WEBHOOK_URL"), "Run only if webhook available")
     def testDiscordLowPriorityNotifications(self):

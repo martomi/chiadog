@@ -18,27 +18,44 @@ daily_stats:
 notifier:
   pushover:
     enable: false
-    api_token: 'dummy_token'
-    user_key: 'dummy_key'
+    daily_stats: true
+    wallet_events: true
+    credentials:
+      api_token: 'dummy_token'
+      user_key: 'dummy_key'
   telegram:
     enable: false
-    bot_token: 'dummy_bot_token'
-    chat_id: 'dummy_chat_id'
+    daily_stats: true
+    wallet_events: true
+    credentials:
+      bot_token: 'dummy_bot_token'
+      chat_id: 'dummy_chat_id'
   smtp:
     enable: false
-    sender: 'chia@example.com'
-    sender_name: 'chiadog'
-    recipient: 'you@example.com'
-    username_smtp: 'username'
-    password_smtp: 'password'
-    host: 'smtp.example.com'
-    port: 587
+    daily_stats: true
+    wallet_events: true
+    credentials:
+      sender: 'chia@example.com'
+      sender_name: 'chiadog'
+      recipient: 'you@example.com'
+      username_smtp: 'username'
+      password_smtp: 'password'
+      host: 'smtp.example.com'
+      port: 587
   script:
     enable: false
+    daily_stats: true
+    wallet_events: true
     script_path: 'tests/test_script.sh'
   discord:
     enable: false
-    webhook_url: 'https://discord.com/api/webhooks/...'
+    daily_stats: true
+    wallet_events: true
+    credentials:
+      webhook_url: 'https://discord.com/api/webhooks/...'
   slack:
     enable: false
-    webhook_url: 'https://hooks.slack.com/services/...'
+    daily_stats: true
+    wallet_events: true
+    credentials:
+      webhook_url: 'https://hooks.slack.com/services/...'

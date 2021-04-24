@@ -5,7 +5,7 @@ import json
 from typing import List
 
 # project
-from . import Notifier, Event, EventType
+from . import Notifier, Event
 
 
 class TelegramNotifier(Notifier):
@@ -13,15 +13,16 @@ class TelegramNotifier(Notifier):
         logging.info("Initializing Telegram notifier.")
         super().__init__(title_prefix, config)
         try:
-            self.bot_token = config["bot_token"]
-            self.chat_id = config["chat_id"]
+            credentials = config["credentials"]
+            self.bot_token = credentials["bot_token"]
+            self.chat_id = credentials["chat_id"]
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
 
     def send_events_to_user(self, events: List[Event]) -> bool:
         errors = False
         for event in events:
-            if event.type == EventType.USER:
+            if event.type in self._notification_types and event.service in self._notification_services:
                 request_body = json.dumps(
                     {
                         "chat_id": self.chat_id,

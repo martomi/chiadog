@@ -5,7 +5,7 @@ import urllib.parse
 from typing import List
 
 # project
-from . import Notifier, Event, EventType
+from . import Notifier, Event
 
 
 class PushoverNotifier(Notifier):
@@ -13,15 +13,16 @@ class PushoverNotifier(Notifier):
         logging.info("Initializing Pushover notifier.")
         super().__init__(title_prefix, config)
         try:
-            self.token = config["api_token"]
-            self.user = config["user_key"]
+            credentials = config["credentials"]
+            self.token = credentials["api_token"]
+            self.user = credentials["user_key"]
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
 
     def send_events_to_user(self, events: List[Event]) -> bool:
         errors = False
         for event in events:
-            if event.type == EventType.USER:
+            if event.type in self._notification_types and event.service in self._notification_services:
                 conn = http.client.HTTPSConnection("api.pushover.net:443", timeout=self._conn_timeout_seconds)
                 conn.request(
                     "POST",

@@ -17,8 +17,8 @@ class TestConfig(unittest.TestCase):
         config = Config(self.config_dir / "config-example.yaml")
         notifier_config = config.get_notifier_config()
         self.assertEqual(notifier_config["pushover"]["enable"], False)
-        self.assertEqual(notifier_config["pushover"]["api_token"], "dummy_token")
-        self.assertEqual(notifier_config["pushover"]["user_key"], "dummy_key")
+        self.assertEqual(notifier_config["pushover"]["credentials"]["api_token"], "dummy_token")
+        self.assertEqual(notifier_config["pushover"]["credentials"]["user_key"], "dummy_key")
 
         chia_logs_config = config.get_chia_logs_config()
         self.assertEqual(chia_logs_config["file_log_consumer"]["enable"], True)

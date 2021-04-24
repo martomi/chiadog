@@ -9,7 +9,8 @@ from .dummy_events import DummyEvents
 class TestScriptNotifier(unittest.TestCase):
     def setUp(self) -> None:
         self.notifier = ScriptNotifier(
-            title_prefix="Test", config={"enable": True, "script_path": "tests/test_script.sh"}
+            title_prefix="Test",
+            config={"enable": True, "daily_stats": True, "wallet_events": True, "script_path": "tests/test_script.sh"},
         )
 
     def testLowPriorityNotifications(self):
