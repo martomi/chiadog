@@ -30,7 +30,7 @@ class DiscordNotifier(Notifier):
                     urllib.parse.urlencode(
                         {
                             "username": "chiadog",
-                            "content": f"*{self.get_title_for_event(event)}*\n{event.message}",
+                            "content": f"**{self.get_title_for_event(event)}**\n{event.message}",
                         }
                     ),
                     {"Content-type": "application/x-www-form-urlencoded"},

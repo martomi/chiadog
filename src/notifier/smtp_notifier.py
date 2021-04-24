@@ -42,7 +42,7 @@ class SMTPNotifier(Notifier):
 
                 # Record the MIME types of both parts - text/plain and text/html.
                 part1 = MIMEText(text, "plain")
-                part2 = MIMEText(text, "html")
+                part2 = MIMEText(text.replace("\n", "<br />"), "html")
 
                 # Attach parts into message container.
                 # According to RFC 2046, the last part of a multipart message, in this case
