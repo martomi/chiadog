@@ -15,7 +15,13 @@ class TestPushoverNotifier(unittest.TestCase):
         self.assertIsNotNone(self.api_token, "You must export PUSHOVER_API_TOKEN as env variable")
         self.assertIsNotNone(self.user_key, "You must export PUSHOVER_USER_KEY as env variable")
         self.notifier = PushoverNotifier(
-            title_prefix="Test", config={"enable": True, "api_token": self.api_token, "user_key": self.user_key}
+            title_prefix="Test",
+            config={
+                "enable": True,
+                "daily_stats": True,
+                "wallet_events": True,
+                "credentials": {"api_token": self.api_token, "user_key": self.user_key},
+            },
         )
 
     @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")

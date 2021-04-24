@@ -8,7 +8,7 @@ from email.mime.text import MIMEText
 
 
 # project
-from . import Notifier, Event, EventType
+from . import Notifier, Event
 
 
 class SMTPNotifier(Notifier):
@@ -16,13 +16,14 @@ class SMTPNotifier(Notifier):
         logging.info("Initializing Email notifier.")
         super().__init__(title_prefix, config)
         try:
-            self.sender = config["sender"]
-            self.sender_name = config["sender_name"]
-            self.recipient = config["recipient"]
-            self.username_smtp = config["username_smtp"]
-            self.password_smtp = config["password_smtp"]
-            self.host = config["host"]
-            self.port = config["port"]
+            credentials = config["credentials"]
+            self.sender = credentials["sender"]
+            self.sender_name = credentials["sender_name"]
+            self.recipient = credentials["recipient"]
+            self.username_smtp = credentials["username_smtp"]
+            self.password_smtp = credentials["password_smtp"]
+            self.host = credentials["host"]
+            self.port = credentials["port"]
 
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
@@ -30,7 +31,7 @@ class SMTPNotifier(Notifier):
     def send_events_to_user(self, events: List[Event]) -> bool:
         errors = False
         for event in events:
-            if event.type == EventType.USER:
+            if event.type in self._notification_types and event.service in self._notification_services:
                 subject = self.get_title_for_event(event)
                 text = event.message
                 # Create message container - the correct MIME type is multipart/alternative.
