@@ -1,15 +1,13 @@
 # Contributing
 
-I've added a good amount of doxygen style comments and structured the code in a way that should make this easier. Happy
-to provide feedback on PRs.
+## High-level Architecture Overview
 
-## Modular and extendable design
+You can get a high-level glimpse on how the different components interact in the diagram below. That should
+make it easier to navigate the codebase. Please refer to the in-line code documentation for more information.
 
-Here are some jump-off points where you can start adding extensions:
+![High-level architecture diagram](./docs/architecture.png "High-level architecture diagram")
 
-- additional [condition checks](src/chia_log/handlers/harvester_activity_handler.py) e.g. time since last eligible plot
-- additional [parsers](src/chia_log/parsers) to monitor other parts of the log output (e.g. timelord)
-- additional [notifiers](src/notifier) to support notifications over Slack, WhatsApp, E-mail, etc.
+You can open and edit the [architecture.drawio](./docs/architecture.drawio) file on [diagrams.net](https://app.diagrams.net).
 
 ## How to contribute?
 
@@ -23,7 +21,8 @@ Here are some jump-off points where you can start adding extensions:
 
 ## Commit messages
 
-Please be short and descriptive. In this repository we use the imperative form. For more information on good commit
+Please use short and descriptive titles and expand on the "why" inside the body of the commit message if necessary.
+In this repository we use the imperative form. For more information on good commit
 messages, I recommend the following article:
 
 - [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/).
