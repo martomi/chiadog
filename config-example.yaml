@@ -1,5 +1,13 @@
+# Please copy this example config to config.yaml
+# and adjust it to your needs.
+
+# This is useful to differentiate multiple chiadog
+# instances monitoring multiple harvesters
 notification_title_prefix: 'Chia'
 log_level: INFO
+
+# Only one consumer can be enabled at a time, you can
+# delete the section for the consumer which you aren't using
 chia_logs:
   file_log_consumer:
     enable: true
@@ -9,12 +17,25 @@ chia_logs:
     remote_file_path: '~/.chia/mainnet/log/debug.log'
     remote_host: "192.168.0.100"
     remote_user: "chia"
+
+# Enable this and chiadog will ping a remote server every 5 minutes
+# That way you can know that the monitoring is running as expected
 keep_alive_monitor:
   enable_remote_ping: false
   ping_url: ''
+
+# Enable this and you'll receive a daily summary notification
+# on your farm performance at the specified time of the day.
 daily_stats:
   enable: true
   time_of_day: 21
+
+# We support a lot of notifiers, please check the README for more
+# information. You can delete the sections which you aren't using.
+# You can also enable more than one notifier and send different
+# notifications to each of them. E.g. enable daily_stats only to E-mail.
+# If you enable wallet_events you'll get notifications anytime your
+# wallet receives some XCH (e.g. farming reward).
 notifier:
   pushover:
     enable: false
