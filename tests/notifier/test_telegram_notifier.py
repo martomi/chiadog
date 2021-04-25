@@ -18,7 +18,6 @@ class TestTelegramNotifier(unittest.TestCase):
             config={
                 "enable": True,
                 "daily_stats": True,
-                "wallet_events": True,
                 "credentials": {"bot_token": bot_token, "chat_id": chat_id},
             },
         )

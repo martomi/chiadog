@@ -16,7 +16,6 @@ class TestSlackNotifier(unittest.TestCase):
             config={
                 "enable": True,
                 "daily_stats": True,
-                "wallet_events": True,
                 "credentials": {"webhook_url": webhook_url},
             },
         )

@@ -19,7 +19,6 @@ class TestPushoverNotifier(unittest.TestCase):
             config={
                 "enable": True,
                 "daily_stats": True,
-                "wallet_events": True,
                 "credentials": {"api_token": self.api_token, "user_key": self.user_key},
             },
         )

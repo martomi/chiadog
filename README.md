@@ -21,8 +21,7 @@ helps with automated monitoring and sends you a mobile notification in case some
 | Harvester | Experiencing networking issues? Harvester did not participate in any challenge for 120 seconds. It's now working again. | NORMAL |
 | Harvester | Seeking plots took too long: 40 seconds! | NORMAL |
 | Full Node | Experiencing networking issues? Skipped 42 signage points! | NORMAL |
-| Wallet | Cha-ching! Just received 2.0 XCH ☘️ | LOW |
-| Daily Stats | Hello farmer! 👋 Here's what happened in the last 24 hours: <br /><br /> Received ☘️: **2.00** XCH️<br /> Proofs 🧾: **2** found<br /> Search 🔍: **0.46**s average,  **15.31**s max <br/> Plots 🌱: **42**, new: **2** <br /> Eligible plots 🥇: **0.08** average<br /> Skipped SPs ⚠️: 7 (0.01%) <br /> | LOW |
+| Daily Stats | Hello farmer! 👋 Here's what happened in the last 24 hours: <br /><br /> Proofs 🧾: **2** found<br /> Search 🔍: **0.46**s average,  **15.31**s max <br/> Plots 🌱: **42**, new: **2** <br /> Eligible plots 🥇: **0.08** average<br /> Skipped SPs ⚠️: 7 (0.01%) <br /> | LOW |
 
 ## How it works?
 
