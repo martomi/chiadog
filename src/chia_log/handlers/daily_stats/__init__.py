@@ -4,7 +4,6 @@ from abc import ABC, abstractmethod
 # project
 from ...parsers.finished_signage_point_parser import FinishedSignagePointMessage
 from ...parsers.harvester_activity_parser import HarvesterActivityMessage
-from ...parsers.wallet_added_coin_parser import WalletAddedCoinMessage
 
 
 class FinishedSignageConsumer(ABC):
@@ -16,12 +15,6 @@ class FinishedSignageConsumer(ABC):
 class HarvesterActivityConsumer(ABC):
     @abstractmethod
     def consume(self, obj: HarvesterActivityMessage):
-        pass
-
-
-class WalletAddedCoinConsumer(ABC):
-    @abstractmethod
-    def consume(self, obj: WalletAddedCoinMessage):
         pass
 
 
