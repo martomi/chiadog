@@ -227,6 +227,13 @@ which will take your default SSH key, or specify it explicitly:
 ssh-copy-id -i "~/.ssh/id_ed25519" <user>@<ip_address>
 ```
 
+Try to SSH with the key to make sure it works. You'll be also prompted to add the fingerprint which is required before
+proceeding.
+
+```
+ssh -i "~/.ssh/id_ed25519" <user>@<ip_address>
+```
+
 ### Prepare configs for each harvester
 
 1. Open `config.yaml` in your editor and enable`network_log_consumer`.
