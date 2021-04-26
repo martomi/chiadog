@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/martomi/chiadog/main/logo.jpg" />
+    <img src="./docs/logo.jpg" />
 </p>
 <p align="center">
     Photo by <a href="https://unsplash.com/@tukacszoltan1984?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Zoltan Tukacs</a> on <a href="https://unsplash.com/s/photos/dog-grass?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
