@@ -68,10 +68,11 @@ class FileLogConsumer(LogConsumer):
         logging.info(f"Consuming log file from {expanded_user_log_path}")
 
         if is_win_platform:
-            f = subprocess.Popen(["powershell.exe", "get-content", expanded_user_log_path, "-tail", "1", "-wait"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            consume_command_args = ["powershell.exe", "get-content", expanded_user_log_path, "-tail", "1", "-wait"]
         else:
-            f = subprocess.Popen(["tail", "-F", expanded_user_log_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        
+            consume_command_args = ["tail", "-F", expanded_user_log_path]
+
+        f = subprocess.Popen(consume_command_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         while self._is_running:
             log_line = f.stdout.readline().decode(encoding="utf-8")
             self._notify_subscribers(log_line)
