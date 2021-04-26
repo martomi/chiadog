@@ -1,5 +1,6 @@
 # std
 import logging
+import sys
 from pathlib import Path
 from typing import Optional
 
@@ -49,3 +50,6 @@ def check_keys(required_keys, config) -> bool:
             logging.error(f"Incompatible configuration. Missing {key} in {config}.")
             return False
     return True
+
+def is_win_platform() -> bool:
+    return sys.platform.startswith("win")
