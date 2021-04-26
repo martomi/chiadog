@@ -9,9 +9,6 @@ elseif (Get-Command python3 -errorAction SilentlyContinue) {
 # Create virtual environment
 Invoke-expression "$($command) -m venv .venv"
 
-# Create virtual environment
-Invoke-expression "$($command) -m venv .venv"
-
 # Activate the virtual environment
 ./.venv/Scripts/activate.ps1
 
