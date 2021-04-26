@@ -7,10 +7,10 @@ elseif (Get-Command python3 -errorAction SilentlyContinue) {
 }
 
 # Create virtual environment
-Invoke-expression "$($command) -m venv .venv"
+Invoke-expression "$($command) -m venv venv"
 
 # Activate the virtual environment
-./.venv/Scripts/activate.ps1
+./venv/Scripts/activate.ps1
 
 # Update pip to latest version
 Invoke-expression "$($command) -m pip install --upgrade pip"
