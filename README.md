@@ -51,15 +51,18 @@ For detailed guide on how to test and configure, please refer to [INTEGRATIONS.m
 
 ## Pre-requisites
 
-- UNIX-based OS (Linux/Mac) - for
-  Windows, [try this](https://github.com/martomi/chiadog/issues/7#issuecomment-815544302).
+- Linux, MacOS, Windows
 - Python 3.7+
 - Enabled `INFO` logs on your chia farmer
 
 ### How to enable INFO logs on chia farmer?
 
 First configure the log level to `INFO`. This ensures that all logs necessary for chiadog to operate are available
-under `~/.chia/mainnet/log/debug.log`.
+under `~/.chia/mainnet/log/debug.log`. (Windows: `C:\Users\<username>\.chia\mainnet\log\debug.log`)
+
+Windows: The below commands are equivalent on Windows. But you need go to this
+folder `cd C:\Users\<username>\AppData\Local\chia-blockchain\app-1.1.0\resources\app.asar.unpacked\daemon` and execute
+with `.\chia.exe ...`
 
 ```
 chia configure -log-level=INFO
@@ -88,32 +91,23 @@ git clone https://github.com/martomi/chiadog.git
 cd chiadog
 ```
 
-2. Create virtual env (Recommended)
+2. Run the install script.
 
 ```
-python3 -m venv venv
-. ./venv/bin/activate
+# Linux & MacOS
+./install.sh
+
+# Windows
+./install.ps1
 ```
 
-3. Update `pip3` to latest version
-
-```
-python3 -m pip install --upgrade pip
-```
-
-4. Install the dependencies:
-
-```
-pip3 install wheel && pip3 install -r requirements.txt
-```
-
-5. Copy the example config file
+3. Copy the example config file
 
 ```
 cp config-example.yaml config.yaml
 ```
 
-6. Open up `config.yaml` in your editor and configure it to your preferences.
+4. Open up `config.yaml` in your editor and configure it to your preferences.
 
 ## Updating to the latest release
 
@@ -121,13 +115,12 @@ _Skip this if you followed the above section_.
 
 ```
 cd chiadog
-. ./venv/bin/activate
 
 git fetch
 git checkout main
 git pull
 
-pip3 install -r requirements.txt
+./install.sh
 ```
 
 > Important: Automated migration of config is not supported. Please check that your `config.yaml` has all new fields introduced in `config-example.yaml` and add anything missing. If correctly migrated, you shouldn't get any ERROR logs.
@@ -141,7 +134,11 @@ pip3 install -r requirements.txt
 2. Start the watchdog
 
 ```
-python3 main.py --config config.yaml
+# Linux / MacOS
+./start.sh
+
+# Windows
+./start.ps1
 ```
 
 3. Verify that your plots are detected. Within a few seconds you should see INFO log:
@@ -158,6 +155,7 @@ advanced section of the README.
 The best way to check that everything works on your system is to run the unit tests:
 
 ```
+. ./venv/bin/activate
 python3 -m unittest
 ```
 
@@ -185,6 +183,7 @@ every 10 minutes. If it does not, it will notify you. It has integrations with P
 ## Running `chiadog` in the background
 
 ```
+. ./venv/bin/activate
 nohup python3 -u main.py --config config.yaml > output.log &
 ```
 
@@ -256,8 +255,17 @@ ssh -i "~/.ssh/id_ed25519" <user>@<ip_address>
    as it allows you to split your terminal in multiple windows and have a cockpit-like overview.
 
 ```
+. ./venv/bin/activate
 python3 main.py --config config-harvester-1.yaml
+```
+
+```
+. ./venv/bin/activate
 python3 main.py --config config-harvester-2.yaml
+```
+
+```
+. ./venv/bin/activate
 python3 main.py --config config-harvester-3.yaml
 ```
 
