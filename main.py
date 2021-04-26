@@ -2,13 +2,14 @@
 import argparse
 import logging
 import signal
+import time
 from pathlib import Path
 
 # project
 from src.chia_log.handlers.daily_stats.stats_manager import StatsManager
 from src.chia_log.log_consumer import create_log_consumer_from_config
 from src.chia_log.log_handler import LogHandler
-from src.config import Config
+from src.config import Config, is_win_platform
 from src.notifier.keep_alive_monitor import KeepAliveMonitor
 from src.notifier.notify_manager import NotifyManager
 
@@ -77,4 +78,12 @@ if __name__ == "__main__":
             exit(0)
 
     signal.signal(signal.SIGINT, interrupt)
-    signal.pause()
+
+    if is_win_platform:
+        while True:
+            try:
+                time.sleep(5)
+            except IOError:
+                pass
+    else:
+        signal.pause()
