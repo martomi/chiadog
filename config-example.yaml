@@ -8,6 +8,7 @@ log_level: INFO
 
 # Only one consumer can be enabled at a time, you can
 # delete the section for the consumer which you aren't using
+# For Windows file path needs to be absolute.
 chia_logs:
   file_log_consumer:
     enable: true
