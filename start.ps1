@@ -7,7 +7,7 @@ elseif (Get-Command python3 -errorAction SilentlyContinue) {
 }
 
 # Activate the virtual environment
-./.venv/Scripts/activate.ps1
+./venv/Scripts/activate.ps1
 
 # Start the ChiaDog
 Invoke-expression "$($command) main.py --config config.yaml"
