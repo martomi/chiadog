@@ -15,7 +15,7 @@ from threading import Thread
 from typing import List, Optional
 
 # project
-from src.config import check_keys
+from src.config import check_keys, is_win_platform
 
 # lib
 import paramiko
@@ -66,7 +66,12 @@ class FileLogConsumer(LogConsumer):
     def _consume_loop(self):
         expanded_user_log_path = self._log_path.expanduser()
         logging.info(f"Consuming log file from {expanded_user_log_path}")
-        f = subprocess.Popen(["tail", "-F", expanded_user_log_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        if is_win_platform:
+            f = subprocess.Popen(["powershell.exe", "get-content", expanded_user_log_path, "-tail", "1", "-wait"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        else:
+            f = subprocess.Popen(["tail", "-F", expanded_user_log_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
         while self._is_running:
             log_line = f.stdout.readline().decode(encoding="utf-8")
             self._notify_subscribers(log_line)
