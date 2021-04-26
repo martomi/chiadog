@@ -4,9 +4,12 @@ config.yaml
 # dev files
 .idea
 venv
-.*/
+.venv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+
+# System files
+.DS_Store
