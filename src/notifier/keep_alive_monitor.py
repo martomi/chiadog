@@ -1,5 +1,6 @@
 # std
 import logging
+import urllib.request
 from datetime import datetime
 from threading import Thread
 from time import sleep
@@ -16,13 +17,23 @@ class KeepAliveMonitor:
     If a service stopped responding and is no longer
     sending events, this class will trigger a high priority
     user event and propagate it to the notifier.
+
+    There's also an option to enable pinging to a remote service
+    that provides a second layer of redundancy. E.g. if this monitoring
+    thread crashes and stops responding, the remote service will stop
+    receiving keep-alive ping events and can notify the user.
     """
 
-    def __init__(self, thresholds: dict = None):
+    def __init__(self, config: dict = None, thresholds: dict = None):
         self._notify_manager = None
 
         self._last_keep_alive = {EventService.HARVESTER: datetime.now()}
         self._last_keep_alive_threshold_seconds = thresholds or {EventService.HARVESTER: 300}
+
+        self._ping_url = None
+        if config and config["enable_remote_ping"]:
+            self._ping_url = config["ping_url"]
+            logging.info(f"Enabled remote pinging to {self._ping_url}")
 
         # Infer check period from minimum threshold (arbitrary decision)
         # Note that this period defines how often high priority notifications
@@ -58,6 +69,7 @@ class KeepAliveMonitor:
             if (datetime.now() - last_check).seconds < self._check_period:
                 continue
             last_check = datetime.now()
+            self._ping_remote()
 
             events = []
             for service in self._last_keep_alive.keys():
@@ -90,6 +102,18 @@ class KeepAliveMonitor:
             if event.type == EventType.KEEPALIVE:
                 logging.debug(f"Received keep-alive event from {event.service.name}")
                 self._last_keep_alive[event.service] = datetime.now()
+
+    def _ping_remote(self):
+        """Ping a remote watchdog that monitors that chiadog is alive
+        and hasn't crashed silently. Second level of redundancy ;-)
+        """
+
+        if self._ping_url:
+            logging.debug("Pinging remote keep-alive endpoint")
+            try:
+                urllib.request.urlopen(self._ping_url, timeout=10)
+            except Exception as e:
+                logging.error(f"Failed to ping keep-alive: {e}")
 
     def stop(self):
         logging.info("Stopping")

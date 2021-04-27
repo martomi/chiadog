@@ -2,20 +2,20 @@
 import http.client
 import logging
 import json
+import urllib.parse
 from typing import List
 
 # project
 from . import Notifier, Event
 
 
-class TelegramNotifier(Notifier):
+class SlackNotifier(Notifier):
     def __init__(self, title_prefix: str, config: dict):
-        logging.info("Initializing Telegram notifier.")
+        logging.info("Initializing Slack notifier.")
         super().__init__(title_prefix, config)
         try:
             credentials = config["credentials"]
-            self.bot_token = credentials["bot_token"]
-            self.chat_id = credentials["chat_id"]
+            self.webhook_url = credentials["webhook_url"]
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
 
@@ -25,16 +25,15 @@ class TelegramNotifier(Notifier):
             if event.type in self._notification_types and event.service in self._notification_services:
                 request_body = json.dumps(
                     {
-                        "chat_id": self.chat_id,
                         "text": f"*{self.get_title_for_event(event)}*\n{event.message}",
-                        "parse_mode": "Markdown",
-                        "disable_notification": event.priority == event.priority.LOW,
                     }
                 )
-                conn = http.client.HTTPSConnection("api.telegram.org", timeout=self._conn_timeout_seconds)
+
+                o = urllib.parse.urlparse(self.webhook_url)
+                conn = http.client.HTTPSConnection(o.netloc, timeout=self._conn_timeout_seconds)
                 conn.request(
                     "POST",
-                    f"/bot{self.bot_token}/sendMessage",
+                    o.path,
                     request_body,
                     {"Content-type": "application/json"},
                 )

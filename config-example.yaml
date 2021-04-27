@@ -1,5 +1,14 @@
+# Please copy this example config to config.yaml
+# and adjust it to your needs.
+
+# This is useful to differentiate multiple chiadog
+# instances monitoring multiple harvesters
 notification_title_prefix: 'Chia'
 log_level: INFO
+
+# Only one consumer can be enabled at a time, you can
+# delete the section for the consumer which you aren't using
+# For Windows file path needs to be absolute.
 chia_logs:
   file_log_consumer:
     enable: true
@@ -9,27 +18,58 @@ chia_logs:
     remote_file_path: '~/.chia/mainnet/log/debug.log'
     remote_host: "192.168.0.100"
     remote_user: "chia"
+
+# Enable this and chiadog will ping a remote server every 5 minutes
+# That way you can know that the monitoring is running as expected
+keep_alive_monitor:
+  enable_remote_ping: false
+  ping_url: ''
+
+# Enable this and you'll receive a daily summary notification
+# on your farm performance at the specified time of the day.
+daily_stats:
+  enable: true
+  time_of_day: 21
+
+# We support a lot of notifiers, please check the README for more
+# information. You can delete the sections which you aren't using.
+# You can also enable more than one notifier and send different
+# notifications to each of them. E.g. enable daily_stats only to E-mail.
 notifier:
   pushover:
     enable: false
-    api_token: 'dummy_token'
-    user_key: 'dummy_key'
+    daily_stats: true
+    credentials:
+      api_token: 'dummy_token'
+      user_key: 'dummy_key'
   telegram:
     enable: false
-    bot_token: 'dummy_bot_token'
-    chat_id: 'dummy_chat_id'
+    daily_stats: true
+    credentials:
+      bot_token: 'dummy_bot_token'
+      chat_id: 'dummy_chat_id'
   smtp:
     enable: false
-    sender: 'chia@example.com'
-    sender_name: 'chiadog'
-    recipient: 'you@example.com'
-    username_smtp: 'username'
-    password_smtp: 'password'
-    host: 'smtp.example.com'
-    port: 587
+    daily_stats: true
+    credentials:
+      sender: 'chia@example.com'
+      sender_name: 'chiadog'
+      recipient: 'you@example.com'
+      username_smtp: 'username'
+      password_smtp: 'password'
+      host: 'smtp.example.com'
+      port: 587
   script:
     enable: false
+    daily_stats: true
     script_path: 'tests/test_script.sh'
   discord:
     enable: false
-    webhook_url: 'https://discord.com/api/webhooks/...'
+    daily_stats: true
+    credentials:
+      webhook_url: 'https://discord.com/api/webhooks/...'
+  slack:
+    enable: false
+    daily_stats: true
+    credentials:
+      webhook_url: 'https://hooks.slack.com/services/...'

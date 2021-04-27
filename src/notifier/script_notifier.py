@@ -5,7 +5,7 @@ import subprocess
 from typing import List
 
 # project
-from . import Notifier, Event, EventType
+from . import Notifier, Event
 
 
 class ScriptNotifier(Notifier):
@@ -25,14 +25,11 @@ class ScriptNotifier(Notifier):
                 self.script_path = None
 
     def send_events_to_user(self, events: List[Event]) -> bool:
-        errors = False
-
         if self.script_path is None:
-            errors = True
+            return False
 
-        if errors is False:
-            for event in events:
-                if event.type == EventType.USER:
-                    subprocess.run([str(self.script_path), event.priority.name, event.service.name, event.message])
+        for event in events:
+            if event.type in self._notification_types and event.service in self._notification_services:
+                subprocess.run([str(self.script_path), event.priority.name, event.service.name, event.message])
 
-        return errors
+        return True
