@@ -254,55 +254,12 @@ ssh -i "~/.ssh/id_ed25519" <user>@<ip_address>
 
 4. Start `chiadog` for each harvester in a separate terminal. I recommend [tmux](https://github.com/tmux/tmux)
    as it allows you to split your terminal in multiple windows and have a cockpit-like overview.
-   
+
 ```
 python3 main.py --config config-harvester-1.yaml
 python3 main.py --config config-harvester-2.yaml
 python3 main.py --config config-harvester-3.yaml
 ```
-
-### Remote monitoring a Windows harvester
-
-Setting up remote monitoring for a Windows-based harvester requires you to have an SSH Server installed that you can SSH
-into. Follow these steps to enable an SSH Server on Windows 10:
-
-1. Open the Start Menu
-2. Open the 'Settings' app (type 'settings' or locate it at the bottom-left side of the Start Menu)
-3. Click on 'Apps' > 'Optional Features' > 'Add a feature'
-4. Select `OpenSSH Server` and click 'Install' (if it does not appear, look through the list of already Installed Features.) 
-
-Next, you need to start the service and ensure that it is started automatically when the system restarts.
-
-1. Open the Start Menu
-2. Open an elevated 'PowerShell' command prompt (right-click PowerShell and click 'Run as Administrator')
-3. Run `Start-Service sshd` to start the service
-4. Run `Get-Service sshd` to verify that the service was started successfully
-5. Run `Set-Service -Name sshd -StartupType 'Automatic'` to ensure the service starts at boot.
-
-Finally, you'll need to set up an `authorized_keys` file that allows access for your key. 
-
-1. Open Explorer and navigate to `C:\Users\YOUR-USER\.ssh\`
-2. Create a blank text file and paste in the client's Public SSH Key.
-3. Save the file as `authorized_keys` (**note**: make sure to remove the .txt extension)
-
-**IMPORTANT**
-
-If the user is in the local Administrators group, you will need to place the key in the following file instead:
-`C:\ProgramData\ssh\administrators_authorized_keys`. 
-
-You will also need to set the proper Access-Control List (ACL) permissions for the file. Open another elevated 
-PowerShell and run the following script:
-
-```powershell
-$acl = Get-Acl C:\ProgramData\ssh\administrators_authorized_keys
-$acl.SetAccessRuleProtection($true, $false)
-$administratorsRule = New-Object system.security.accesscontrol.filesystemaccessrule("Administrators","FullControl","Allow")
-$systemRule = New-Object system.security.accesscontrol.filesystemaccessrule("SYSTEM","FullControl","Allow")
-$acl.SetAccessRule($administratorsRule)
-$acl.SetAccessRule($systemRule)
-$acl | Set-Acl
-```
-
 
 # Contributing
 
