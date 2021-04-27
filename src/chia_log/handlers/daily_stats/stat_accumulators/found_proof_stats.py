@@ -18,4 +18,6 @@ class FoundProofStats(HarvesterActivityConsumer, StatAccumulator):
         self._found_proofs_total += obj.found_proofs_count
 
     def get_summary(self) -> str:
-        return f"Proofs 🧾: {self._found_proofs_total} found"
+        if self._found_proofs_total == 0:
+            return "Proofs 🧾: None"
+        return f"Proofs 🧾: {self._found_proofs_total} found!"
