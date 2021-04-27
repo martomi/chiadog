@@ -19,9 +19,9 @@ helps with automated monitoring and sends you a mobile notification in case some
 | Harvester | Your harvester appears to be offline! No events for the past 400 seconds. | HIGH |
 | Harvester | Disconnected HDD? The total plot count decreased from 100 to 40. | HIGH |
 | Harvester | Experiencing networking issues? Harvester did not participate in any challenge for 120 seconds. It's now working again. | NORMAL |
-| Harvester | Seeking plots took too long: 40 seconds! | NORMAL |
+| Harvester | Seeking plots took too long: 21.42 seconds! | NORMAL |
 | Full Node | Experiencing networking issues? Skipped 42 signage points! | NORMAL |
-| Daily Stats | Hello farmer! 👋 Here's what happened in the last 24 hours: <br /><br /> Proofs 🧾: **2** found<br /> Search 🔍: **0.46**s average,  **15.31**s max <br/> Plots 🌱: **42**, new: **2** <br /> Eligible plots 🥇: **0.08** average<br /> Skipped SPs ⚠️: 7 (0.01%) <br /> | LOW |
+| Daily Stats | Hello farmer! 👋 Here's what happened in the last 24 hours: <br /><br /> Proofs 🧾: **2** found<br /> Search 🔍: <br /> - average: **0.46**s <br /> - over 5s: 2 occasions <br /> - over 15s: 1 occasions <br/> Plots 🌱: **42**, new: **2** <br /> Eligible plots 🥇: **0.08** average<br /> Skipped SPs ⚠️: 7 (0.01%) <br /> | LOW |
 
 ## How it works?
 
@@ -190,72 +190,8 @@ with limited permissions.
 
 ## Remote monitoring of multiple harvesters
 
-You can run multiple instances of `chiadog` on a single machine and monitor all your harvesters remotely. The logs on
-remote machines are accessed through SSH, so you'll have to setup ssh-key based authentication with your harvesters.
-
-### Setting up SSH keys
-
-This step only takes a minute, follow Github's guide
-on [Generating a new SSH key](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
-. If you specify password for your key, you'll also need to follow the second step in the guide and add your SSH key to
-the ssh-agent. The ssh-agent should remember and manage your password because `chiadog` doesn't know it.
-
-### Copy SSH key to all machines running a harvester
-
-On Linux you can use [ssh-copy-id](https://linux.die.net/man/1/ssh-copy-id):
-
-```
-ssh-copy-id <user>@<ip_address>
-```
-
-which will take your default SSH key, or specify it explicitly:
-
-```
-ssh-copy-id -i "~/.ssh/id_ed25519" <user>@<ip_address>
-```
-
-Try to SSH with the key to make sure it works. You'll be also prompted to add the fingerprint which is required before
-proceeding.
-
-```
-ssh -i "~/.ssh/id_ed25519" <user>@<ip_address>
-```
-
-### Prepare configs for each harvester
-
-1. Open `config.yaml` in your editor and enable`network_log_consumer`.
-    - Make sure that `file_log_consumer` is disabled (or delete that section)
-    - Configure `remote_user` for your remote harvester machine
-    - Configure `remote_host` for your remote harvester machine
-    - Double check that `remote_file_path` exists on the remote machine
-
-2. Copy `config.yaml` into multiple configs for each remote harvester, e.g.:
-
-- `cp config.yaml config-harvester-1.yaml`
-- `cp config.yaml config-harvester-2.yaml`
-- `cp config.yaml config-harvester-3.yaml`
-
-3. Adjust the `remote_user` and `remote_host` for each machine.
-    - You can also specify different `notification_title_prefix` so that you can more easily distinguish between
-      notification from each of your harvesters.
-
-4. Start `chiadog` for each harvester in a separate terminal. I recommend [tmux](https://github.com/tmux/tmux)
-   as it allows you to split your terminal in multiple windows and have a cockpit-like overview.
-
-```
-. ./venv/bin/activate
-python3 main.py --config config-harvester-1.yaml
-```
-
-```
-. ./venv/bin/activate
-python3 main.py --config config-harvester-2.yaml
-```
-
-```
-. ./venv/bin/activate
-python3 main.py --config config-harvester-3.yaml
-```
+Check out the wiki page
+on [Monitoring Multiple Harvesters](https://github.com/martomi/chiadog/wiki/Monitoring-Multiple-Harvesters).
 
 # Contributing
 
