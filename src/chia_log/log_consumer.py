@@ -132,7 +132,7 @@ class NetworkLogConsumer(LogConsumer):
         else:
             logging.error(f"Found unsupported platform on remote host, assuming Linux and hope for the best.")
 
-        return 'linux'
+        return OS.LINUX
 
 
 def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
