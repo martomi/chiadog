@@ -34,7 +34,9 @@ class SignagePointStats(FinishedSignageConsumer, StatAccumulator):
         self._last_signage_point = obj.signage_point
 
     def get_summary(self) -> str:
-        percentage_skipped = (self._skips_total / self._total) * 100
+        if self._total == 0:
+            return "Skipped SPs ⚠️: Unknown"
         if self._skips_total > 0:
+            percentage_skipped = (self._skips_total / self._total) * 100
             return f"Skipped SPs ⚠️: {self._skips_total} ({percentage_skipped:0.2f}%)"
         return "Skipped SPs ✅️: None"
