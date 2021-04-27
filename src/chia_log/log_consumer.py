@@ -118,13 +118,14 @@ class NetworkLogConsumer(LogConsumer):
 
     def _get_remote_platform(self):
         stdin, stdout, stderr = self._ssh_client.exec_command(f"uname -a")
-        result: str = stdout.readline()
+        fout: str = stdout.readline().lower()
+        ferr: str = stderr.readline().lower()
 
-        if result.find('Linux'):
+        if 'linux' in fout:
             return 'linux'
-        elif result.find('Darwin'):
+        elif 'darwin' in fout:
             return 'macos'
-        elif result.find('not found'):
+        elif 'not recognized' in ferr:
             return 'windows'
         else:
             logging.error(f"Found unsupported platform on remote host, assuming Linux and hope for the best.")
