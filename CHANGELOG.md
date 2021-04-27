@@ -7,6 +7,23 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.4.1] - 2021-04-27
+
+### Added
+
+- Daily report for number of occasions where plot seeking time is above 5 and 15 seconds.
+  See [this issue](https://github.com/martomi/chiadog/issues/49) to understand why you really want response time < 5
+  seconds and not 30 seconds. You're going to get a notification for anything over 20 seconds which is in the critical
+  range.
+- Windows: Experimental support (thanks [@skrustev](https://github.com/skrustev)) - not yet a one-click easy setup - it
+  may require some tinkering. If you are comfortable with the shell, please try it out and provide us feedback.
+- Windows: Support for remote harvesters on Windows machines (thanks [@pieterhelsen](https://github.com/pieterhelsen))
+
+### Fixed
+
+- [ZeroDivisionError](https://github.com/martomi/chiadog/issues/46) on the daily report. Occurs when running `chiadog`
+  on a standalone harvester where logs about signage points are not present. Now this case is handled correctly.
+
 ## [0.4.0] - 2021-04-25
 
 > This release contains backward incompatible changes to the config.yaml. Please transfer your API keys to a new copy of the config-example.yaml file when updating.
@@ -81,7 +98,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Adds basic condition checks for harvester operations.
 - Adds integration for Pushover (mobile notifications).
 
-[Unreleased]: https://github.com/martomi/chiadog/compare/v0.4.0...dev
+[Unreleased]: https://github.com/martomi/chiadog/compare/v0.4.1...dev
+
+[0.4.1]: https://github.com/martomi/chiadog/releases/tag/v0.4.1
 
 [0.4.0]: https://github.com/martomi/chiadog/releases/tag/v0.4.0
 
