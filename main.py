@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
     signal.signal(signal.SIGINT, interrupt)
 
-    if is_win_platform:
+    if is_win_platform():
         while True:
             try:
                 time.sleep(5)
