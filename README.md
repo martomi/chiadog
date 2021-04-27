@@ -51,18 +51,14 @@ For detailed guide on how to test and configure, please refer to [INTEGRATIONS.m
 
 ## Pre-requisites
 
-- Linux, MacOS, Windows
+- Linux or MacOS, ([maybe](https://github.com/martomi/chiadog/pull/43) Windows)
 - Python 3.7+
 - Enabled `INFO` logs on your chia farmer
 
 ### How to enable INFO logs on chia farmer?
 
 First configure the log level to `INFO`. This ensures that all logs necessary for chiadog to operate are available
-under `~/.chia/mainnet/log/debug.log`. (Windows: `C:\Users\<username>\.chia\mainnet\log\debug.log`)
-
-Windows: The below commands are equivalent on Windows. But you need go to this
-folder `cd C:\Users\<username>\AppData\Local\chia-blockchain\app-1.1.0\resources\app.asar.unpacked\daemon` and execute
-with `.\chia.exe ...`
+under `~/.chia/mainnet/log/debug.log`.
 
 ```
 chia configure -log-level=INFO
@@ -94,11 +90,7 @@ cd chiadog
 2. Run the install script.
 
 ```
-# Linux & MacOS
 ./install.sh
-
-# Windows
-./install.ps1
 ```
 
 3. Copy the example config file
@@ -134,11 +126,7 @@ git pull
 2. Start the watchdog
 
 ```
-# Linux / MacOS
 ./start.sh
-
-# Windows
-./start.ps1
 ```
 
 3. Verify that your plots are detected. Within a few seconds you should see INFO log:
