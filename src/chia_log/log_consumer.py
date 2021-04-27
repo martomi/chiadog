@@ -108,7 +108,7 @@ class NetworkLogConsumer(LogConsumer):
         logging.info(f"Consuming remote log file {self._remote_log_path} from {self._remote_host} ({self._remote_platform})")
 
         if self._remote_platform == "windows":
-            stdin, stdout, stderr = self._ssh_client.exec_command(f"powershell Get-Content {self._remote_log_path} -Wait -Tail 25")
+            stdin, stdout, stderr = self._ssh_client.exec_command(f"powershell.exe Get-Content {self._remote_log_path} -Wait -Tail 1")
         else:
             stdin, stdout, stderr = self._ssh_client.exec_command(f"tail -F {self._remote_log_path}")
 
