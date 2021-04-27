@@ -93,6 +93,8 @@ class NetworkLogConsumer(LogConsumer):
         self._ssh_client.load_system_host_keys()
         self._ssh_client.connect(hostname=self._remote_host, username=self._remote_user)
 
+        self._remote_platform = self._get_remote_platform()
+
         # Start thread
         self._is_running = True
         self._thread = Thread(target=self._consume_loop)
@@ -103,12 +105,31 @@ class NetworkLogConsumer(LogConsumer):
         self._is_running = False
 
     def _consume_loop(self):
-        logging.info(f"Consuming remote log file {self._remote_log_path} from {self._remote_host}")
-        stdin, stdout, stderr = self._ssh_client.exec_command(f"tail -F {self._remote_log_path}")
+        logging.info(f"Consuming remote log file {self._remote_log_path} from {self._remote_host} ({self._remote_platform})")
+
+        if self._remote_platform == "windows":
+            stdin, stdout, stderr = self._ssh_client.exec_command(f"powershell Get-Content {self._remote_log_path} -Wait -Tail 25")
+        else:
+            stdin, stdout, stderr = self._ssh_client.exec_command(f"tail -F {self._remote_log_path}")
 
         while self._is_running:
             log_line = stdout.readline()
             self._notify_subscribers(log_line)
+
+    def _get_remote_platform(self):
+        stdin, stdout, stderr = self._ssh_client.exec_command(f"uname -a")
+        result: str = stdout.readline()
+
+        if result.find('Linux'):
+            return 'linux'
+        elif result.find('Darwin'):
+            return 'macos'
+        elif result.find('not found'):
+            return 'windows'
+        else:
+            logging.error(f"Found unsupported platform on remote host, assuming Linux and hope for the best.")
+
+        return 'linux'
 
 
 def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
