@@ -20,6 +20,8 @@ from src.config import check_keys, is_win_platform
 # lib
 import paramiko
 
+from src.util import OS
+
 
 class LogConsumerSubscriber(ABC):
     """Interface for log consumer subscribers (i.e. handlers)"""
@@ -107,7 +109,7 @@ class NetworkLogConsumer(LogConsumer):
     def _consume_loop(self):
         logging.info(f"Consuming remote log file {self._remote_log_path} from {self._remote_host} ({self._remote_platform})")
 
-        if self._remote_platform == "windows":
+        if self._remote_platform == OS.WINDOWS:
             stdin, stdout, stderr = self._ssh_client.exec_command(f"powershell.exe Get-Content {self._remote_log_path} -Wait -Tail 1")
         else:
             stdin, stdout, stderr = self._ssh_client.exec_command(f"tail -F {self._remote_log_path}")
@@ -122,11 +124,11 @@ class NetworkLogConsumer(LogConsumer):
         ferr: str = stderr.readline().lower()
 
         if 'linux' in fout:
-            return 'linux'
+            return OS.LINUX
         elif 'darwin' in fout:
-            return 'macos'
+            return OS.MACOS
         elif 'not recognized' in ferr:
-            return 'windows'
+            return OS.WINDOWS
         else:
             logging.error(f"Found unsupported platform on remote host, assuming Linux and hope for the best.")
 
