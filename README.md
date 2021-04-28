@@ -52,9 +52,13 @@ For detailed guide on how to test and configure, please refer to [INTEGRATIONS.m
 ## Pre-requisites
 
 - UNIX-based OS (Linux/Mac) - for
-  Windows, [try this](https://github.com/martomi/chiadog/issues/7#issuecomment-815544302).
+  Windows, [try this](WINDOWS.md).
 - Python 3.7+
+- Git
 - Enabled `INFO` logs on your chia farmer
+
+The instructions below are specific to Linux and MacOS, for installing `chiadog` on Windows, please refer
+to [this separate README](WINDOWS.md).
 
 ### How to enable INFO logs on chia farmer?
 
