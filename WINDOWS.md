@@ -87,7 +87,16 @@ git fetch
 git checkout main
 git pull
 
-./install.sh
+# Recreate and activate the virtual environment
+python.exe -m venv venv
+. ./venv/Scripts/activate
+
+# Reinstall dependencies
+pip3 install wheel
+pip3 install -r requirements.txt
+
+# Deactivate the virtual environment again
+deactivate
 ```
 
 > Important: Automated migration of config is not supported. Please check that your `config.yaml` has all new 
