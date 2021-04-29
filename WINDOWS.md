@@ -3,8 +3,8 @@
 ## Pre-requisites
 
 - Linux, MacOS & Windows
-- Python 3.7+
-- Git  
+- [Python 3.7+](https://www.python.org/downloads/windows/)
+- [Git](https://git-scm.com/downloads)
 - Enabled `INFO` logs on your chia farmer
 
 This guide contains instructions on how to set up a **local** `chiadog` consumer on Windows.
@@ -28,7 +28,7 @@ are available under `C:\Users\[YOUR-USER]\.chia\mainnet\log\debug.log`.
 
 _For updating from previous version, see section below._
 
-1. Open a PowerShell command line
+1. Open a `PowerShell` command line
 
 2. Clone the repository somewhere on your computer (ex. `C:\Users\[YOUR-USER]\`)
 
@@ -116,6 +116,7 @@ python.exe main.py --config config.yaml
 Detected new plots. Farming with 42 plots.
 ```
 
-Note: You can also monitor multiple remote harvesters and run chiadog on a separate machine. 
-Please refer to the Wiki article on 
-[Monitoring Remote Harvesters](/wiki/Monitoring-Multiple-Harvesters).
+## Monitoring a remote harvester
+Chiadog allows you to monitor multiple remote harvesters while running chiadog on a separate machine. 
+Please refer to the Wiki article on [Monitoring Remote Harvesters](/wiki/Monitoring-Multiple-Harvesters)
+for more information on how to set this up.

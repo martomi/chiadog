@@ -53,7 +53,7 @@ For detailed guide on how to test and configure, please refer to [INTEGRATIONS.m
 
 - Linux, MacOS & Windows
 - Python 3.7+
-- Git
+- [Git](https://git-scm.com/downloads)
 - Enabled `INFO` logs on your chia farmer
 
 The instructions below are specific to Linux and MacOS, for installing `chiadog` on Windows, please refer
