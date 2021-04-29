@@ -45,7 +45,7 @@ cd chiadog
 python.exe -m venv venv
 
 # Activate the newly created virtual environment
-. ./venv/Scripts/activate
+. .\venv\Scripts\activate
 ```
 
 **Note**: if you get an error saying 'The term 'python.exe' is not recognized' or 'Python was not found', change 
@@ -89,7 +89,7 @@ git pull
 
 # Recreate and activate the virtual environment
 python.exe -m venv venv
-. ./venv/Scripts/activate
+. .\venv\Scripts\activate
 
 # Reinstall dependencies
 pip3 install wheel
@@ -118,7 +118,7 @@ deactivate
 cd C:\Users\[YOUR-USER]\chiadog
 
 # Activate the virtual environment
-. ./venv/Scripts/activate
+. .\venv\Scripts\activate
 
 # Start the watchdog
 python.exe main.py --config config.yaml
