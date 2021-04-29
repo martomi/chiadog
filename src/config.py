@@ -51,5 +51,6 @@ def check_keys(required_keys, config) -> bool:
             return False
     return True
 
+
 def is_win_platform() -> bool:
     return sys.platform.startswith("win")
