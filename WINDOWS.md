@@ -43,6 +43,7 @@ cd chiadog
 ```
 # Create a new virtual environment in this folder called 'venv'
 python3 -m venv venv
+
 # Activate the newly created virtual environment
 . ./venv/Scripts/activate
 ```
@@ -52,8 +53,11 @@ python3 -m venv venv
 ```
 # Update pip3 to latest version
 python3 -m pip install --upgrade pip
+
 # Install dependencies
-pip3 install wheel && pip3 install -r requirements.txt
+pip3 install wheel
+pip3 install -r requirements.txt
+
 # Deactivate the virtual environment again
 deactivate
 ```
@@ -73,14 +77,16 @@ _Skip this if you just did a fresh install of `chiadog`_.
 
 ```
 cd chiadog
+
 git fetch
 git checkout main
 git pull
+
 ./install.sh
 ```
 
-> Important: Automated migration of config is not supported. Please check that your `config.yaml` has all 
-> new fields introduced in `config-example.yaml` and add anything missing. If correctly migrated, you shouldn't get 
+> Important: Automated migration of config is not supported. Please check that your `config.yaml` has all new 
+> fields introduced in `config-example.yaml` and add anything missing. If correctly migrated, you shouldn't get 
 > any ERROR logs.
 
 ## Monitoring a local harvester / farmer
@@ -96,8 +102,10 @@ git pull
 ```
 # Make sure you are in the directory that you previously installed chiadog in
 cd C:\Users\[YOUR-USER]\chiadog
+
 # Activate the virtual environment
 . ./venv/Scripts/activate
+
 # Start the watchdog
 python.exe main.py --config config.yaml
 ```
@@ -109,4 +117,5 @@ Detected new plots. Farming with 42 plots.
 ```
 
 Note: You can also monitor multiple remote harvesters and run chiadog on a separate machine. 
-Please refer to the Wiki article on [Monitoring Remote Harvesters](/wiki/Monitoring-Multiple-Harvesters).
+Please refer to the Wiki article on 
+[Monitoring Remote Harvesters](/wiki/Monitoring-Multiple-Harvesters).
