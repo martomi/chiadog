@@ -73,3 +73,14 @@ notifier:
     daily_stats: true
     credentials:
       webhook_url: 'https://hooks.slack.com/services/...'
+  mqtt:
+    enable: false
+    daily_stats: true
+    topic: chia/chiadog/alert
+    qos: 1
+    retain: false
+    credentials:
+      host: '192.168.0.10'
+      port: 8883
+      username: ''
+      password: ''

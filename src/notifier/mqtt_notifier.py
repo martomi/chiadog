@@ -25,7 +25,7 @@ class MqttNotifier(Notifier):
     def _set_config(self, config: dict):
 
         self._topic = config["topic"]
-        self._qos = int(config["qos"]) if "qos" in config else 0
+        self._qos = config["qos"] if "qos" in config else 0
         self._retain = config["retain"] if "retain" in config else False
 
     def _set_credentials(self, credentials: dict):
@@ -33,25 +33,28 @@ class MqttNotifier(Notifier):
         self._host = credentials["host"]
         self._port = credentials["port"]
 
-        if "mqtt_username" in credentials:
+        if "mqtt_username" in credentials and credentials["mqtt_username"] != "":
             self._username = credentials["mqtt_username"]
-        if "mqtt_password" in credentials:
+        if "mqtt_password" in credentials and credentials["mqtt_password"] != "":
             self._password = credentials["mqtt_password"]
 
     def _init_mqtt(self):
         self._client: Client = Client()
         self._client.on_connect = self._on_connect
         self._client.on_disconnect = self._on_disconnect
-        self._client.username_pw_set(self._username, self._password)
+
+        if self._username and self._password:
+            self._client.username_pw_set(self._username, self._password)
+
         self._client.connect(self._host, self._port)
         self._client.reconnect_delay_set()
         self._client.loop_start()
 
     def _on_connect(self, client, userdata, flags, rc):
         if self._password:
-            logging.info(f"Connected to MQTT host {self._host} using authentication")
+            logging.info(f"Successfully connected to MQTT host {self._host} with password authentication")
         else:
-            logging.info(f"Connected to MQTT host {self._host}")
+            logging.info(f"Successfully connected to MQTT host {self._host}")
 
     def _on_disconnect(self, client, userdata, rc):
 
@@ -76,7 +79,7 @@ class MqttNotifier(Notifier):
                                                                  )
 
                 if response.rc == MQTT_ERR_SUCCESS:
-                    pass;
+                    pass
                 elif response.rc == MQTT_ERR_NO_CONN:
                     logging.warning(f"Message delivery failed because the MQTT Client was not connected")
                     errors = True
