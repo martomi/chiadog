@@ -42,17 +42,22 @@ cd chiadog
 
 ```
 # Create a new virtual environment in this folder called 'venv'
-python3 -m venv venv
+python.exe -m venv venv
 
 # Activate the newly created virtual environment
 . ./venv/Scripts/activate
 ```
 
+**Note**: if you get an error saying 'The term 'python.exe' is not recognized' or 'Python was not found', change 
+`python.exe` in the last line of the above code block to `py.exe` or `python3.exe`. 
+If none of these work, it is likely that Python was not installed on your system. Refer to 
+[this website](https://www.python.org/downloads/windows/) in order to download the latest version. 
+
 4. Update `pip` package manager and install `chiadog` dependencies 
 
 ```
 # Update pip3 to latest version
-python3 -m pip install --upgrade pip
+python.exe -m pip install --upgrade pip
 
 # Install dependencies
 pip3 install wheel
