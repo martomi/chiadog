@@ -1,7 +1,7 @@
 # std
 import logging
 from typing import List
-from paho.mqtt.client import MQTTMessageInfo, Client, MQTT_ERR_SUCCESS, MQTT_ERR_NO_CONN
+from paho.mqtt.client import MQTTMessageInfo, Client, MQTT_ERR_SUCCESS, MQTT_ERR_NO_CONN, error_string, connack_string
 
 from . import Notifier, Event
 
@@ -11,6 +11,10 @@ class MqttNotifier(Notifier):
     def __init__(self, title_prefix: str, config: dict):
         logging.info("Initializing MQTT notifier.")
         super().__init__(title_prefix, config)
+
+        self._username = None
+        self._password = None
+
         try:
 
             credentials = config["credentials"]
@@ -52,13 +56,15 @@ class MqttNotifier(Notifier):
 
     def _on_connect(self, client, userdata, flags, rc):
         if self._password:
-            logging.info(f"Successfully connected to MQTT host {self._host} with password authentication")
+            logging.info(f"Connecting to MQTT host {self._host} with password authentication")
         else:
-            logging.info(f"Successfully connected to MQTT host {self._host}")
+            logging.info(f"Connecting to MQTT host {self._host}")
+
+        logging.info(f"MQTT Connection Status: {connack_string(rc)}")
 
     def _on_disconnect(self, client, userdata, rc):
 
-        logging.warning("Disconnected from MQTT: {}".format(rc))
+        logging.warning("Disconnected from MQTT: {}".format(error_string(rc)))
         self._client.loop_stop()
 
     def send_events_to_user(self, events: List[Event]) -> bool:
