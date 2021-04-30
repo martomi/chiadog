@@ -33,10 +33,10 @@ class MqttNotifier(Notifier):
         self._host = credentials["host"]
         self._port = credentials["port"]
 
-        if "mqtt_username" in credentials and credentials["mqtt_username"] != "":
-            self._username = credentials["mqtt_username"]
-        if "mqtt_password" in credentials and credentials["mqtt_password"] != "":
-            self._password = credentials["mqtt_password"]
+        if "username" in credentials and credentials["username"] != "":
+            self._username = credentials["username"]
+        if "password" in credentials and credentials["password"] != "":
+            self._password = credentials["password"]
 
     def _init_mqtt(self):
         self._client: Client = Client()

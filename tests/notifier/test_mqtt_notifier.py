@@ -13,16 +13,14 @@ class TestMqttNotifier(unittest.TestCase):
         host = os.getenv("HOST")
         port = os.getenv("PORT")
         topic = os.getenv("TOPIC")
-        mqtt_username = os.getenv("MQTT_USERNAME")
-        mqtt_password = os.getenv("MQTT_PASSWORD")
+        username = os.getenv("MQTT_USERNAME")
+        password = os.getenv("MQTT_PASSWORD")
         qos = os.getenv('QOS')
         retain = os.getenv('RETAIN')
 
         self.assertIsNotNone(host, "You must export HOST as env variable")
         self.assertIsNotNone(port, "You must export PORT as env variable")
         self.assertIsNotNone(topic, "You must export TOPIC as env variable")
-        self.assertIsNotNone(mqtt_username, "You must export MQTT_USERNAME as env variable")
-        self.assertIsNotNone(mqtt_password, "You must export MQTT_PASSWORD as env variable")
 
         if retain:
             self.assertIs(retain, bool, 'Retain must be a boolean value')
@@ -42,8 +40,8 @@ class TestMqttNotifier(unittest.TestCase):
                 "credentials": {
                     "host": host,
                     "port": port,
-                    "mqtt_username": mqtt_username,
-                    "mqtt_password": mqtt_password,
+                    "username": username,
+                    "password": password,
                 },
             },
         )
