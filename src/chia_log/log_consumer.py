@@ -10,7 +10,7 @@ The latter has not been implemented yet. Feel free to add it.
 import logging
 import subprocess
 from abc import ABC, abstractmethod
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath, PurePath
 from threading import Thread
 from typing import List, Optional
 
@@ -83,19 +83,18 @@ class FileLogConsumer(LogConsumer):
 class NetworkLogConsumer(LogConsumer):
     """Consume logs over the network"""
 
-    def __init__(self, remote_log_path: Path, remote_user, remote_host):
+    def __init__(self, remote_log_path: PurePath, remote_user, remote_host, remote_platform=OS.LINUX):
         logging.info("Enabled network log consumer.")
         super().__init__()
 
         self._remote_user = remote_user
         self._remote_host = remote_host
         self._remote_log_path = remote_log_path
+        self._remote_platform = remote_platform
 
         self._ssh_client = paramiko.client.SSHClient()
         self._ssh_client.load_system_host_keys()
         self._ssh_client.connect(hostname=self._remote_host, username=self._remote_user)
-
-        self._remote_platform = self._get_remote_platform()
 
         # Start thread
         self._is_running = True
@@ -107,10 +106,14 @@ class NetworkLogConsumer(LogConsumer):
         self._is_running = False
 
     def _consume_loop(self):
-        logging.info(f"Consuming remote log file {self._remote_log_path} from {self._remote_host} ({self._remote_platform})")
+        logging.info(
+            f"Consuming remote log file {self._remote_log_path} from {self._remote_host} ({self._remote_platform})"
+        )
 
         if self._remote_platform == OS.WINDOWS:
-            stdin, stdout, stderr = self._ssh_client.exec_command(f"powershell.exe Get-Content {self._remote_log_path} -Wait -Tail 1")
+            stdin, stdout, stderr = self._ssh_client.exec_command(
+                f"powershell.exe Get-Content {self._remote_log_path} -Wait -Tail 1"
+            )
         else:
             stdin, stdout, stderr = self._ssh_client.exec_command(f"tail -F {self._remote_log_path}")
 
@@ -118,21 +121,27 @@ class NetworkLogConsumer(LogConsumer):
             log_line = stdout.readline()
             self._notify_subscribers(log_line)
 
-    def _get_remote_platform(self):
-        stdin, stdout, stderr = self._ssh_client.exec_command(f"uname -a")
-        fout: str = stdout.readline().lower()
-        ferr: str = stderr.readline().lower()
 
-        if 'linux' in fout:
-            return OS.LINUX
-        elif 'darwin' in fout:
-            return OS.MACOS
-        elif 'not recognized' in ferr:
-            return OS.WINDOWS
-        else:
-            logging.error(f"Found unsupported platform on remote host, assuming Linux and hope for the best.")
+def get_host_info(host: str, user: str, path: str):
 
-        return OS.LINUX
+    client = paramiko.client.SSHClient()
+    client.load_system_host_keys()
+    client.connect(hostname=host, username=user)
+
+    stdin, stdout, stderr = client.exec_command("uname -a")
+    fout: str = stdout.readline().lower()
+    ferr: str = stderr.readline().lower()
+
+    if "linux" in fout:
+        return OS.LINUX, PurePosixPath(path)
+    elif "darwin" in fout:
+        return OS.MACOS, PurePosixPath(path)
+    elif "not recognized" in ferr:
+        return OS.WINDOWS, PureWindowsPath(path)
+    else:
+        logging.error("Found unsupported platform on remote host, assuming Linux and hope for the best.")
+
+    return OS.LINUX
 
 
 def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
@@ -159,10 +168,18 @@ def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
             required_keys=["remote_file_path", "remote_host", "remote_user"], config=enabled_consumer_config
         ):
             return None
+
+        platform, path = get_host_info(
+            enabled_consumer_config["remote_host"],
+            enabled_consumer_config["remote_user"],
+            enabled_consumer_config["remote_file_path"],
+        )
+
         return NetworkLogConsumer(
-            remote_log_path=Path(enabled_consumer_config["remote_file_path"]),
+            remote_log_path=path,
             remote_host=enabled_consumer_config["remote_host"],
             remote_user=enabled_consumer_config["remote_user"],
+            remote_platform=platform,
         )
 
     logging.error("Unhandled consumer type")
