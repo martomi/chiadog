@@ -1,5 +1,6 @@
 # secrets
 config.yaml
+config.*.yaml
 
 # dev files
 .idea
