@@ -1,7 +1,6 @@
 # std
 import os
 import unittest
-from typing import Union, SupportsInt
 
 # project
 from src.notifier.mqtt_notifier import MqttNotifier
