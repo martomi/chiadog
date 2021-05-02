@@ -12,15 +12,14 @@ import subprocess
 from abc import ABC, abstractmethod
 from pathlib import Path, PurePosixPath, PureWindowsPath, PurePath
 from threading import Thread
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 # project
 from src.config import check_keys, is_win_platform
+from src.util import OS
 
 # lib
 import paramiko
-
-from src.util import OS
 
 
 class LogConsumerSubscriber(ABC):
@@ -83,7 +82,7 @@ class FileLogConsumer(LogConsumer):
 class NetworkLogConsumer(LogConsumer):
     """Consume logs over the network"""
 
-    def __init__(self, remote_log_path: PurePath, remote_user, remote_host, remote_platform=OS.LINUX):
+    def __init__(self, remote_log_path: PurePath, remote_user: str, remote_host: str, remote_platform: OS):
         logging.info("Enabled network log consumer.")
         super().__init__()
 
@@ -122,7 +121,7 @@ class NetworkLogConsumer(LogConsumer):
             self._notify_subscribers(log_line)
 
 
-def get_host_info(host: str, user: str, path: str):
+def get_host_info(host: str, user: str, path: str) -> Tuple[OS, PurePath]:
 
     client = paramiko.client.SSHClient()
     client.load_system_host_keys()
@@ -141,7 +140,7 @@ def get_host_info(host: str, user: str, path: str):
     else:
         logging.error("Found unsupported platform on remote host, assuming Linux and hope for the best.")
 
-    return OS.LINUX
+    return OS.LINUX, PurePosixPath(path)
 
 
 def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
