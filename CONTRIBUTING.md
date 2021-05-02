@@ -45,8 +45,19 @@ black src tests && mypy src tests && flake8 src tests
 
 3. Run tests:
 
+Linux/MacOS:
+
 ```
 PUSHOVER_API_TOKEN=<your_token> PUSHOVER_USER_KEY=<your_key> TELEGRAM_BOT_TOKEN=<your_token> TELEGRAM_CHAT_ID=<your_chat_id>  python3 -m unittest
+```
+
+Windows (from cmdline):
+
+```
+set PUSHOVER_API_TOKEN=<your_token>
+set PUSHOVER_USER_KEY=<your_key> 
+set TELEGRAM_BOT_TOKEN=<your_token> 
+set TELEGRAM_CHAT_ID=<your_chat_id>
 ```
 
 Check that all passes and there aren't any warnings.

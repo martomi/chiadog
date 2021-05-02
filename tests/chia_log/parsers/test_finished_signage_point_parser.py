@@ -10,9 +10,9 @@ class TestFinishedSignagePointParser(unittest.TestCase):
     def setUp(self) -> None:
         self.parser = finished_signage_point_parser.FinishedSignagePointParser()
         self.example_logs_path = Path(__file__).resolve().parents[1] / "logs/finished_signage_point"
-        with open(self.example_logs_path / "nominal.txt") as f:
+        with open(self.example_logs_path / "nominal.txt", encoding="utf-8") as f:
             self.nominal_logs = f.read()
-        with open(self.example_logs_path / "nominal_old_log_format.txt") as f:
+        with open(self.example_logs_path / "nominal_old_log_format.txt", encoding="utf-8") as f:
             self.nominal_logs_old_format = f.read()
 
     def tearDown(self) -> None:
