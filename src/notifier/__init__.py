@@ -41,6 +41,7 @@ class EventService(Enum):
     FARMER = 1
     FULL_NODE = 2
     DAILY = 3
+    WALLET = 4
 
 
 @dataclass
@@ -69,6 +70,8 @@ class Notifier(ABC):
             if config["daily_stats"]:
                 self._notification_types.append(EventType.DAILY_STATS)
                 self._notification_services.append(EventService.DAILY)
+            if config["wallet_events"]:
+                self._notification_services.append(EventService.WALLET)
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
 
