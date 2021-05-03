@@ -29,6 +29,7 @@ class TestSMTPNotifier(unittest.TestCase):
             config={
                 "enable": True,
                 "daily_stats": True,
+                "wallet_events": True,
                 "credentials": {
                     "sender": sender,
                     "sender_name": sender_name,
