@@ -76,6 +76,7 @@ notifier:
   mqtt:
     enable: false
     daily_stats: true
+    wallet_events: true
     topic: chia/chiadog/alert
     qos: 1
     retain: false

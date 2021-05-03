@@ -31,6 +31,7 @@ class TestMqttNotifier(unittest.TestCase):
             config={
                 "enable": True,
                 "daily_stats": True,
+                "wallet_events": True,
                 "topic": topic,
                 "qos": qos,
                 "retain": retain,
