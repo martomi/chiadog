@@ -35,22 +35,27 @@ daily_stats:
 # information. You can delete the sections which you aren't using.
 # You can also enable more than one notifier and send different
 # notifications to each of them. E.g. enable daily_stats only to E-mail.
+# If you enable wallet_events you'll get notifications anytime your
+# wallet receives some XCH (e.g. farming reward).
 notifier:
   pushover:
     enable: false
     daily_stats: true
+    wallet_events: true
     credentials:
       api_token: 'dummy_token'
       user_key: 'dummy_key'
   telegram:
     enable: false
     daily_stats: true
+    wallet_events: true
     credentials:
       bot_token: 'dummy_bot_token'
       chat_id: 'dummy_chat_id'
   smtp:
     enable: false
     daily_stats: true
+    wallet_events: true
     credentials:
       sender: 'chia@example.com'
       sender_name: 'chiadog'
@@ -62,14 +67,17 @@ notifier:
   script:
     enable: false
     daily_stats: true
+    wallet_events: true
     script_path: 'tests/test_script.sh'
   discord:
     enable: false
     daily_stats: true
+    wallet_events: true
     credentials:
       webhook_url: 'https://discord.com/api/webhooks/...'
   slack:
     enable: false
     daily_stats: true
+    wallet_events: true
     credentials:
       webhook_url: 'https://hooks.slack.com/services/...'
