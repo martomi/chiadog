@@ -7,6 +7,7 @@ from typing import List
 # project
 from src.chia_log.handlers.daily_stats import StatReporter
 from src.chia_log.handlers.daily_stats.stat_reporters.daily_stats_reporter import DailyStatsReporter
+from src.chia_log.handlers.daily_stats.stat_reporters.http_reporter import HttpReporter
 from src.chia_log.parsers.finished_signage_point_parser import FinishedSignagePointMessage
 from src.chia_log.parsers.harvester_activity_parser import HarvesterActivityMessage
 from src.config import Config
@@ -25,6 +26,7 @@ class StatsManager:
 
     def _initialize_stats_managers(self):
         key_notifier_mapping = {
+            "http": HttpReporter,
             "daily_stats": DailyStatsReporter
         }
 
