@@ -63,7 +63,7 @@ if __name__ == "__main__":
     notify_manager = NotifyManager(config=config, keep_alive_monitor=keep_alive_monitor)
 
     # Stats manager accumulates stats over 24 hours and sends a summary each day
-    stats_manager = StatsManager(config=config.get_daily_stats_config(), notify_manager=notify_manager)
+    stats_manager = StatsManager(config=config, notify_manager=notify_manager)
 
     # Link stuff up in the log handler
     # Pipeline: Consume -> Handle -> Notify

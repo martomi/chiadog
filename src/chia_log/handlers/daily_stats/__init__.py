@@ -1,9 +1,24 @@
 # std
 from abc import ABC, abstractmethod
+from typing import List
 
 # project
 from ...parsers.finished_signage_point_parser import FinishedSignagePointMessage
 from ...parsers.harvester_activity_parser import HarvesterActivityMessage
+
+
+class StatReporter(ABC):
+    @abstractmethod
+    def consume_harvester_messages(self, objects: List[HarvesterActivityMessage]):
+        pass
+
+    @abstractmethod
+    def consume_signage_point_messages(self, objects: List[FinishedSignagePointMessage]):
+        pass
+
+    @abstractmethod
+    def report(self):
+        pass
 
 
 class FinishedSignageConsumer(ABC):
