@@ -24,3 +24,8 @@ class FoundProofStats(HarvesterActivityConsumer, StatAccumulator):
         if self._found_proofs_total == 0:
             return "Proofs 🧾: None"
         return f"Proofs 🧾: {self._found_proofs_total} found!"
+
+    def get_data(self) -> dict:
+        return {
+            'found_proofs_total': self._found_proofs_total
+        }

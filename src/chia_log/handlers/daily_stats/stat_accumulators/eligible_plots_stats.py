@@ -24,3 +24,12 @@ class EligiblePlotsStats(HarvesterActivityConsumer, StatAccumulator):
         if self._eligible_events_total == 0:
             return "Eligible plots 🥇: None"
         return f"Eligible plots 🥇: {self._eligible_plots_total / self._eligible_events_total:0.2f} average"
+
+    def get_data(self) -> dict:
+        if self._eligible_events_total == 0:
+            eligible_plots_average = 0
+        else:
+            eligible_plots_average = round(self._eligible_plots_total / self._eligible_events_total, 2)
+        return {
+            'eligible_plots_average': eligible_plots_average
+        }

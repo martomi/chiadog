@@ -29,3 +29,8 @@ class NumberPlotsStats(HarvesterActivityConsumer, StatAccumulator):
             return f"Plots 🌱: {self._current_plot_count}, removed: {new_plots}"
 
         return f"Plots 🌱: {self._current_plot_count}"
+
+    def get_data(self) -> dict:
+        return {
+            'current_plot_count': self._current_plot_count
+        }

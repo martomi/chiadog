@@ -35,3 +35,10 @@ class SearchTimeStats(HarvesterActivityConsumer, StatAccumulator):
             f"\t - over 5s: {self._over_5_seconds} occasions\n"
             f"\t - over 15s: {self._over_15_seconds} occasions"
         )
+
+    def get_data(self) -> dict:
+        return {
+            'search_time_average': round(self._avg_time_seconds, 2),
+            'search_time_over_5s_count': self._over_5_seconds,
+            'search_time_over_15s_count': self._over_15_seconds
+        }
