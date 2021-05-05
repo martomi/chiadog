@@ -13,7 +13,7 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
         self.example_logs_path = Path(__file__).resolve().parents[1] / "logs/wallet_added_coin"
 
     def testNominal(self):
-        with open(self.example_logs_path / "nominal.txt") as f:
+        with open(self.example_logs_path / "nominal.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
         events = self.handler.handle("".join(logs))

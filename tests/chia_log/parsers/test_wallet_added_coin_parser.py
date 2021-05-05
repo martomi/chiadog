@@ -10,7 +10,7 @@ class TestWalletAddedCoinParser(unittest.TestCase):
     def setUp(self) -> None:
         self.parser = WalletAddedCoinParser()
         self.example_logs_path = Path(__file__).resolve().parents[1] / "logs/wallet_added_coin"
-        with open(self.example_logs_path / "nominal.txt") as f:
+        with open(self.example_logs_path / "nominal.txt", encoding="UTF-8") as f:
             self.nominal_logs = f.read()
 
     def testBasicParsing(self):
