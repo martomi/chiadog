@@ -69,7 +69,7 @@ class FileLogConsumer(LogConsumer):
         logging.info(f"Consuming log file from {expanded_user_log_path}")
 
         if is_win_platform():
-            consume_command_args = ["powershell.exe", "get-content", expanded_user_log_path, "-tail", "1", "-wait"]
+            consume_command_args = ["powershell.exe", "Get-Content", expanded_user_log_path, "-Tail", "1", "-Wait", "-ErrorAction", "SilentlyContinue"]
         else:
             consume_command_args = ["tail", "-F", expanded_user_log_path]
 
