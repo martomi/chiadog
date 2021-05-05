@@ -65,7 +65,7 @@ class FileLogConsumer(LogConsumer):
         self._is_running = False
 
     def _consume_loop(self):
-        expanded_user_log_path = self._log_path.expanduser()
+        expanded_user_log_path = str(self._log_path.expanduser())
         logging.info(f"Consuming log file from {expanded_user_log_path}")
 
         if is_win_platform():
