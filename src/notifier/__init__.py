@@ -30,6 +30,7 @@ class EventType(Enum):
     KEEPALIVE = 0
     USER = 1
     DAILY_STATS = 2
+    STARTUP = 3
 
 
 class EventService(Enum):
@@ -41,6 +42,7 @@ class EventService(Enum):
     FARMER = 1
     FULL_NODE = 2
     DAILY = 3
+    STARTUP = 4
 
 
 @dataclass
@@ -62,8 +64,13 @@ class Notifier(ABC):
         self._title_prefix = title_prefix
         self._config = config
         self._conn_timeout_seconds = 10
-        self._notification_types = [EventType.USER]
-        self._notification_services = [EventService.HARVESTER, EventService.FARMER, EventService.FULL_NODE]
+        self._notification_types = [EventType.USER, EventType.STARTUP]
+        self._notification_services = [
+            EventService.HARVESTER,
+            EventService.FARMER,
+            EventService.FULL_NODE,
+            EventService.STARTUP,
+        ]
 
         try:
             if config["daily_stats"]:

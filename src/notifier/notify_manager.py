@@ -4,7 +4,7 @@ import time
 from typing import List
 
 # project
-from . import Event, Notifier
+from . import Event, Notifier, EventPriority, EventType, EventService
 from .keep_alive_monitor import KeepAliveMonitor
 from .pushover_notifier import PushoverNotifier
 from .script_notifier import ScriptNotifier
@@ -48,6 +48,15 @@ class NotifyManager:
 
         if len(self._notifiers.values()) == 0:
             logging.warning("Cannot process user events: 0 notifiers are enabled!")
+        else:
+            event = Event(
+                type=EventType.STARTUP,
+                priority=EventPriority.LOW,
+                service=EventService.STARTUP,
+                message="Chiadog has started successfully.",
+            )
+
+            self.process_events([event])
 
     def process_events(self, events: List[Event]):
         """Process all keep-alive and user events"""
