@@ -10,9 +10,9 @@ class TestHarvesterActivityParser(unittest.TestCase):
     def setUp(self) -> None:
         self.parser = harvester_activity_parser.HarvesterActivityParser()
         self.example_logs_path = Path(__file__).resolve().parents[1] / "logs/harvester_activity"
-        with open(self.example_logs_path / "nominal.txt") as f:
+        with open(self.example_logs_path / "nominal.txt", encoding="UTF-8") as f:
             self.nominal_logs = f.read()
-        with open(self.example_logs_path / "nominal_old_log_format.txt") as f:
+        with open(self.example_logs_path / "nominal_old_log_format.txt", encoding="UTF-8") as f:
             self.nominal_logs_old_format = f.read()
 
     def tearDown(self) -> None:

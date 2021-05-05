@@ -13,7 +13,7 @@ class TestHarvesterActivityHandler(unittest.TestCase):
         self.example_logs_path = Path(__file__).resolve().parents[1] / "logs/harvester_activity"
 
     def testNominal(self):
-        with open(self.example_logs_path / "nominal.txt") as f:
+        with open(self.example_logs_path / "nominal.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
         for log in logs:
@@ -24,7 +24,7 @@ class TestHarvesterActivityHandler(unittest.TestCase):
             self.assertEqual(events[0].service, EventService.HARVESTER, "Unexpected service")
 
     def testDecreasedPlots(self):
-        with open(self.example_logs_path / "plots_decreased.txt") as f:
+        with open(self.example_logs_path / "plots_decreased.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
         # Fourth log should trigger an event for a decreased plot count
@@ -43,7 +43,7 @@ class TestHarvesterActivityHandler(unittest.TestCase):
                 self.assertEqual(events[1].message, "Disconnected HDD? The total plot count decreased from 43 to 30.")
 
     def testLostSyncTemporarily(self):
-        with open(self.example_logs_path / "lost_sync_temporary.txt") as f:
+        with open(self.example_logs_path / "lost_sync_temporary.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
         # Fourth log should trigger an event for harvester outage
@@ -66,7 +66,7 @@ class TestHarvesterActivityHandler(unittest.TestCase):
                 )
 
     def testSlowSeekTime(self):
-        with open(self.example_logs_path / "slow_seek_time.txt") as f:
+        with open(self.example_logs_path / "slow_seek_time.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
         for log in logs:
