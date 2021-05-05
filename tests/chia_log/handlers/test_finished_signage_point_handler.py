@@ -13,7 +13,7 @@ class TestFinishedSignagePointHandler(unittest.TestCase):
         self.example_logs_path = Path(__file__).resolve().parents[1] / "logs/finished_signage_point"
 
     def testNominal(self):
-        with open(self.example_logs_path / "nominal.txt") as f:
+        with open(self.example_logs_path / "nominal.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
         # Currently not generating keep-alive events for the full node
@@ -24,7 +24,7 @@ class TestFinishedSignagePointHandler(unittest.TestCase):
             self.assertEqual(len(events), 0, "Not expecting any events")
 
     def testSkippedSignagePoints(self):
-        with open(self.example_logs_path / "skipped.txt") as f:
+        with open(self.example_logs_path / "skipped.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
         expected_messages = [
@@ -51,7 +51,7 @@ class TestFinishedSignagePointHandler(unittest.TestCase):
         It's currently unclear to me why this happens, but it seems to be network-wide issue
         rather than individual node problem. So this test checks that the handler is robust
         to ignoring these events and doesn't generate any false alarms for our node."""
-        with open(self.example_logs_path / "scrambled.txt") as f:
+        with open(self.example_logs_path / "scrambled.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
         for log in logs:
