@@ -15,6 +15,7 @@ class RemoteHarvester:
     """Record of last activity"""
     last_activity: datetime
     peer_hash: str
+    ip_addr: str
 
 class RemoteHarvesterActivity(FarmerConditionChecker):
     """The remote harvesters connected to the farmer_server
@@ -29,35 +30,34 @@ class RemoteHarvesterActivity(FarmerConditionChecker):
 
     def check(self, obj: FarmerServerMessage) -> Optional[Event]:
         #update last_activity
-        is_new_harvester = true
+        is_new_harvester = True
         for i, remote_harvester in enumerate(self._remote_harvesters):
             if remote_harvester.peer_hash == obj.peer_hash:
-                is_new_harvester = false
+                is_new_harvester = False
                 self._remote_harvesters[i].last_activity = obj.timestamp
-                self._remote_harvesters[i].warning_issued = false
-                logging.info(f"Updating Peer Harvester {obj.peer_hash}")
                 break
 
         if is_new_harvester:
-            new_harvester = RemoteHarvester()
-            new_harvester.last_activity = obj.timestamp
-            new_harvester.peer_hash = obj.peer_hash
-            new_harvester.warning_issued = false
+            new_harvester = RemoteHarvester(
+                obj.timestamp,
+                obj.peer_hash,
+                obj.ip_addr
+            )
             self._remote_harvesters.append(new_harvester)
-            logging.info(f"New Peer Harvester {obj.peer_hash}")
+            logging.info(f"New remote harvester: {obj.ip_addr}")
 
 
         event = None
         for i, remote_harvester in enumerate(self._remote_harvesters):
             seconds_since_last = (obj.timestamp - remote_harvester.last_activity).seconds
-            if last_activity > self._warning_threshold:
+            if seconds_since_last > self._warning_threshold:
                 message = (
-                    f"Remote Harvester Offline: {remote_harvester.peer_hash} "
-                    f"did not participate for {seconds_since_last} seconds!."
+                    f"Remote harvester offline: {remote_harvester.ip_addr} "
+                    f"did not participate for {seconds_since_last} seconds!"
                 )
                 logging.warning(message)
                 event = Event(
-                    type=EventType.USER, priority=EventPriority.NORMAL, service=EventService.FARMER, message=message
+                    type=EventType.USER, priority=EventPriority.HIGH, service=EventService.FARMER, message=message
                 )
 
                 # Remove offline harvester

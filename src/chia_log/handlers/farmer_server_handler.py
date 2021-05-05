@@ -37,12 +37,7 @@ class FarmerServerHandler(LogHandler):
         # Create a keep-alive event if any logs indicating
         # activity have been successfully parsed
         if len(activity_messages) > 0:
-            logging.debug(f"Parsed {len(activity_messages)} activity messages")
-            events.append(
-                Event(
-                    type=EventType.KEEPALIVE, priority=EventPriority.NORMAL, service=EventService.FARMER, message=""
-                )
-            )
+            logging.debug(f"Parsed {len(activity_messages)} farmer_server messages")
 
         # Run messages through all condition checkers
         for msg in activity_messages:

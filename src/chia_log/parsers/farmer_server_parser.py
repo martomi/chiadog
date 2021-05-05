@@ -15,6 +15,7 @@ class FarmerServerMessage:
 
     timestamp: datetime
     peer_hash: str
+    ip_addr: str
 
 
 class FarmerServerParser:
@@ -28,7 +29,7 @@ class FarmerServerParser:
         logging.info("Enabled parser for farmer_server activity - peer infos.")
         self._regex = re.compile(
             r"([0-9:.]*) farmer farmer_server\s*: INFO\s* <\- farming_info "
-            r"from peer ([0-9a-z.]*) .*"
+            r"from peer ([0-9a-z.]*) ([0-9\.:a-f]*)"
         )
 
     def parse(self, logs: str) -> List[FarmerServerMessage]:
@@ -45,6 +46,7 @@ class FarmerServerParser:
                 FarmerServerMessage(
                     timestamp=dateutil_parser.parse(match[0]),
                     peer_hash=match[1],
+                    ip_addr=match[2]
                 )
             )
 
