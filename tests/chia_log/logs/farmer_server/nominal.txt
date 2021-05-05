@@ -1,0 +1,8 @@
+2021-05-05T16:02:06.632 farmer farmer_server              : INFO     <- farming_info from peer 20388420 127.0.0.1
+2021-05-05T16:02:06.656 farmer farmer_server              : INFO     <- farming_info from peer ea61688b 192.168.178.22
+2021-05-05T16:02:06.660 farmer farmer_server              : INFO     <- farming_info from peer fe1eb730 178.19.176.201
+2021-05-05T16:02:06.675 farmer farmer_server              : INFO     <- farming_info from peer c3e3eb9a 131.2.211.71
+2021-05-05T16:02:14.938 farmer farmer_server              : INFO     <- farming_info from peer 20388420 127.0.0.1
+2021-05-05T16:02:14.995 farmer farmer_server              : INFO     <- farming_info from peer fe1eb730 178.19.176.201
+2021-05-05T16:02:15.169 farmer farmer_server              : INFO     <- farming_info from peer ea61688b 192.168.178.22
+2021-05-05T16:02:16.951 farmer farmer_server              : INFO     <- farming_info from peer c3e3eb9a 131.2.211.71
