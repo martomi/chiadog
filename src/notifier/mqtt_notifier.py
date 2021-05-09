@@ -16,24 +16,30 @@ class MqttNotifier(Notifier):
         self._password = None
 
         try:
-
             credentials = config["credentials"]
             self._set_config(config)
             self._set_credentials(credentials)
-
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
 
         self._init_mqtt()
 
     def _set_config(self, config: dict):
-
+        """
+        :raises KeyError: If a key in the config doesn't exist
+        :param config: The YAML config for this notifier
+        :returns: None
+        """
         self._topic = config["topic"]
         self._qos: int = config["qos"] if "qos" in config else 0
         self._retain: bool = config["retain"] if "retain" in config else False
 
     def _set_credentials(self, credentials: dict):
-
+        """
+        :raises KeyError: If a key in the config doesn't exist
+        :param config: The YAML config for this notifier
+        :returns: None
+        """
         self._host = credentials["host"]
         self._port: int = credentials["port"]
 
@@ -43,11 +49,9 @@ class MqttNotifier(Notifier):
             self._password = credentials["password"]
 
     def _init_mqtt(self) -> bool:
-
         try:
             client = __import__("paho.mqtt.client", globals(), locals(), ["Client"], 0)
             self._client = client.Client()
-
         except ImportError:
             logging.error(
                 "The Paho MQTT module was not found, please refer to INTEGRATIONS.md for help on resolving"
@@ -69,7 +73,6 @@ class MqttNotifier(Notifier):
         return True
 
     def _on_connect(self, client, userdata, flags, rc):
-
         from paho.mqtt.client import connack_string  # type: ignore
 
         if self._password:
@@ -80,19 +83,16 @@ class MqttNotifier(Notifier):
         logging.info(f"MQTT Connection Status: {connack_string(rc)}")
 
     def _on_disconnect(self, client, userdata, rc):
-
         from paho.mqtt.client import error_string  # type: ignore
 
         logging.warning(f"Disconnected from MQTT: {error_string(rc)}")
         self._client.loop_stop()
 
     def send_events_to_user(self, events: List[Event]) -> bool:
-
         errors = False
 
         try:
             paho = __import__("paho.mqtt.client", globals(), locals(), ["MQTT_ERR_SUCCESS", "MQTT_ERR_NO_CONN"], 0)
-
         except ImportError:
             logging.error(
                 "Message delivery failed because the Paho MQTT module was not found. Please refer to "

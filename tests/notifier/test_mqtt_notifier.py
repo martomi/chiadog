@@ -9,7 +9,6 @@ from .dummy_events import DummyEvents
 
 class TestMqttNotifier(unittest.TestCase):
     def setUp(self) -> None:
-
         host = os.getenv("HOST")
         topic = os.getenv("TOPIC")
         username = os.getenv("MQTT_USERNAME")
