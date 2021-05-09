@@ -26,29 +26,25 @@ class RemoteHarvesterActivity(FarmerConditionChecker):
     def __init__(self):
         logging.info("Enabled check for disappearing remote harvesters.")
         self._warning_threshold = 300
-        self._remote_harvesters = []
+        self._remote_harvesters = {}
 
     def check(self, obj: FarmerServerMessage) -> Optional[Event]:
         #update last_activity
-        is_new_harvester = True
-        for i, remote_harvester in enumerate(self._remote_harvesters):
-            if remote_harvester.peer_hash == obj.peer_hash:
-                is_new_harvester = False
-                self._remote_harvesters[i].last_activity = obj.timestamp
-                break
-
-        if is_new_harvester:
-            new_harvester = RemoteHarvester(
+        if self._remote_harvesters.get(obj.peer_hash, False):
+            self._remote_harvesters[obj.peer_hash].last_activity = obj.timestamp
+            self._remote_harvesters[obj.peer_hash].ip_addr = obj.ip_addr
+        else:
+            self._remote_harvesters[obj.peer_hash] = RemoteHarvester(
                 obj.timestamp,
                 obj.peer_hash,
                 obj.ip_addr
             )
-            self._remote_harvesters.append(new_harvester)
             logging.info(f"New remote harvester: {obj.ip_addr}")
 
 
         event = None
-        for i, remote_harvester in enumerate(self._remote_harvesters):
+        for peer_hash in self._remote_harvesters:
+            remote_harvester = self._remote_harvesters[peer_hash]
             seconds_since_last = (obj.timestamp - remote_harvester.last_activity).seconds
             if seconds_since_last > self._warning_threshold:
                 message = (
@@ -61,7 +57,7 @@ class RemoteHarvesterActivity(FarmerConditionChecker):
                 )
 
                 # Remove offline harvester
-                self._remote_harvesters.pop(i)
+                self._remote_harvesters.pop(peer_hash)
                 break
 
         return event

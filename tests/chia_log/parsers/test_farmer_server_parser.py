@@ -25,9 +25,9 @@ class TestFarmerServerParser(unittest.TestCase):
 
             expected_peer_hashes = ["20388420", "ea61688b", "fe1eb730", "c3e3eb9a",
                                     "20388420", "fe1eb730", "ea61688b", "c3e3eb9a"]
-            expected_ip_addresses = ["127.0.0.1", "192.168.178.22", "178.19.176.201",
-                                    "131.2.211.71", "127.0.0.1", "178.19.176.201",
-                                    "192.168.178.22", "131.2.211.71"]
+            expected_ip_addresses = ["127.0.0.1", "192.168.178.255", "255.255.255.255",
+                                    "100.100.100.100", "127.0.0.1", "255.255.255.255",
+                                    "192.168.178.255", "100.100.100.100"]
 
             for msg, peer_hash, ip_addr in zip(
                 activity_messages,

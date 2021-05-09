@@ -20,12 +20,12 @@ class TestFarmerServerHandler(unittest.TestCase):
             events = self.handler.handle(log)
             self.assertEqual(len(events), 0, "Not expecting any events")
 
-    def testSkippedSignagePoints(self):
+    def testDisconnectedHarvester(self):
         with open(self.example_logs_path / "disappearing_harvester.txt") as f:
             logs = f.readlines()
 
         expected_messages = [
-            "Remote harvester offline: 178.19.176.201 did not participate for 385 seconds!",
+            "Remote harvester offline: 255.255.255.255 did not participate for 385 seconds!",
         ]
 
         checked = 0
