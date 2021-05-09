@@ -29,9 +29,17 @@ class SearchTimeStats(HarvesterActivityConsumer, StatAccumulator):
             self._over_15_seconds += 1
 
     def get_summary(self) -> str:
+
+        pct_over_5seconds: float = 0
+        pct_over_15seconds: float = 0
+
+        if self._num_measurements > 0:
+            pct_over_5seconds = self._over_5_seconds / self._num_measurements * 100
+            pct_over_15seconds = self._over_15_seconds / self._num_measurements * 100
+
         return (
             f"Search 🔍: \n"
-            f"\t - average: {self._avg_time_seconds:0.2f}s average\n"
-            f"\t - over 5s: {self._over_5_seconds} occasions\n"
-            f"\t - over 15s: {self._over_15_seconds} occasions"
+            f"\t - average: {self._avg_time_seconds:0.2f}s over {self._num_measurements} searches\n"
+            f"\t - over 5s: {self._over_5_seconds} occasions ({pct_over_5seconds:0.1f}%)\n"
+            f"\t - over 15s: {self._over_15_seconds} occasions ({pct_over_15seconds:0.1f}%)"
         )
