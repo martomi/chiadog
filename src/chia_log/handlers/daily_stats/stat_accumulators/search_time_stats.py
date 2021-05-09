@@ -39,7 +39,7 @@ class SearchTimeStats(HarvesterActivityConsumer, StatAccumulator):
 
         return (
             f"Search 🔍: \n"
-            f"\t - average: {self._avg_time_seconds:0.2f}s average over {self._num_measurements} searches\n"
+            f"\t - average: {self._avg_time_seconds:0.2f}s over {self._num_measurements} searches\n"
             f"\t - over 5s: {self._over_5_seconds} occasions ({pct_over_5seconds:0.1f}%)\n"
             f"\t - over 15s: {self._over_15_seconds} occasions ({pct_over_15seconds:0.1f}%)"
         )
