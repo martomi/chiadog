@@ -51,7 +51,6 @@ class LogConsumer(ABC):
 
 
 class FileLogConsumer(LogConsumer):
-
     def __init__(self, log_path: Path):
         super().__init__()
         self._log_path = log_path
@@ -110,7 +109,6 @@ class WindowsFileLogConsumer(FileLogConsumer):
             self._notify_subscribers(log_line)
 
     def _has_rotated(self, path: str) -> bool:
-
         try:
             old_size = self._log_size
             self._log_size = os.path.getsize(path)
@@ -186,7 +184,6 @@ class WindowsNetworkLogConsumer(NetworkLogConsumer):
             self._notify_subscribers(log_line)
 
     def _has_rotated(self, path: str) -> bool:
-
         stdin, stdout, stderr = self._ssh_client.exec_command(f"Write-Host((Get-Item {path}).length")
 
         old_size = self._log_size
