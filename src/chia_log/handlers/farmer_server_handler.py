@@ -34,6 +34,12 @@ class FarmerServerHandler(LogHandler):
 
         if len(activity_messages) > 0:
             logging.debug(f"Parsed {len(activity_messages)} farmer_server messages")
+            events.append(
+                # EventService.HARVESTER because this keepalive is indicating a harvester activity
+                Event(
+                    type=EventType.KEEPALIVE, priority=EventPriority.NORMAL, service=EventService.HARVESTER, message=""
+                )
+            )
 
         # Run messages through all condition checkers
         for msg in activity_messages:
