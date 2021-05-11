@@ -5,6 +5,7 @@ config.*.yaml
 # dev files
 .idea
 venv
+.mypy_cache
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

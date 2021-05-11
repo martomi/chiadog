@@ -168,23 +168,26 @@ def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
 
     if enabled_consumer == "network_log_consumer":
         if not check_keys(
-            required_keys=["remote_file_path", "remote_host", "remote_port", "remote_user"],
+            required_keys=["remote_file_path", "remote_host", "remote_user"],
             config=enabled_consumer_config,
         ):
             return None
+
+        # default SSH Port : 22
+        remote_port = enabled_consumer_config["remote_port"] if "remote_port" in enabled_consumer_config else 22
 
         platform, path = get_host_info(
             enabled_consumer_config["remote_host"],
             enabled_consumer_config["remote_user"],
             enabled_consumer_config["remote_file_path"],
-            enabled_consumer_config["remote_port"],
+            remote_port,
         )
 
         return NetworkLogConsumer(
             remote_log_path=path,
             remote_host=enabled_consumer_config["remote_host"],
             remote_user=enabled_consumer_config["remote_user"],
-            remote_port=enabled_consumer_config["remote_port"],
+            remote_port=remote_port,
             remote_platform=platform,
         )
 
