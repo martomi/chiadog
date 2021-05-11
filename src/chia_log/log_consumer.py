@@ -82,18 +82,21 @@ class FileLogConsumer(LogConsumer):
 class NetworkLogConsumer(LogConsumer):
     """Consume logs over the network"""
 
-    def __init__(self, remote_log_path: PurePath, remote_user: str, remote_host: str, remote_platform: OS):
+    def __init__(
+        self, remote_log_path: PurePath, remote_user: str, remote_host: str, remote_port: int, remote_platform: OS
+    ):
         logging.info("Enabled network log consumer.")
         super().__init__()
 
         self._remote_user = remote_user
         self._remote_host = remote_host
+        self._remote_port = remote_port
         self._remote_log_path = remote_log_path
         self._remote_platform = remote_platform
 
         self._ssh_client = paramiko.client.SSHClient()
         self._ssh_client.load_system_host_keys()
-        self._ssh_client.connect(hostname=self._remote_host, username=self._remote_user)
+        self._ssh_client.connect(hostname=self._remote_host, username=self._remote_user, port=self._remote_port)
 
         # Start thread
         self._is_running = True
@@ -106,7 +109,8 @@ class NetworkLogConsumer(LogConsumer):
 
     def _consume_loop(self):
         logging.info(
-            f"Consuming remote log file {self._remote_log_path} from {self._remote_host} ({self._remote_platform})"
+            f"Consuming remote log file {self._remote_log_path}"
+            + f" from {self._remote_host}:{self._remote_port} ({self._remote_platform})"
         )
 
         if self._remote_platform == OS.WINDOWS:
@@ -121,11 +125,11 @@ class NetworkLogConsumer(LogConsumer):
             self._notify_subscribers(log_line)
 
 
-def get_host_info(host: str, user: str, path: str) -> Tuple[OS, PurePath]:
+def get_host_info(host: str, user: str, path: str, port: int) -> Tuple[OS, PurePath]:
 
     client = paramiko.client.SSHClient()
     client.load_system_host_keys()
-    client.connect(hostname=host, username=user)
+    client.connect(hostname=host, username=user, port=port)
 
     stdin, stdout, stderr = client.exec_command("uname -a")
     fout: str = stdout.readline().lower()
@@ -164,20 +168,26 @@ def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
 
     if enabled_consumer == "network_log_consumer":
         if not check_keys(
-            required_keys=["remote_file_path", "remote_host", "remote_user"], config=enabled_consumer_config
+            required_keys=["remote_file_path", "remote_host", "remote_user"],
+            config=enabled_consumer_config,
         ):
             return None
+
+        # default SSH Port : 22
+        remote_port = enabled_consumer_config.get("remote_port", 22)
 
         platform, path = get_host_info(
             enabled_consumer_config["remote_host"],
             enabled_consumer_config["remote_user"],
             enabled_consumer_config["remote_file_path"],
+            remote_port,
         )
 
         return NetworkLogConsumer(
             remote_log_path=path,
             remote_host=enabled_consumer_config["remote_host"],
             remote_user=enabled_consumer_config["remote_user"],
+            remote_port=remote_port,
             remote_platform=platform,
         )
 
