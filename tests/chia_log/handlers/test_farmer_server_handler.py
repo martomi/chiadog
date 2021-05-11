@@ -18,25 +18,32 @@ class TestFarmerServerHandler(unittest.TestCase):
 
         for log in logs:
             events = self.handler.handle(log)
-            self.assertEqual(len(events), 0, "Not expecting any events")
+            self.assertEqual(len(events), 1, "Only expecting 1 event for keep-alive")
+            self.assertEqual(events[0].type, EventType.KEEPALIVE, "Unexpected type")
+            self.assertEqual(events[0].priority, EventPriority.NORMAL, "Unexpected priority")
+            self.assertEqual(events[0].service, EventService.HARVESTER, "Unexpected service")
 
     def testDisconnectedHarvester(self):
         with open(self.example_logs_path / "disappearing_harvester.txt") as f:
             logs = f.readlines()
 
-        expected_messages = [
-            "Remote harvester offline: 255.255.255.255 did not participate for 385 seconds!",
-        ]
+        expected_message = "Remote harvester offline: 255.255.255.255 did not participate for 385 seconds!"
+        expected_number_events = [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1]
 
         checked = 0
-        for log in logs:
+        for log, number_events in zip(logs, expected_number_events):
             events = self.handler.handle(log)
             if len(events) > 0:
-                self.assertEqual(len(events), 1, "Expected a single event")
-                self.assertEqual(events[0].type, EventType.USER, "Unexpected type")
-                self.assertEqual(events[0].priority, EventPriority.HIGH, "Unexpected priority")
-                self.assertEqual(events[0].service, EventService.FARMER, "Unexpected service")
-                self.assertEqual(events[0].message, expected_messages[checked], "Unexpected message")
+                print(len(events))
+                self.assertEqual(len(events), number_events, "Unexpected number of events")
+                self.assertEqual(events[0].type, EventType.KEEPALIVE, "Unexpected type")
+                self.assertEqual(events[0].priority, EventPriority.NORMAL, "Unexpected priority")
+                self.assertEqual(events[0].service, EventService.HARVESTER, "Unexpected service")
+                if len(events) == 2:
+                    self.assertEqual(events[1].type, EventType.USER, "Unexpected type")
+                    self.assertEqual(events[1].priority, EventPriority.HIGH, "Unexpected priority")
+                    self.assertEqual(events[1].service, EventService.FARMER, "Unexpected service")
+                    self.assertEqual(events[1].message, expected_message, "Unexpected message")
                 checked += 1
 
 
