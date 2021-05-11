@@ -6,6 +6,7 @@ from typing import List
 # project
 from . import Event, Notifier
 from .keep_alive_monitor import KeepAliveMonitor
+from .mqtt_notifier import MqttNotifier
 from .pushover_notifier import PushoverNotifier
 from .script_notifier import ScriptNotifier
 from .smtp_notifier import SMTPNotifier
@@ -37,6 +38,7 @@ class NotifyManager:
             "discord": DiscordNotifier,
             "smtp": SMTPNotifier,
             "slack": SlackNotifier,
+            "mqtt": MqttNotifier,
         }
         for key in self._config.keys():
             if key not in key_notifier_mapping.keys():
