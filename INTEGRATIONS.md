@@ -83,4 +83,42 @@ Test with:
 python3 -m unittest tests.notifier.test_script_notifier
 ```
 
+## MQTT
 
+This integration uses the [Paho MQTT](https://pypi.org/project/paho-mqtt/) client to send JSON-formatted messages to
+a remote MQTT broker. The integration allows using optional username/password verification. Instructions on setting 
+up an MQTT broker can be found 
+[here](https://www.vultr.com/docs/how-to-install-mosquitto-mqtt-broker-server-on-ubuntu-16-04). 
+
+Messages sent to the MQTT topic look like this:
+
+`{"type": "USER", "prio": "HIGH", "msg": "Disconnected HDD? The total plot count decreased from 70 to 0"}`
+
+*Important:* In order for the MQTT Notifier to work, you will need to manually install the `paho-mqtt` module:
+
+`pip3 install paho-mqtt`
+
+Test with:
+
+```
+HOST=<hostname> PORT=<port> TOPIC=<mqtt_topic> python3 -m unittest tests.notifier.test_mqtt_notifier 
+```
+
+Or with full parameters:
+
+```
+HOST=<hostname> PORT=<port> TOPIC=<mqtt_topic> MQTT_USERNAME=<username> MQTT_PASSWORD=<password> 
+QOS=<quality_of_service> RETAIN=<retain> python3 -m unittest tests.notifier.test_mqtt_notifier
+```
+
+## Unit Testing on Windows
+
+When running unit tests on Windows, you will want to use PowerShell to set environment variables like this:
+
+```
+$env:PUSHOVER_API_TOKEN=<api_token>
+$env:PUSHOVER_USER_KEY=<user_key>
+python.exe -m unittest tests.notifier.test_pushover_notifier
+Remove-Item Env:\PUSHOVER_API_TOKEN
+Remove-Item Env:\PUSHOVER_USER_KEY
+```
