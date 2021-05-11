@@ -18,7 +18,7 @@ chia_logs:
     remote_file_path: '~/.chia/mainnet/log/debug.log'
     remote_host: "192.168.0.100"
     remote_user: "chia"
-    #remote_port: 22 # Enable and modify to use non-default SSH port
+    remote_port: 22
 
 # Enable this and chiadog will ping a remote server every 5 minutes
 # That way you can know that the monitoring is running as expected
