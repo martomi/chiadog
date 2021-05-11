@@ -174,7 +174,7 @@ def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
             return None
 
         # default SSH Port : 22
-        remote_port = enabled_consumer_config["remote_port"] if "remote_port" in enabled_consumer_config else 22
+        remote_port = enabled_consumer_config.get("remote_port", 22)
 
         platform, path = get_host_info(
             enabled_consumer_config["remote_host"],
