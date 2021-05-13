@@ -1,5 +1,9 @@
 # Installing Chiadog on Windows
 
+> This is still considered **experimental**. If you have any issues please report
+> them after browsing the existing issues
+> [labeled with bug](https://github.com/martomi/chiadog/labels/bug) to avoid duplicates.
+
 ## Pre-requisites
 
 - Linux, MacOS & Windows
