@@ -31,8 +31,15 @@ class MqttNotifier(Notifier):
         :returns: None
         """
         self._topic = config["topic"]
-        self._qos: int = config["qos"] if "qos" in config else 0
-        self._retain: bool = config["retain"] if "retain" in config else False
+        self._qos: int = config.get("qos", 0)
+        self._retain: bool = config.get("retain", False)
+
+        if self._qos not in [0, 1, 2]:
+            logging.warning(
+                "QoS level must be set to 0 (At most once), 1 (at least once) or 2 (Exactly once). "
+                "QoS was reset to default (0)"
+            )
+            self._qos = 0
 
     def _set_credentials(self, credentials: dict):
         """
