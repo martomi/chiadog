@@ -20,9 +20,10 @@ class TestCalculateSkippedSignagePoints(unittest.TestCase):
 
     def testNoSkips(self):
         for i in range(1, self.number):
-            skipped = calculate_skipped_signage_points(
+            valid, skipped = calculate_skipped_signage_points(
                 prev_ts=self.timestamps[i - 1], prev_id=self.ids[i - 1], curr_ts=self.timestamps[i], curr_id=self.ids[i]
             )
+            self.assertTrue(valid)
             self.assertEqual(skipped, 0)
 
     def testSingleSkips(self):
@@ -35,10 +36,15 @@ class TestCalculateSkippedSignagePoints(unittest.TestCase):
                 skip_ids.append(self.ids[i])
 
         total_skipped = 0
+        all_valid = True
         for i in range(1, len(skip_ids)):
-            total_skipped += calculate_skipped_signage_points(
+            valid, skips = calculate_skipped_signage_points(
                 prev_ts=skip_tss[i - 1], prev_id=skip_ids[i - 1], curr_ts=skip_tss[i], curr_id=skip_ids[i]
             )
+            all_valid = all_valid and valid
+            total_skipped += skips
+
+        self.assertTrue(all_valid)
         self.assertEqual(len(skip_indices), total_skipped)
 
     def testMultipleSkipsInRow(self):
@@ -51,10 +57,15 @@ class TestCalculateSkippedSignagePoints(unittest.TestCase):
                 skip_ids.append(self.ids[i])
 
         total_skipped = 0
+        all_valid = True
         for i in range(1, len(skip_ids)):
-            total_skipped += calculate_skipped_signage_points(
+            valid, skips = calculate_skipped_signage_points(
                 prev_ts=skip_tss[i - 1], prev_id=skip_ids[i - 1], curr_ts=skip_tss[i], curr_id=skip_ids[i]
             )
+            all_valid = all_valid and valid
+            total_skipped += skips
+
+        self.assertTrue(all_valid)
         self.assertEqual(len(skip_indices), total_skipped)
 
     def testMultiRolloverSkip(self):
@@ -67,10 +78,15 @@ class TestCalculateSkippedSignagePoints(unittest.TestCase):
                 skip_ids.append(self.ids[i])
 
         total_skipped = 0
+        all_valid = True
         for i in range(1, len(skip_ids)):
-            total_skipped += calculate_skipped_signage_points(
+            valid, skips = calculate_skipped_signage_points(
                 prev_ts=skip_tss[i - 1], prev_id=skip_ids[i - 1], curr_ts=skip_tss[i], curr_id=skip_ids[i]
             )
+            all_valid = all_valid and valid
+            total_skipped += skips
+
+        self.assertTrue(all_valid)
         self.assertEqual(len(skip_indices), total_skipped)
 
 
