@@ -7,6 +7,36 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.5.0] - 2021-05-13
+
+### Added
+
+- Daily Stats: Now include total searches and the percentage of slow seeks
+  (thanks [@pieterhelsen](https://github.com/pieterhelsen))
+- (Optional) Notification for received rewards / coins. You need to migrate your `config.yaml` by
+  adding `wallet_events: true` to your notifiers. See the `config-example.yaml` for reference.
+- (Optional) Integrations: MQTT Notifier (thanks [@pieterhelsen](https://github.com/pieterhelsen))
+- (Optional) Custom SSH port for remote monitoring. See `config-example.yaml` for example.
+  (thanks [@turekjiri](https://github.com/turekjiri))
+- More detailed instructions for setting up on [Windows](https://github.com/martomi/chiadog/blob/dev/WINDOWS.md)
+  (thanks [@pieterhelsen](https://github.com/pieterhelsen)). Windows support is still considered experimental. There's a
+  known issue about [possible offline harvester notifications](https://github.com/martomi/chiadog/issues/72).
+- Check for required Python version in the install script (thanks [@pieterhelsen](https://github.com/pieterhelsen))
+
+### Changed
+
+- Logs about out-of-order signage points are now moved to DEBUG log level. This will declutter the logs from events that
+  are expected when the blockchain experiences a fork and a block is reversed.
+
+### Fixed
+
+- Wrongly detected skipped signage points caused as a consequence of out-of-order events. The previous signage point ID
+  is now reset when this happens and correct tracking is resumed.
+- Remote monitoring from Windows machine to Linux machine or vice-versa. (
+  thanks [@pieterhelsen](https://github.com/pieterhelsen))
+- Unit tests on Windows (now UTF-8 encoding is explicitly specified -
+  thanks [@pieterhelsen](https://github.com/pieterhelsen))
+
 ## [0.4.1] - 2021-04-27
 
 ### Added
@@ -98,7 +128,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Adds basic condition checks for harvester operations.
 - Adds integration for Pushover (mobile notifications).
 
-[Unreleased]: https://github.com/martomi/chiadog/compare/v0.4.1...dev
+[Unreleased]: https://github.com/martomi/chiadog/compare/v0.5.0...dev
+
+[0.5.0]: https://github.com/martomi/chiadog/releases/tag/v0.5.0
 
 [0.4.1]: https://github.com/martomi/chiadog/releases/tag/v0.4.1
 
