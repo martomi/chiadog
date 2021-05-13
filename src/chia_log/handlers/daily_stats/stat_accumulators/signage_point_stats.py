@@ -24,9 +24,17 @@ class SignagePointStats(FinishedSignageConsumer, StatAccumulator):
             self._last_signage_point = obj.signage_point
             return
 
-        skips = calculate_skipped_signage_points(
+        valid, skips = calculate_skipped_signage_points(
             self._last_signage_point_timestamp, self._last_signage_point, obj.timestamp, obj.signage_point
         )
+
+        if not valid:
+            # Reset state when we receive non-valid order of signage points
+            # this ensures that we aren't sending any wrongly calculated skips
+            self._last_signage_point_timestamp = None
+            self._last_signage_point = None
+            return
+
         self._skips_total += skips
         self._total += 1
 
