@@ -50,6 +50,7 @@ You may use one (or more) of the following integrations to receive notifications
 | Discord | Quick & easy setup. | Free |
 | Telegram | Quick & easy setup. | Free |
 | Shell script (beta) | Execute anything in your own script. | Free |
+| MQTT | Well-suited for Home Automation. | Free | 
 
 For detailed guide on how to test and configure, please refer to [INTEGRATIONS.md](INTEGRATIONS.md).
 
