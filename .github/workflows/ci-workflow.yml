@@ -4,8 +4,6 @@
 name: CI Workflow
 
 on:
-  push:
-    branches: [ dev ]
   pull_request:
     branches: [ dev ]
 
@@ -50,3 +48,6 @@ jobs:
     - name: Type Check with MyPy
       run: |
         mypy src tests
+    - name: Unit Tests
+      run: |
+        python -m unittest
