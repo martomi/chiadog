@@ -66,8 +66,10 @@ class MqttNotifier(Notifier):
         if self._username and self._password:
             self._client.username_pw_set(self._username, self._password)
         else:
-            logging.warning("You did not provide a username and password for connecting to the MQTT Broker. "
-                            "This might be indicative of a misconfigured config file")
+            logging.warning(
+                "You did not provide a username and password for connecting to the MQTT Broker. "
+                "This might be indicative of a misconfigured config file"
+            )
 
         self._client.connect(self._host, self._port)
         self._client.reconnect_delay_set()
