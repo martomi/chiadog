@@ -1,6 +1,6 @@
-21:12:19.231 wallet chia.wallet.wallet_state_manager: INFO     Adding coin: {'amount': '250000000000',
+21:12:19.231 wallet chia.wallet.wallet_state_manager: INFO     Adding coin: {'amount': 250000000000,
  'parent_coin_info': '0x3333333333333333333333333333333333333333333333333333333333333333',
  'puzzle_hash': '0x1111111111111111111111111111111111111111111111111111111111111111'} at 424242
-21:12:19.235 wallet chia.wallet.wallet_state_manager: INFO     Adding coin: {'amount': '1750000000000',
+21:12:19.235 wallet chia.wallet.wallet_state_manager: INFO     Adding coin: {'amount': 1750000000000,
  'parent_coin_info': '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
  'puzzle_hash': '0x1fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'} at 424242
