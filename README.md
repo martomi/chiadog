@@ -63,8 +63,9 @@ For detailed guide on how to test and configure, please refer to [INTEGRATIONS.m
 - [Git](https://git-scm.com/downloads)
 - Enabled `INFO` logs on your chia farmer
 
-The instructions below are specific to Linux and MacOS, for installing `chiadog` on Windows, please refer
-to this separate [README](WINDOWS.md) section.
+The instructions below are specific to **Linux and MacOS**. For installing `chiadog` on **Windows**, please refer
+to this separate [README](WINDOWS.md) section. For installing `chiadog` using **Docker**, please refer to this separate
+[README](DOCKER.md) section.
 
 ### How to enable INFO logs on chia farmer?
 
