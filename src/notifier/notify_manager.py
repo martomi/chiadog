@@ -1,7 +1,7 @@
 # std
 import logging
 import time
-from typing import List
+from typing import List, Dict
 
 # project
 from . import Event, Notifier
@@ -25,7 +25,7 @@ class NotifyManager:
     def __init__(self, config: Config, keep_alive_monitor: KeepAliveMonitor):
         self._keep_alive_monitor = keep_alive_monitor
         self._keep_alive_monitor.set_notify_manager(self)
-        self._notifiers: dict[str, Notifier] = {}
+        self._notifiers: Dict[str, Notifier] = {}
         self._config = config.get_notifier_config()
         self._notification_title_prefix = config.get_config()["notification_title_prefix"]
         self._initialize_notifiers()
