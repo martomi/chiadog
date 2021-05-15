@@ -6,29 +6,29 @@
 
 ## Pre-requisites
 
-- Linux, MacOS & Windows
+- Windows / Windows + WSL(Ubuntu)
 - [Python 3.7+](https://www.python.org/downloads/windows/)
 - [Git](https://git-scm.com/downloads)
 - Enabled `INFO` logs on your chia farmer
 
 This guide contains instructions on how to set up a **local** `chiadog` consumer on Windows.
-If you are looking for instructions on how to set up remote monitoring on a Windows machine, 
-please refer to [this article](/wiki/Monitoring-Multiple-Harvesters) 
+If you are looking for instructions on how to set up remote monitoring on a Windows machine,
+please refer to [this article](/wiki/Monitoring-Multiple-Harvesters)
 instead.
 
-Looking for installation instructions for Linux or MacOS? Head over to the 
+Looking for installation instructions for Linux or MacOS? Head over to the
 general [README](README.md).
 
 ## How to enable INFO logs on chia farmer?
 
-First we'll set Chia's log level to `INFO`. This ensures that all logs necessary for `chiadog` to operate 
+First we'll set Chia's log level to `INFO`. This ensures that all logs necessary for `chiadog` to operate
 are available under `C:\Users\[YOUR-USER]\.chia\mainnet\log\debug.log`.
 
 1. Open the file `C:\Users\[YOUR-USER]\.chia\mainnet\config\config.yaml` in your favorite text editor
 2. Find the line that reads `log_level: DEBUG` (under the `farmer` section) and change this to `log_level: INFO`
 3. Restart the GUI or run `chia start --restart farmer` from the command line
 
-## Installation
+## 1.1 Installation (Powershell)
 
 _For updating from previous version, see section below._
 
@@ -52,12 +52,50 @@ python.exe -m venv venv
 . .\venv\Scripts\activate
 ```
 
-**Note**: if you get an error saying 'The term 'python.exe' is not recognized' or 'Python was not found', change 
-`python.exe` in the last line of the above code block to `py.exe` or `python3.exe`. 
-If none of these work, it is likely that Python was not installed on your system. Refer to 
-[this website](https://www.python.org/downloads/windows/) in order to download the latest version. 
+## 1.2 Installation (WSL+Ubuntu)
 
-4. Update `pip` package manager and install `chiadog` dependencies 
+Reminder: `INFO` level log in Chia must be enabled (`chia configure -log-level=INFO`)
+
+1. Open `WSL-Ubuntu`
+
+```
+   git clone https://github.com/martomi/chiadog.git
+   cd chiadog
+```
+
+2. Run the install script.
+
+```
+./install.sh
+```
+
+3. Copy the example config file
+
+```
+cp config-example.yaml config.yaml
+```
+
+4.  Open up `config.yaml` in your editor
+
+    4.1 Set chia log location:
+
+    ```yaml
+    chia_logs:
+      file_log_consumer:
+      enable: true
+      file_path: "/mnt/c/Users/<user-name>/.chia/mainnet/log/debug.log"
+    ```
+
+    4.2 configure it to your preferences for notification services(same as OSX/Ubuntu)
+
+---
+
+**Note**: if you get an error saying 'The term 'python.exe' is not recognized' or 'Python was not found', change
+`python.exe` in the last line of the above code block to `py.exe` or `python3.exe`.
+If none of these work, it is likely that Python was not installed on your system. Refer to
+[this website](https://www.python.org/downloads/windows/) in order to download the latest version.
+
+4. Update `pip` package manager and install `chiadog` dependencies
 
 ```
 # Update pip3 to latest version
@@ -77,7 +115,7 @@ deactivate
 cp config-example.yaml config.yaml
 ```
 
-6. Open up the newly created `config.yaml` in your favorite text editor and configure it 
+6. Open up the newly created `config.yaml` in your favorite text editor and configure it
    to your preferences.
 
 ## Updating to the latest release
@@ -103,17 +141,18 @@ pip3 install -r requirements.txt
 deactivate
 ```
 
-> Important: Automated migration of config is not supported. Please check that your `config.yaml` has all new 
-> fields introduced in `config-example.yaml` and add anything missing. If correctly migrated, you shouldn't get 
+> Important: Automated migration of config is not supported. Please check that your `config.yaml` has all new
+> fields introduced in `config-example.yaml` and add anything missing. If correctly migrated, you shouldn't get
 > any ERROR logs.
 
 ## Monitoring a local harvester / farmer
 
 1. Open `config.yaml` and configure `file_log_consumer`:
+
    - You need to enable the file log consumer to read local chia log files
    - Double-check that the path to your chia logs is correct
-   - The file path to the log file on Windows needs to be specified in full. 
-     E.g. `C:\Users\[YOUR-USER]\.chia\mainnet\log\debug.log` 
+   - The file path to the log file on Windows needs to be specified in full.
+     E.g. `C:\Users\[YOUR-USER]\.chia\mainnet\log\debug.log`
 
 2. From PowerShell, activate the virtual environment and start `chiadog`
 
@@ -135,6 +174,7 @@ Detected new plots. Farming with 42 plots.
 ```
 
 ## Monitoring a remote harvester
-Chiadog allows you to monitor multiple remote harvesters while running chiadog on a separate machine. 
+
+Chiadog allows you to monitor multiple remote harvesters while running chiadog on a separate machine.
 Please refer to the Wiki article on [Monitoring Remote Harvesters](/wiki/Monitoring-Multiple-Harvesters)
 for more information on how to set this up.
