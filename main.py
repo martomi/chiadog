@@ -43,6 +43,7 @@ def get_log_level(log_level: str) -> int:
     logging.warning(f"Unsupported log level: {log_level}. Fallback to INFO level.")
     return logging.INFO
 
+
 def init(config:Config):
     log_level = get_log_level(config.get_log_level_config())
     logging.basicConfig(
@@ -50,6 +51,8 @@ def init(config:Config):
         level=log_level,
         datefmt="%Y-%m-%d %H:%M:%S",
     )
+
+    logging.info(f"Starting Chiadog ({version()})")
 
     # Create log consumer based on provided configuration
     chia_logs_config = config.get_chia_logs_config()
@@ -93,7 +96,8 @@ def init(config:Config):
 
 def version():
     command_args = ["git", "describe", "--tags"]
-    subprocess.Popen(command_args, stdout=sys.stdout, stderr=sys.stderr).communicate()
+    f = subprocess.Popen(command_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    return f.stdout.readline().decode(encoding="utf-8").rstrip()
 
 
 if __name__ == "__main__":
@@ -104,7 +108,7 @@ if __name__ == "__main__":
         conf = Config(Path(args.config))
         init(conf)
     elif args.version:
-        version()
+        print(version())
     else:
         print('Chiadog requires a positional argument --config')
         argparse.print_usage()
