@@ -2,10 +2,15 @@
 import argparse
 import logging
 import signal
+import subprocess
+import sys
 import time
+from argparse import Namespace, ArgumentParser
 from pathlib import Path
 
 # project
+from typing import Tuple
+
 from src.chia_log.handlers.daily_stats.stats_manager import StatsManager
 from src.chia_log.log_consumer import create_log_consumer_from_config
 from src.chia_log.log_handler import LogHandler
@@ -14,12 +19,13 @@ from src.notifier.keep_alive_monitor import KeepAliveMonitor
 from src.notifier.notify_manager import NotifyManager
 
 
-def parse_arguments():
+def parse_arguments() -> Tuple[ArgumentParser, Namespace]:
     parser = argparse.ArgumentParser(
         description="ChiaFarmWatch: Watch your crops " "with a piece in mind for the yield."
     )
-    parser.add_argument("--config", required=True, type=str, help="path to config.yaml")
-    return parser.parse_args()
+    parser.add_argument("--config", required=False, type=str, help="path to config.yaml")
+    parser.add_argument("--version", required=False, action='store_true')
+    return parser, parser.parse_args()
 
 
 def get_log_level(log_level: str) -> int:
@@ -37,11 +43,7 @@ def get_log_level(log_level: str) -> int:
     logging.warning(f"Unsupported log level: {log_level}. Fallback to INFO level.")
     return logging.INFO
 
-
-if __name__ == "__main__":
-    # Parse config and configure logger
-    args = parse_arguments()
-    config = Config(Path(args.config))
+def init(config:Config):
     log_level = get_log_level(config.get_log_level_config())
     logging.basicConfig(
         format="[%(asctime)s] [%(levelname)8s] --- %(message)s (%(filename)s:%(lineno)s)",
@@ -87,3 +89,22 @@ if __name__ == "__main__":
                 pass
     else:
         signal.pause()
+
+
+def version():
+    command_args = ["git", "describe", "--tags"]
+    subprocess.Popen(command_args, stdout=sys.stdout, stderr=sys.stderr).communicate()
+
+
+if __name__ == "__main__":
+    # Parse config and configure logger
+    argparse, args = parse_arguments()
+
+    if args.config:
+        conf = Config(Path(args.config))
+        init(conf)
+    elif args.version:
+        version()
+    else:
+        print('Chiadog requires a positional argument --config')
+        argparse.print_usage()
