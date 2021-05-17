@@ -7,6 +7,18 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.5.1] - 2021-05-17
+
+The purpose of this minor release is to get out a few fixes. No new features in this release.
+
+### Fixed
+
+- Another fix for handling of signage points around network forks. Should further reduce false-alarm notifications.
+- Correctly parse number of eligible plots when larger than 9 (thanks [@ctrlaltdel](https://github.com/ctrlaltdel))
+- Correctly parse added coin events and send out reward notifications (thanks [@skweee](https://github.com/skweee))
+- Check potential out-of-bound config values for MQTT integration
+  (thanks [@pieterhelsen](https://github.com/pieterhelsen))
+
 ## [0.5.0] - 2021-05-13
 
 ### Added
@@ -128,7 +140,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Adds basic condition checks for harvester operations.
 - Adds integration for Pushover (mobile notifications).
 
-[Unreleased]: https://github.com/martomi/chiadog/compare/v0.5.0...dev
+[Unreleased]: https://github.com/martomi/chiadog/compare/v0.5.1...dev
+
+[0.5.1]: https://github.com/martomi/chiadog/releases/tag/v0.5.1
 
 [0.5.0]: https://github.com/martomi/chiadog/releases/tag/v0.5.0
 
