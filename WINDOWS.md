@@ -28,7 +28,7 @@ are available under `C:\Users\[YOUR-USER]\.chia\mainnet\log\debug.log`.
 2. Find the line that reads `log_level: DEBUG` (under the `farmer` section) and change this to `log_level: INFO`
 3. Restart the GUI or run `chia start --restart farmer` from the command line
 
-## 1.1 Installation (Powershell)
+## 1.1 Powershell(Native) Installation
 
 _For updating from previous version, see section below._
 
@@ -52,7 +52,35 @@ python.exe -m venv venv
 . .\venv\Scripts\activate
 ```
 
-## 1.2 Installation (WSL+Ubuntu)
+**Note**: if you get an error saying 'The term 'python.exe' is not recognized' or 'Python was not found', change
+`python.exe` in the last line of the above code block to `py.exe` or `python3.exe`.
+If none of these work, it is likely that Python was not installed on your system. Refer to
+[this website](https://www.python.org/downloads/windows/) in order to download the latest version.
+
+4. Update `pip` package manager and install `chiadog` dependencies
+
+```
+# Update pip3 to latest version
+python.exe -m pip install --upgrade pip
+
+# Install dependencies
+pip3 install wheel
+pip3 install -r requirements.txt
+
+# Deactivate the virtual environment again
+deactivate
+```
+
+5. Make a copy of the example config file
+
+```
+cp config-example.yaml config.yaml
+```
+
+6. Open up the newly created `config.yaml` in your favorite text editor and configure it
+   to your preferences.
+
+## 1.2 WSL(Ubuntu) Installation
 
 Reminder: `INFO` level log in Chia must be enabled (`chia configure -log-level=INFO`)
 
@@ -89,34 +117,6 @@ cp config-example.yaml config.yaml
     4.2 configure it to your preferences for notification services(same as OSX/Ubuntu)
 
 ---
-
-**Note**: if you get an error saying 'The term 'python.exe' is not recognized' or 'Python was not found', change
-`python.exe` in the last line of the above code block to `py.exe` or `python3.exe`.
-If none of these work, it is likely that Python was not installed on your system. Refer to
-[this website](https://www.python.org/downloads/windows/) in order to download the latest version.
-
-4. Update `pip` package manager and install `chiadog` dependencies
-
-```
-# Update pip3 to latest version
-python.exe -m pip install --upgrade pip
-
-# Install dependencies
-pip3 install wheel
-pip3 install -r requirements.txt
-
-# Deactivate the virtual environment again
-deactivate
-```
-
-5. Make a copy of the example config file
-
-```
-cp config-example.yaml config.yaml
-```
-
-6. Open up the newly created `config.yaml` in your favorite text editor and configure it
-   to your preferences.
 
 ## Updating to the latest release
 
