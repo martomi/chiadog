@@ -5,6 +5,7 @@ import logging
 
 roll_over_point = 64
 expected_diff_seconds = 9
+smallest_expected_diff_seconds = 7
 
 
 def calculate_skipped_signage_points(
@@ -20,22 +21,6 @@ def calculate_skipped_signage_points(
     diff_id_roll = (roll_over_point - prev_id) + curr_id
     diff_seconds = (curr_ts - prev_ts).seconds
 
-    # This is hacky addition to prevent false alarms for some network-wide issues that
-    # aren't necessarily related to the local node. See "testNetworkScramble" test case.
-    # Signage points are expected approx every 8-10 seconds. If a point was skipped for real
-    # then we expect the time difference to be at least 2*8 seconds. Otherwise it's flaky event.
-    # Update: Too fast blocks are leading to forks in the network. A fork is when 1 block gets
-    # reversed from the blockchain. When that happens, the full node clears all the signage points
-    # from the whole slot, and re-adds them. This is what happens here. We can invalidate the calculation.
-    if diff_seconds < expected_diff_seconds * 1.5:
-        if diff_id != 1 and diff_id_roll != 1:
-            valid = False
-            logging.debug(
-                f"Probably out of order signage point IDs {prev_id} and {curr_id} "
-                f"with timestamps {prev_ts} and {curr_ts}"
-            )
-        return valid, 0
-
     one_roll_duration = roll_over_point * expected_diff_seconds
 
     roll_count = round(diff_seconds / one_roll_duration)
@@ -46,6 +31,17 @@ def calculate_skipped_signage_points(
     distance_to_expected_roll = abs(expected_diff_id - diff_id_roll)
 
     if distance_to_expected < distance_to_expected_roll:
-        return valid, (diff_id + roll_over_point * roll_count) - 1
+        skipped = (diff_id + roll_over_point * roll_count) - 1
+    else:
+        skipped = (diff_id_roll + roll_over_point * roll_count) - 1
 
-    return valid, (diff_id_roll + roll_over_point * roll_count) - 1
+    # Handle possible bursts of shuffled signage points resulting from a fork
+    upper_bound_expected_diff_id = round(diff_seconds / smallest_expected_diff_seconds)
+    if skipped > upper_bound_expected_diff_id:
+        valid, skipped = False, 0
+        logging.debug(
+            f"Probably out of order signage point IDs {prev_id} and {curr_id} "
+            f"with timestamps {prev_ts} and {curr_ts}"
+        )
+
+    return valid, skipped

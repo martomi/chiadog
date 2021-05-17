@@ -58,6 +58,16 @@ class TestFinishedSignagePointHandler(unittest.TestCase):
             events = self.handler.handle(log)
             self.assertEqual(len(events), 0)
 
+    def testNetworkFork(self):
+        """Cover a use-case of a network fork combined with some delays between signage points.
+        See the network_fork.txt for reference. This is taken from a real-world event."""
+        with open(self.example_logs_path / "network_fork.txt", encoding="UTF-8") as f:
+            logs = f.readlines()
+
+        for log in logs:
+            events = self.handler.handle(log)
+            self.assertEqual(len(events), 0)
+
 
 if __name__ == "__main__":
     unittest.main()
