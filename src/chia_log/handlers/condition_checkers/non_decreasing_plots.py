@@ -19,11 +19,18 @@ class NonDecreasingPlots(HarvesterConditionChecker):
         self._max_farmed_plots = 0
 
     def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:
+        event = None
         if obj.total_plots_count > self._max_farmed_plots:
             logging.info(f"Detected new plots. Farming with {obj.total_plots_count} plots.")
             self._max_farmed_plots = obj.total_plots_count
+            #Notification of change in plot count fires with increase in plots and on initial startup 
+            message = (
+                f"Detected new plots. Farming with {obj.total_plots_count} plots."
+            )           
+            event = Event(
+                type=EventType.USER, priority=EventPriority.LOW, service=EventService.HARVESTER, message=message
+            )
 
-        event = None
         if obj.total_plots_count < self._max_farmed_plots:
             message = (
                 f"Disconnected HDD? The total plot count decreased from "
