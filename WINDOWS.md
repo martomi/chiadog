@@ -82,7 +82,9 @@ cp config-example.yaml config.yaml
 
 ## 1.2 WSL(Ubuntu) Installation
 
-Reminder: `INFO` level log in Chia must be enabled (`chia configure -log-level=INFO`)
+**Reminder**: `INFO` level log in Chia must be enabled (`chia configure -log-level=INFO`)
+
+**Windows Subsystem for Linux (WSL)**: Allows you to run Linux distributions (e.g. Ubuntu) within Windows 10. If you don't have WSL already, follow the instructions [here](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
 1. Open `WSL-Ubuntu`
 
@@ -110,11 +112,11 @@ cp config-example.yaml config.yaml
     ```yaml
     chia_logs:
       file_log_consumer:
-      enable: true
-      file_path: "/mnt/c/Users/<user-name>/.chia/mainnet/log/debug.log"
+        enable: true
+        file_path: "/mnt/c/Users/<user-name>/.chia/mainnet/log/debug.log"
     ```
 
-    4.2 configure it to your preferences for notification services(same as OSX/Ubuntu)
+    4.2 configure it to your preferences for notification services (same as OSX/Ubuntu)
 
 ---
 
