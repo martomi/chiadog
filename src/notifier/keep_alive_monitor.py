@@ -1,6 +1,7 @@
 # std
 import logging
-import urllib.request
+import platform
+import subprocess
 from datetime import datetime
 from threading import Thread
 from time import sleep
@@ -109,11 +110,14 @@ class KeepAliveMonitor:
         """
 
         if self._ping_url:
+            param = '-n' if platform.system().lower()=='windows' else '-c'
             logging.debug("Pinging remote keep-alive endpoint")
-            try:
-                urllib.request.urlopen(self._ping_url, timeout=10)
-            except Exception as e:
-                logging.error(f"Failed to ping keep-alive: {e}")
+            command = ['ping', param, '1', self._ping_url]
+            if(subprocess.call(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0):
+                logging.info("Keep-alive succesfull")
+            else:
+                logging.error("Failed to ping keep-alive")
+
 
     def stop(self):
         logging.info("Stopping")
