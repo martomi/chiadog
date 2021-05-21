@@ -22,7 +22,7 @@ from src.util import OS
 # lib
 import paramiko
 from paramiko.channel import ChannelStdinFile, ChannelStderrFile, ChannelFile
-from pygtail import Pygtail # type: ignore
+from pygtail import Pygtail  # type: ignore
 from retry import retry
 
 
