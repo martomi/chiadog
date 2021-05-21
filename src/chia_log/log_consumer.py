@@ -8,19 +8,22 @@ The latter has not been implemented yet. Feel free to add it.
 
 # std
 import logging
-import os.path
-import subprocess
 from abc import ABC, abstractmethod
 from pathlib import Path, PurePosixPath, PureWindowsPath, PurePath
 from threading import Thread
+from time import sleep
 from typing import List, Optional, Tuple
 
 # project
+
 from src.config import check_keys, is_win_platform
 from src.util import OS
 
 # lib
 import paramiko
+from paramiko.channel import ChannelStdinFile, ChannelStderrFile, ChannelFile
+from pygtail import Pygtail # type: ignore
+from retry import retry
 
 
 class LogConsumerSubscriber(ABC):
@@ -54,6 +57,7 @@ class FileLogConsumer(LogConsumer):
     def __init__(self, log_path: Path):
         super().__init__()
         self._log_path = log_path
+        self._expanded_log_path = ""
         self._is_running = True
         self._thread = Thread(target=self._consume_loop)
         self._thread.start()
@@ -63,8 +67,11 @@ class FileLogConsumer(LogConsumer):
         logging.info("Stopping")
         self._is_running = False
 
+    @retry((FileNotFoundError, PermissionError), delay=2)
     def _consume_loop(self):
-        pass
+        while self._is_running:
+            for log_line in Pygtail(self._expanded_log_path, read_from_end=True, paranoid=True):
+                self._notify_subscribers(log_line)
 
 
 class PosixFileLogConsumer(FileLogConsumer):
@@ -75,15 +82,10 @@ class PosixFileLogConsumer(FileLogConsumer):
         super(PosixFileLogConsumer, self).__init__(log_path)
 
     def _consume_loop(self):
-        expanded_user_log_path = str(self._log_path.expanduser())
-        logging.info(f"Consuming log file from {expanded_user_log_path}")
+        self._expanded_log_path = str(self._log_path.expanduser())
+        logging.info(f"Consuming log file from {self._expanded_log_path}")
 
-        consume_command_args = ["tail", "-F", expanded_user_log_path]
-        f = subprocess.Popen(consume_command_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-        while self._is_running:
-            log_line = f.stdout.readline().decode(encoding="utf-8")
-            self._notify_subscribers(log_line)
+        super(PosixFileLogConsumer, self)._consume_loop()
 
 
 class WindowsFileLogConsumer(FileLogConsumer):
@@ -94,29 +96,10 @@ class WindowsFileLogConsumer(FileLogConsumer):
         super(WindowsFileLogConsumer, self).__init__(log_path)
 
     def _consume_loop(self):
-        expanded_user_log_path = str(self._log_path.expanduser())
-        logging.info(f"Consuming log file from {expanded_user_log_path}")
+        self._expanded_log_path = str(self._log_path.expanduser())
+        logging.info(f"Consuming log file from {self._expanded_log_path}")
 
-        consume_command_args = ["powershell.exe", "get-content", expanded_user_log_path, "-tail", "1", "-wait"]
-        f = subprocess.Popen(consume_command_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-        while self._is_running:
-            if self._has_rotated(expanded_user_log_path):
-                logging.info(f"Encountered a log rotation, reopening file handler for {expanded_user_log_path}")
-                f = subprocess.Popen(consume_command_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-            log_line = f.stdout.readline().decode(encoding="utf-8")
-            self._notify_subscribers(log_line)
-
-    def _has_rotated(self, path: str) -> bool:
-        try:
-            old_size = self._log_size
-            self._log_size = os.path.getsize(path)
-        except OSError:
-            logging.warning(f"Encountered an error reading file size from {path}. This may be due to log file rotation")
-            return False
-
-        return old_size > self._log_size
+        super(WindowsFileLogConsumer, self)._consume_loop()
 
 
 class NetworkLogConsumer(LogConsumer):
@@ -175,16 +158,27 @@ class WindowsNetworkLogConsumer(NetworkLogConsumer):
     def _consume_loop(self):
         super(WindowsNetworkLogConsumer, self)._consume_loop()
 
+        stdin, stdout, stderr = self._read_log()
+
+        while self._is_running:
+            if self._has_rotated(self._remote_log_path):
+                sleep(1)
+                self._read_log()
+
+            log_line = stdout.readline()
+            self._notify_subscribers(log_line)
+
+    def _read_log(self) -> Tuple[ChannelStdinFile, ChannelFile, ChannelStderrFile]:
         stdin, stdout, stderr = self._ssh_client.exec_command(
             f"powershell.exe Get-Content {self._remote_log_path} -Wait -Tail 1"
         )
 
-        while self._is_running:
-            log_line = stdout.readline()
-            self._notify_subscribers(log_line)
+        return stdin, stdout, stderr
 
-    def _has_rotated(self, path: str) -> bool:
-        stdin, stdout, stderr = self._ssh_client.exec_command(f"Write-Host((Get-Item {path}).length")
+    def _has_rotated(self, path: PurePath) -> bool:
+        stdin, stdout, stderr = self._ssh_client.exec_command(
+            f"powershell.exe Write-Host((Get-Item {str(path)}).length"
+        )
 
         old_size = self._log_size
         self._log_size = int(stdout.readline())
