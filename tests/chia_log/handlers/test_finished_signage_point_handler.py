@@ -68,6 +68,16 @@ class TestFinishedSignagePointHandler(unittest.TestCase):
             events = self.handler.handle(log)
             self.assertEqual(len(events), 0)
 
+    def testNetworkDuplicates(self):
+        """This test case covers a real-world event on mainnet where the same signage point is
+        received twice."""
+        with open(self.example_logs_path / "duplicates.txt", encoding="UTF-8") as f:
+            logs = f.readlines()
+
+        for log in logs:
+            events = self.handler.handle(log)
+            self.assertEqual(len(events), 0)
+
 
 if __name__ == "__main__":
     unittest.main()
