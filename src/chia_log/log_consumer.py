@@ -57,6 +57,7 @@ class FileLogConsumer(LogConsumer):
     def __init__(self, log_path: Path):
         super().__init__()
         self._expanded_log_path = str(log_path.expanduser())
+        self._offset_path = PurePath('debug.log.offset')
         self._is_running = True
         self._thread = Thread(target=self._consume_loop)
         self._thread.start()
@@ -69,7 +70,7 @@ class FileLogConsumer(LogConsumer):
     @retry((FileNotFoundError, PermissionError), delay=2)
     def _consume_loop(self):
         while self._is_running:
-            for log_line in Pygtail(self._expanded_log_path, read_from_end=True):
+            for log_line in Pygtail(self._expanded_log_path, read_from_end=True, offset_file=self._offset_path):
                 self._notify_subscribers(log_line)
 
 
