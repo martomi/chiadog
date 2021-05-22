@@ -1,0 +1,15 @@
+2021-05-13T22:12:25.148 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 60/64:
+2021-05-13T22:12:35.081 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 61/64:
+2021-05-13T22:12:41.911 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 62/64:
+2021-05-13T22:12:49.784 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 63/64:
+2021-05-13T22:12:58.453 full_node chia.full_node.full_node: INFO     ⏲️  Finished sub slot, SP 64/64,
+2021-05-13T22:13:07.659 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 1/64:
+2021-05-13T22:13:14.053 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 2/64:
+2021-05-13T22:13:42.341 full_node chia.full_node.full_node: INFO     ⏲️  Finished sub slot, SP 64/64,
+2021-05-13T22:13:50.884 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 1/64:
+2021-05-13T22:13:58.247 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 2/64:
+2021-05-13T22:14:06.288 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 3/64:
+2021-05-13T22:14:14.181 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 4/64:
+2021-05-13T22:14:22.166 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 5/64:
+2021-05-13T22:14:30.104 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 6/64:
+2021-05-13T22:14:38.398 full_node chia.full_node.full_node: INFO     ⏲️  Finished signage point 7/64:
