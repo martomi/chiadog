@@ -111,18 +111,16 @@ deactivate
    - The file path to the log file on Windows needs to be specified in full. 
      E.g. `C:\Users\[YOUR-USER]\.chia\mainnet\log\debug.log` 
 
-2. From PowerShell, activate the virtual environment and start `chiadog`
+2. Open the `powershell.ps1` script and replace `C:\Users\[YOUR-USER]\chiadog` with the correct path to your chiadog directory, then launch:
 
 ```
 # Make sure you are in the directory that you previously installed chiadog in
 cd C:\Users\[YOUR-USER]\chiadog
 
-# Activate the virtual environment
-. .\venv\Scripts\activate
-
 # Start the watchdog
-python.exe main.py --config config.yaml
+.\start.cmd
 ```
+Note: You may also create a shortcut to this script and move it to any convenient name and location to launch chiadog by double-clicking it.
 
 3. Verify that your plots are detected. Within a few seconds you should see INFO log:
 
