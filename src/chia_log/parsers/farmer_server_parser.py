@@ -21,14 +21,14 @@ class FarmerServerMessage:
 class FarmerServerParser:
     """This class can parse info log messages from the chia farmer_server
 
-    You need to have enabled "log_level: INFO" in your chia config.yaml
+    You need to have enabled "log_level: DEBUG" in your chia config.yaml
     The chia config.yaml is usually under ~/.chia/mainnet/config/config.yaml
     """
 
     def __init__(self):
         logging.info("Enabled parser for farmer_server activity - peer infos.")
         self._regex = re.compile(
-            r"([0-9:.]*) farmer farmer_server\s*: INFO\s* <\- farming_info "
+            r"([0-9:.]*) farmer farmer_server\s*: DEBUG\s* <\- farming_info "
             r"from peer ([0-9a-z.]*) ([0-9\.:a-f]*)"
         )
 
