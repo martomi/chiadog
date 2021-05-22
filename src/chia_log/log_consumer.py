@@ -57,7 +57,7 @@ class FileLogConsumer(LogConsumer):
     def __init__(self, log_path: Path):
         super().__init__()
         self._expanded_log_path = str(log_path.expanduser())
-        self._offset_path = PurePath('debug.log.offset')
+        self._offset_path = PurePath("debug.log.offset")
         self._is_running = True
         self._thread = Thread(target=self._consume_loop)
         self._thread.start()
