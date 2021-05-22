@@ -16,7 +16,7 @@ from typing import List, Optional, Tuple
 
 # project
 
-from src.config import check_keys, is_win_platform
+from src.config import check_keys
 from src.util import OS
 
 # lib
@@ -56,6 +56,7 @@ class LogConsumer(ABC):
 class FileLogConsumer(LogConsumer):
     def __init__(self, log_path: Path):
         super().__init__()
+        logging.info("Enabled local file log consumer.")
         self._expanded_log_path = str(log_path.expanduser())
         self._offset_path = PurePath("debug.log.offset")
         self._is_running = True
@@ -72,22 +73,6 @@ class FileLogConsumer(LogConsumer):
         while self._is_running:
             for log_line in Pygtail(self._expanded_log_path, read_from_end=True, offset_file=self._offset_path):
                 self._notify_subscribers(log_line)
-
-
-class PosixFileLogConsumer(FileLogConsumer):
-    """Specific implementation for a simple file consumer for Linux/MacOS"""
-
-    def __init__(self, log_path: Path):
-        logging.info("Enabled Posix file log consumer.")
-        super(PosixFileLogConsumer, self).__init__(log_path)
-
-
-class WindowsFileLogConsumer(FileLogConsumer):
-    """Specific implementation for a simple file consumer for Windows"""
-
-    def __init__(self, log_path: Path):
-        logging.info("Enabled Windows file log consumer.")
-        super(WindowsFileLogConsumer, self).__init__(log_path)
 
 
 class NetworkLogConsumer(LogConsumer):
@@ -228,10 +213,7 @@ def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
         if not check_keys(required_keys=["file_path"], config=enabled_consumer_config):
             return None
 
-        if is_win_platform():
-            return WindowsFileLogConsumer(log_path=Path(enabled_consumer_config["file_path"]))
-        else:
-            return PosixFileLogConsumer(log_path=Path(enabled_consumer_config["file_path"]))
+        return FileLogConsumer(log_path=Path(enabled_consumer_config["file_path"]))
 
     if enabled_consumer == "network_log_consumer":
         if not check_keys(
