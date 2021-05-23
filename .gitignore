@@ -2,6 +2,9 @@
 config.yaml
 config.*.yaml
 
+# pygtail offset
+debug.log.offset
+
 # dev files
 .idea
 venv
