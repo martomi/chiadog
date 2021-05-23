@@ -183,13 +183,7 @@ def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
             remote_port,
         )
 
-        return NetworkLogConsumer(
-            remote_log_path=path,
-            remote_host=enabled_consumer_config["remote_host"],
-            remote_user=enabled_consumer_config["remote_user"],
-            remote_port=remote_port,
-            remote_platform=platform,
-        )
+        return NetworkLogConsumer(remote_log_path=path, remote_host=enabled_consumer_config["remote_host"], remote_user=enabled_consumer_config["remote_user"], remote_port=remote_port, remote_platform=platform,)
 
     logging.error("Unhandled consumer type")
     return None
