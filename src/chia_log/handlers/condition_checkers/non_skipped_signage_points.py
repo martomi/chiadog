@@ -34,10 +34,6 @@ class NonSkippedSignagePoints(FinishedSignageConditionChecker):
         )
 
         if not valid:
-            # Reset state when we receive non-valid order of signage points
-            # this ensures that we aren't sending any wrongly calculated skips
-            self._last_signage_point_timestamp = None
-            self._last_signage_point = None
             return None
 
         # To reduce notification spam, only send notifications for skips larger than 1
