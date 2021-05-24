@@ -50,7 +50,7 @@ class TestHarvesterActivityHandler(unittest.TestCase):
                 self.assertEqual(events[1].service, EventService.HARVESTER, "Unexpected service")
                 self.assertEqual(
                     events[1].message,
-                    "Disconnected HDD? The total plot count decreased from 43 to 30. More info: git.io/Js5B1"
+                    "Disconnected HDD? The total plot count decreased from 43 to 30. More info: git.io/Js5B1",
                 )
 
     def testLostSyncTemporarily(self):
@@ -87,8 +87,7 @@ class TestHarvesterActivityHandler(unittest.TestCase):
             self.assertEqual(events[1].priority, EventPriority.NORMAL, "Unexpected priority")
             self.assertEqual(events[1].service, EventService.HARVESTER, "Unexpected service")
             self.assertEqual(
-                events[1].message,
-                "Seeking plots took too long: 28.12348 seconds! More info: git.io/Js5B1"
+                events[1].message, "Seeking plots took too long: 28.12348 seconds! More info: git.io/Js5B1"
             )
 
 
