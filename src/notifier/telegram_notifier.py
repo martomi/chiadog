@@ -27,7 +27,8 @@ class TelegramNotifier(Notifier):
                     {
                         "chat_id": self.chat_id,
                         "text": f"*{self.get_title_for_event(event)}*\n{event.message}",
-                        "parse_mode": "Markdown",
+                        "parse_mode": "MarkdownV2",
+                        "disable_web_page_preview": True,
                         "disable_notification": event.priority == event.priority.LOW,
                     }
                 )
