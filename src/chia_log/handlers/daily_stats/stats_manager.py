@@ -26,12 +26,9 @@ class StatsManager:
     """
 
     def __init__(self, config: dict, notify_manager: NotifyManager):
-        try:
-            self._enable = config["enable"]
-            self._time_of_day = config["time_of_day"]
-        except KeyError as key:
-            logging.error(f"Invalid config.yaml. Missing key: {key}")
-            self._enable = False
+        self._enable = config.get("enable", False)
+        self._time_of_day = config.get("time_of_day", 21)
+        self._frequency_hours = config.get("frequency_hours", 24)
 
         if not self._enable:
             logging.warning("Disabled stats and daily notifications")
@@ -48,10 +45,13 @@ class StatsManager:
             SignagePointStats(),
         ]
 
-        logging.info(f"Summary notifications will be sent out daily at {self._time_of_day} o'clock")
+        logging.info(
+            f"Summary notifications will be sent out every {self._frequency_hours} "
+            f"hours starting from {self._time_of_day} o'clock"
+        )
         self._datetime_next_summary = datetime.now().replace(hour=self._time_of_day, minute=0, second=0, microsecond=0)
-        if datetime.now() > self._datetime_next_summary:
-            self._datetime_next_summary += timedelta(days=1)
+        while datetime.now() > self._datetime_next_summary:
+            self._datetime_next_summary += timedelta(hours=self._frequency_hours)
 
         # Start thread
         self._is_running = True
@@ -83,7 +83,7 @@ class StatsManager:
                     stat_acc.consume(obj)
 
     def _send_daily_notification(self):
-        summary = "Hello farmer! 👋 Here's what happened in the last 24 hours:\n"
+        summary = f"Hello farmer! 👋 Here's what happened in the last {self._frequency_hours} hours:\n"
         for stat_acc in self._stat_accumulators:
             summary += "\n" + stat_acc.get_summary()
             stat_acc.reset()
@@ -96,7 +96,7 @@ class StatsManager:
         while self._is_running:
             if datetime.now() > self._datetime_next_summary:
                 self._send_daily_notification()
-                self._datetime_next_summary += timedelta(days=1)
+                self._datetime_next_summary += timedelta(hours=self._frequency_hours)
             sleep(1)
 
     def stop(self):
