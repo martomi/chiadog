@@ -71,6 +71,7 @@ class FileLogConsumer(LogConsumer):
     @retry((FileNotFoundError, PermissionError), delay=2)
     def _consume_loop(self):
         while self._is_running:
+            sleep(1)  # throttle polling for new logs
             for log_line in Pygtail(self._expanded_log_path, read_from_end=True, offset_file=self._offset_path):
                 self._notify_subscribers(log_line)
 
