@@ -37,7 +37,11 @@ def calculate_skipped_signage_points(
 
     # Handle possible bursts of shuffled signage points resulting from a fork
     upper_bound_expected_diff_id = round(diff_seconds / smallest_expected_diff_seconds)
-    if skipped > upper_bound_expected_diff_id:
+
+    if skipped < 0:
+        valid, skipped = False, 0
+        logging.debug("Negative skipped SPs indicates a duplicate SP received")
+    elif skipped > upper_bound_expected_diff_id:
         valid, skipped = False, 0
         logging.debug(
             f"Probably out of order signage point IDs {prev_id} and {curr_id} "
