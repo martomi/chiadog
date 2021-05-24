@@ -41,7 +41,10 @@ class NonSkippedSignagePoints(FinishedSignageConditionChecker):
                 "This is expected to happen occasionally and not a reason for concern."
             )
         elif skipped >= 2:
-            message = f"Experiencing networking issues? Skipped {skipped} signage points!"
+            message = (
+                f"Experiencing networking issues? Skipped {skipped} signage points! "
+                "More info: git.io/Js5B1"
+            )
             logging.warning(message)
             event = Event(
                 type=EventType.USER,

@@ -34,8 +34,9 @@ class TimeSinceLastFarmEvent(HarvesterConditionChecker):
 
         if seconds_since_last > self._warning_threshold:
             message = (
-                f"Experiencing networking issues? Harvester did not participate in any challenge "
-                f"for {seconds_since_last} seconds. It's now working again."
+                "Experiencing networking issues? Harvester did not participate in any challenge "
+                f"for {seconds_since_last} seconds. It's now working again. "
+                "More info: git.io/Js5B1"
             )
             logging.warning(message)
             event = Event(

@@ -78,7 +78,8 @@ class KeepAliveMonitor:
                 if seconds_since_last > self._last_keep_alive_threshold_seconds[service]:
                     message = (
                         f"Your harvester appears to be offline! "
-                        f"No events for the past {seconds_since_last} seconds."
+                        f"No events for the past {seconds_since_last} seconds. "
+                        "More info: git.io/Js5B1"
                     )
                     logging.warning(message)
                     events.append(

@@ -20,7 +20,10 @@ class QuickPlotSearchTime(HarvesterConditionChecker):
 
     def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:
         if obj.search_time_seconds > self._warning_threshold:
-            message = f"Seeking plots took too long: {obj.search_time_seconds} seconds!"
+            message = (
+                f"Seeking plots took too long: {obj.search_time_seconds} seconds! "
+                "More info: git.io/Js5B1"
+            )
             logging.warning(message)
             return Event(
                 type=EventType.USER, priority=EventPriority.NORMAL, service=EventService.HARVESTER, message=message

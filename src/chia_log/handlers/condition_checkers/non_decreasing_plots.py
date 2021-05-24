@@ -36,7 +36,8 @@ class NonDecreasingPlots(HarvesterConditionChecker):
             else:
                 message = (
                     f"Disconnected HDD? The total plot count decreased from "
-                    f"{self._max_farmed_plots} to {obj.total_plots_count}."
+                    f"{self._max_farmed_plots} to {obj.total_plots_count}. "
+                    "More info: git.io/Js5B1"
                 )
                 logging.warning(message)
                 event = Event(
