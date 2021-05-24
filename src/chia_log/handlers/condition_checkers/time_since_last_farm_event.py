@@ -21,7 +21,7 @@ class TimeSinceLastFarmEvent(HarvesterConditionChecker):
     def __init__(self):
         logging.info("Enabled check for farming events.")
         self._info_threshold = 30
-        self._warning_threshold = 60
+        self._warning_threshold = 90
         self._last_timestamp = None
 
     def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:
@@ -44,7 +44,11 @@ class TimeSinceLastFarmEvent(HarvesterConditionChecker):
         elif seconds_since_last > self._info_threshold:
             # This threshold seems to be surpassed multiple times per day
             # on the current network. So it only generates an INFO log.
-            logging.info(f"Last farming event was {seconds_since_last} seconds ago. This is unusual.")
+            logging.info(
+                f"Last farming event was {seconds_since_last} seconds ago."
+                " Usually every 9-10 seconds. No reason to worry if it happens "
+                " up to 20 times daily."
+            )
 
         self._last_timestamp = obj.timestamp
         return event
