@@ -42,7 +42,7 @@ class TelegramNotifier(Notifier):
                 response = conn.getresponse()
                 if response.getcode() != 200:
                     logging.warning(f"Problem sending event to user, code: {response.getcode()}")
-                    logging.debug(f"Telegram API Response: {response.readline()}")
+                    logging.debug(f"Telegram API Response: {str(response.readline())}")
                     errors = True
                 conn.close()
 
