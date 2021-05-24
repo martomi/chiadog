@@ -28,8 +28,8 @@ class TestFinishedSignagePointHandler(unittest.TestCase):
             logs = f.readlines()
 
         expected_messages = [
-            "Experiencing networking issues? Skipped 15 signage points!",
-            "Experiencing networking issues? Skipped 7 signage points!",
+            "Experiencing networking issues? Skipped 15 signage points! More info: git.io/Js5B1",
+            "Experiencing networking issues? Skipped 7 signage points! More info: git.io/Js5B1",
         ]
 
         checked = 0

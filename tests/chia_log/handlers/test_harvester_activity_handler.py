@@ -48,7 +48,10 @@ class TestHarvesterActivityHandler(unittest.TestCase):
                 self.assertEqual(events[1].type, EventType.USER, "Unexpected event type")
                 self.assertEqual(events[1].priority, EventPriority.HIGH, "Unexpected priority")
                 self.assertEqual(events[1].service, EventService.HARVESTER, "Unexpected service")
-                self.assertEqual(events[1].message, "Disconnected HDD? The total plot count decreased from 43 to 30.")
+                self.assertEqual(
+                    events[1].message,
+                    "Disconnected HDD? The total plot count decreased from 43 to 30. More info: git.io/Js5B1"
+                )
 
     def testLostSyncTemporarily(self):
         with open(self.example_logs_path / "lost_sync_temporary.txt", encoding="UTF-8") as f:
@@ -70,7 +73,7 @@ class TestHarvesterActivityHandler(unittest.TestCase):
                 self.assertEqual(
                     events[1].message,
                     "Experiencing networking issues? Harvester did not participate in any "
-                    "challenge for 608 seconds. It's now working again.",
+                    "challenge for 608 seconds. It's now working again. More info: git.io/Js5B1",
                 )
 
     def testSlowSeekTime(self):
@@ -83,7 +86,10 @@ class TestHarvesterActivityHandler(unittest.TestCase):
             self.assertEqual(events[1].type, EventType.USER, "Unexpected event type")
             self.assertEqual(events[1].priority, EventPriority.NORMAL, "Unexpected priority")
             self.assertEqual(events[1].service, EventService.HARVESTER, "Unexpected service")
-            self.assertEqual(events[1].message, "Seeking plots took too long: 28.12348 seconds!")
+            self.assertEqual(
+                events[1].message,
+                "Seeking plots took too long: 28.12348 seconds! More info: git.io/Js5B1"
+            )
 
 
 if __name__ == "__main__":
