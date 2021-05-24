@@ -2,8 +2,11 @@
 import argparse
 import logging
 import signal
+import subprocess
 import time
+from argparse import Namespace, ArgumentParser
 from pathlib import Path
+from typing import Tuple
 
 # project
 from src.chia_log.handlers.daily_stats.stats_manager import StatsManager
@@ -14,12 +17,14 @@ from src.notifier.keep_alive_monitor import KeepAliveMonitor
 from src.notifier.notify_manager import NotifyManager
 
 
-def parse_arguments():
+def parse_arguments() -> Tuple[ArgumentParser, Namespace]:
     parser = argparse.ArgumentParser(
         description="ChiaFarmWatch: Watch your crops " "with a piece in mind for the yield."
     )
-    parser.add_argument("--config", required=True, type=str, help="path to config.yaml")
-    return parser.parse_args()
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--config', type=str, help="path to config.yaml")
+    group.add_argument('--version', action='store_true')
+    return parser, parser.parse_args()
 
 
 def get_log_level(log_level: str) -> int:
@@ -38,16 +43,15 @@ def get_log_level(log_level: str) -> int:
     return logging.INFO
 
 
-if __name__ == "__main__":
-    # Parse config and configure logger
-    args = parse_arguments()
-    config = Config(Path(args.config))
+def init(config:Config):
     log_level = get_log_level(config.get_log_level_config())
     logging.basicConfig(
         format="[%(asctime)s] [%(levelname)8s] --- %(message)s (%(filename)s:%(lineno)s)",
         level=log_level,
         datefmt="%Y-%m-%d %H:%M:%S",
     )
+
+    logging.info(f"Starting Chiadog ({version()})")
 
     # Create log consumer based on provided configuration
     chia_logs_config = config.get_chia_logs_config()
@@ -87,3 +91,20 @@ if __name__ == "__main__":
                 pass
     else:
         signal.pause()
+
+
+def version():
+    command_args = ["git", "describe", "--tags"]
+    f = subprocess.Popen(command_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    return f.stdout.readline().decode(encoding="utf-8").rstrip()
+
+
+if __name__ == "__main__":
+    # Parse config and configure logger
+    argparse, args = parse_arguments()
+
+    if args.config:
+        conf = Config(Path(args.config))
+        init(conf)
+    elif args.version:
+        print(version())
