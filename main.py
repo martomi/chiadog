@@ -108,6 +108,3 @@ if __name__ == "__main__":
         init(conf)
     elif args.version:
         print(version())
-    else:
-        print('Chiadog requires a positional argument --config')
-        argparse.print_usage()
