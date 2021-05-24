@@ -41,11 +41,17 @@ jobs:
         python -m unittest
     - name: Format check with Black
       run: |
-        git config --global user.name 'autoblack'
-        git config --global user.email 'martomi@users.noreply.github.com'
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
         git fetch
         git checkout $GITHUB_HEAD_REF
         black src tests
+    - name: Check for modified files
+      id: git-check
+      run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+    - name: Push changes upon black check
+      if: steps.git-check.outputs.modified == 'true'
+      run: |
+        git config --global user.name 'autoblack'
+        git config --global user.email 'martomi@users.noreply.github.com'
         git commit -am "fixup: Format Python code with Black"
         git push
