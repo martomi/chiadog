@@ -6,6 +6,7 @@ from typing import List, Optional
 from . import LogHandler
 from ..parsers.harvester_activity_parser import HarvesterActivityParser
 from .condition_checkers import HarvesterConditionChecker
+from .condition_checkers.found_proofs import FoundProofs
 from .condition_checkers.non_decreasing_plots import NonDecreasingPlots
 from .condition_checkers.quick_plot_search_time import QuickPlotSearchTime
 from .condition_checkers.time_since_last_farm_event import TimeSinceLastFarmEvent
@@ -26,6 +27,7 @@ class HarvesterActivityHandler(LogHandler):
             TimeSinceLastFarmEvent(),
             NonDecreasingPlots(),
             QuickPlotSearchTime(),
+            FoundProofs(),
         ]
 
     def handle(self, logs: str, stats_manager: Optional[StatsManager] = None) -> List[Event]:
