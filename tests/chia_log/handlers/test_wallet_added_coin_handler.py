@@ -21,7 +21,18 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
         self.assertEqual(events[0].type, EventType.USER, "Unexpected event type")
         self.assertEqual(events[0].priority, EventPriority.LOW, "Unexpected priority")
         self.assertEqual(events[0].service, EventService.WALLET, "Unexpected service")
-        self.assertEqual(events[0].message, "Cha-ching! Just received 2.0 XCH ☘️")
+        self.assertEqual(events[0].message, "Cha-ching! Just received 2 XCH ☘️")
+
+    def testFloatPrecision(self):
+        with open(self.example_logs_path / "small_values.txt", encoding="UTF-8") as f:
+            logs = f.readlines()
+
+        events = self.handler.handle("".join(logs))
+        self.assertEqual(1, len(events))
+        self.assertEqual(events[0].type, EventType.USER, "Unexpected event type")
+        self.assertEqual(events[0].priority, EventPriority.LOW, "Unexpected priority")
+        self.assertEqual(events[0].service, EventService.WALLET, "Unexpected service")
+        self.assertEqual(events[0].message, "Cha-ching! Just received 0.000000000001 XCH ☘️")
 
 
 if __name__ == "__main__":

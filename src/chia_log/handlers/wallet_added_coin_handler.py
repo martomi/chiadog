@@ -30,12 +30,13 @@ class WalletAddedCoinHandler(LogHandler):
 
         if total_mojos > 0:
             chia_coins = total_mojos / 1e12
+            xch_string = f"{chia_coins:.12f}".rstrip("0").rstrip(".")
             events.append(
                 Event(
                     type=EventType.USER,
                     priority=EventPriority.LOW,
                     service=EventService.WALLET,
-                    message=f"Cha-ching! Just received {chia_coins} XCH ☘️",
+                    message=f"Cha-ching! Just received {xch_string} XCH ☘️",
                 )
             )
 
