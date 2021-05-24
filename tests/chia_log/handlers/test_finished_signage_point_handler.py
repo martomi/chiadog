@@ -29,8 +29,6 @@ class TestFinishedSignagePointHandler(unittest.TestCase):
 
         expected_messages = [
             "Experiencing networking issues? Skipped 15 signage points!",
-            "Experiencing networking issues? Skipped 2+ signage points in the last hour.",
-            "Experiencing networking issues? Skipped 2+ signage points in the last hour.",
             "Experiencing networking issues? Skipped 7 signage points!",
         ]
 

@@ -1,6 +1,5 @@
 # std
 import logging
-from datetime import datetime
 from typing import Optional
 
 # project
@@ -18,7 +17,6 @@ class NonSkippedSignagePoints(FinishedSignageConditionChecker):
 
     def __init__(self):
         logging.info("Enabled check for finished signage points.")
-        self._last_skip_timestamp = None
         self._last_signage_point_timestamp = None
         self._last_signage_point = None
 
@@ -37,24 +35,12 @@ class NonSkippedSignagePoints(FinishedSignageConditionChecker):
             return None
 
         # To reduce notification spam, only send notifications for skips larger than 1
-        # or for multiple individual skips within 1 hour
         if skipped == 1:
-            logging.info(f"Detected {skipped} skipped signage point.")
-            if self._last_skip_timestamp:
-                minutes_since_last_skip = (datetime.now() - self._last_skip_timestamp).seconds // 60
-                if minutes_since_last_skip > 60:
-                    logging.info("No other skips in the last 60 minutes. Can be safely ignored.")
-                else:
-                    message = "Experiencing networking issues? Skipped 2+ signage points in the last hour."
-                    logging.warning(message)
-                    event = Event(
-                        type=EventType.USER,
-                        priority=EventPriority.NORMAL,
-                        service=EventService.FULL_NODE,
-                        message=message,
-                    )
-
-        if skipped >= 2:
+            logging.info(
+                f"Detected {skipped} skipped signage point."
+                "This is expected to happen occasionally and not a reason for concern."
+            )
+        elif skipped >= 2:
             message = f"Experiencing networking issues? Skipped {skipped} signage points!"
             logging.warning(message)
             event = Event(
@@ -64,8 +50,6 @@ class NonSkippedSignagePoints(FinishedSignageConditionChecker):
                 message=message,
             )
 
-        if skipped != 0:
-            self._last_skip_timestamp = datetime.now()
         self._last_signage_point_timestamp = obj.timestamp
         self._last_signage_point = obj.signage_point
         return event
