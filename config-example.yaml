@@ -31,6 +31,7 @@ keep_alive_monitor:
 daily_stats:
   enable: true
   time_of_day: 21
+  frequency_hours: 24
 
 # We support a lot of notifiers, please check the README for more
 # information. You can delete the sections which you aren't using.
