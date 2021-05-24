@@ -4,6 +4,9 @@
 > them after browsing the existing issues
 > [labeled with bug](https://github.com/martomi/chiadog/labels/bug) to avoid duplicates.
 
+> If you get unexpected "Your harvester appears offline! No events for the past xxxx seconds" notifications,
+> please report [here](https://github.com/martomi/chiadog/issues/72).
+
 ## Pre-requisites
 
 - Windows / Windows + WSL(Ubuntu)
@@ -11,18 +14,17 @@
 - [Git](https://git-scm.com/downloads)
 - Enabled `INFO` logs on your chia farmer
 
-This guide contains instructions on how to set up a **local** `chiadog` consumer on Windows.
-If you are looking for instructions on how to set up remote monitoring on a Windows machine,
-please refer to [this article](/wiki/Monitoring-Multiple-Harvesters)
+This guide contains instructions on how to set up a **local** `chiadog` consumer on Windows. If you are looking for
+instructions on how to set up remote monitoring on a Windows machine, please refer
+to [this article](/wiki/Monitoring-Multiple-Harvesters)
 instead.
 
-Looking for installation instructions for Linux or MacOS? Head over to the
-general [README](README.md).
+Looking for installation instructions for Linux or MacOS? Head over to the general [README](README.md).
 
 ## How to enable INFO logs on chia farmer?
 
-First we'll set Chia's log level to `INFO`. This ensures that all logs necessary for `chiadog` to operate
-are available under `C:\Users\[YOUR-USER]\.chia\mainnet\log\debug.log`.
+First we'll set Chia's log level to `INFO`. This ensures that all logs necessary for `chiadog` to operate are available
+under `C:\Users\[YOUR-USER]\.chia\mainnet\log\debug.log`.
 
 1. Open the file `C:\Users\[YOUR-USER]\.chia\mainnet\config\config.yaml` in your favorite text editor
 2. Find the line that reads `log_level: DEBUG` (under the `farmer` section) and change this to `log_level: INFO`
@@ -53,8 +55,8 @@ python.exe -m venv venv
 ```
 
 **Note**: if you get an error saying 'The term 'python.exe' is not recognized' or 'Python was not found', change
-`python.exe` in the last line of the above code block to `py.exe` or `python3.exe`.
-If none of these work, it is likely that Python was not installed on your system. Refer to
+`python.exe` in the last line of the above code block to `py.exe` or `python3.exe`. If none of these work, it is likely
+that Python was not installed on your system. Refer to
 [this website](https://www.python.org/downloads/windows/) in order to download the latest version.
 
 4. Update `pip` package manager and install `chiadog` dependencies
@@ -77,14 +79,14 @@ deactivate
 cp config-example.yaml config.yaml
 ```
 
-6. Open up the newly created `config.yaml` in your favorite text editor and configure it
-   to your preferences.
+6. Open up the newly created `config.yaml` in your favorite text editor and configure it to your preferences.
 
 ## 1.2 WSL(Ubuntu) Installation
 
 **Reminder**: `INFO` level log in Chia must be enabled (`chia configure -log-level=INFO`)
 
-**Windows Subsystem for Linux (WSL)**: Allows you to run Linux distributions (e.g. Ubuntu) within Windows 10. If you don't have WSL already, follow the instructions [here](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
+**Windows Subsystem for Linux (WSL)**: Allows you to run Linux distributions (e.g. Ubuntu) within Windows 10. If you
+don't have WSL already, follow the instructions [here](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
 1. Open `WSL-Ubuntu`
 
@@ -105,18 +107,18 @@ cp config-example.yaml config.yaml
 cp config-example.yaml config.yaml
 ```
 
-4.  Open up `config.yaml` in your editor
+4. Open up `config.yaml` in your editor
 
-    4.1 Set chia log location:
+   4.1 Set chia log location:
 
-    ```yaml
-    chia_logs:
-      file_log_consumer:
-        enable: true
-        file_path: "/mnt/c/Users/<user-name>/.chia/mainnet/log/debug.log"
-    ```
+   ```yaml
+   chia_logs:
+     file_log_consumer:
+       enable: true
+       file_path: "/mnt/c/Users/<user-name>/.chia/mainnet/log/debug.log"
+   ```
 
-    4.2 configure it to your preferences for notification services (same as OSX/Ubuntu)
+   4.2 configure it to your preferences for notification services (same as OSX/Ubuntu)
 
 ---
 
@@ -151,10 +153,10 @@ deactivate
 
 1. Open `config.yaml` and configure `file_log_consumer`:
 
-   - You need to enable the file log consumer to read local chia log files
-   - Double-check that the path to your chia logs is correct
-   - The file path to the log file on Windows needs to be specified in full.
-     E.g. `C:\Users\[YOUR-USER]\.chia\mainnet\log\debug.log`
+    - You need to enable the file log consumer to read local chia log files
+    - Double-check that the path to your chia logs is correct
+    - The file path to the log file on Windows needs to be specified in full.
+      E.g. `C:\Users\[YOUR-USER]\.chia\mainnet\log\debug.log`
 
 2. From PowerShell, activate the virtual environment and start `chiadog`
 
@@ -177,6 +179,6 @@ Detected new plots. Farming with 42 plots.
 
 ## Monitoring a remote harvester
 
-Chiadog allows you to monitor multiple remote harvesters while running chiadog on a separate machine.
-Please refer to the Wiki article on [Monitoring Remote Harvesters](/wiki/Monitoring-Multiple-Harvesters)
+Chiadog allows you to monitor multiple remote harvesters while running chiadog on a separate machine. Please refer to
+the Wiki article on [Monitoring Remote Harvesters](/wiki/Monitoring-Multiple-Harvesters)
 for more information on how to set this up.
