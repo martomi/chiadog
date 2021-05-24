@@ -27,8 +27,8 @@ class TelegramNotifier(Notifier):
                     {
                         "chat_id": self.chat_id,
                         "text": f"*{self.get_title_for_event(event)}*\n{event.message}",
-                        "parse_mode": "MarkdownV2",
-                        "disable_web_page_preview": True,
+                        "parse_mode": "Markdown",
+                        "disable_web_page_preview": "true",
                         "disable_notification": event.priority == event.priority.LOW,
                     }
                 )
@@ -42,6 +42,7 @@ class TelegramNotifier(Notifier):
                 response = conn.getresponse()
                 if response.getcode() != 200:
                     logging.warning(f"Problem sending event to user, code: {response.getcode()}")
+                    logging.debug(f"Telegram API Response: {response.readline()}")
                     errors = True
                 conn.close()
 
