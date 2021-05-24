@@ -27,19 +27,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install black flake8 mypy
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Format check with Black
-      run: black --check src tests
-    - name: If needed, commit black changes to the pull request
-      if: failure()
-      run: |
-        git config --global user.name 'autoblack'
-        git config --global user.email 'martomi@users.noreply.github.com'
-        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-        git fetch
-        git checkout $GITHUB_HEAD_REF
-        black src tests
-        git commit -am "fixup: Format Python code with Black"
-        git push
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -52,3 +39,13 @@ jobs:
     - name: Unit Tests
       run: |
         python -m unittest
+    - name: Format check with Black
+      run: |
+        git config --global user.name 'autoblack'
+        git config --global user.email 'martomi@users.noreply.github.com'
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+        git fetch
+        git checkout $GITHUB_HEAD_REF
+        black src tests
+        git commit -am "fixup: Format Python code with Black"
+        git push
