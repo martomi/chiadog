@@ -3,14 +3,12 @@ import argparse
 import logging
 import signal
 import subprocess
-import sys
 import time
 from argparse import Namespace, ArgumentParser
 from pathlib import Path
-
-# project
 from typing import Tuple
 
+# project
 from src.chia_log.handlers.daily_stats.stats_manager import StatsManager
 from src.chia_log.log_consumer import create_log_consumer_from_config
 from src.chia_log.log_handler import LogHandler
@@ -23,8 +21,9 @@ def parse_arguments() -> Tuple[ArgumentParser, Namespace]:
     parser = argparse.ArgumentParser(
         description="ChiaFarmWatch: Watch your crops " "with a piece in mind for the yield."
     )
-    parser.add_argument("--config", required=False, type=str, help="path to config.yaml")
-    parser.add_argument("--version", required=False, action='store_true')
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--config', type=str, help="path to config.yaml")
+    group.add_argument('--version', action='store_true')
     return parser, parser.parse_args()
 
 
