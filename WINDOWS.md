@@ -111,7 +111,7 @@ deactivate
    - The file path to the log file on Windows needs to be specified in full. 
      E.g. `C:\Users\[YOUR-USER]\.chia\mainnet\log\debug.log` 
 
-2. Open the `powershell.ps1` script and replace `C:\Users\[YOUR-USER]\chiadog` with the correct path to your chiadog directory, then launch:
+2. Launch the watchdog:
 
 ```
 # Make sure you are in the directory that you previously installed chiadog in
