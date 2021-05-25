@@ -25,10 +25,11 @@ class StatsManager:
     with a summary from all stats that have been collected for the past 24 hours.
     """
 
-    def __init__(self, config: dict, notify_manager: NotifyManager):
+    def __init__(self, config: dict, notify_manager: NotifyManager, startup: bool = False):
         self._enable = config.get("enable", False)
         self._time_of_day = config.get("time_of_day", 21)
         self._frequency_hours = config.get("frequency_hours", 24)
+        self._startup = startup
 
         if not self._enable:
             logging.warning("Disabled stats and daily notifications")
@@ -49,9 +50,16 @@ class StatsManager:
             f"Summary notifications will be sent out every {self._frequency_hours} "
             f"hours starting from {self._time_of_day} o'clock"
         )
+
+        if self._startup:
+            logging.info("An initial startup notification will be sent in 30 seconds")
+
         self._datetime_next_summary = datetime.now().replace(hour=self._time_of_day, minute=0, second=0, microsecond=0)
         while datetime.now() > self._datetime_next_summary:
             self._datetime_next_summary += timedelta(hours=self._frequency_hours)
+
+        self._datetime_startup_summary = datetime.now().replace(microsecond=0)
+        self._datetime_startup_summary += timedelta(seconds=30)
 
         # Start thread
         self._is_running = True
@@ -82,11 +90,16 @@ class StatsManager:
                 for obj in objects:
                     stat_acc.consume(obj)
 
-    def _send_daily_notification(self):
-        summary = f"Hello farmer! 👋 Here's what happened in the last {self._frequency_hours} hours:\n"
+    def _send_daily_notification(self, startup: bool = False):
+        if not startup:
+            summary = f"Hello farmer! 👋 Here's what happened in the last {self._frequency_hours} hours:\n"
+        else:
+            summary = f"Hello farmer! 👋 This is a test summary to make sure your notifications are set up correctly:\n"
+
         for stat_acc in self._stat_accumulators:
             summary += "\n" + stat_acc.get_summary()
-            stat_acc.reset()
+            if not startup:
+                stat_acc.reset()
 
         self._notify_manager.process_events(
             [Event(type=EventType.DAILY_STATS, priority=EventPriority.LOW, service=EventService.DAILY, message=summary)]
@@ -97,6 +110,9 @@ class StatsManager:
             if datetime.now() > self._datetime_next_summary:
                 self._send_daily_notification()
                 self._datetime_next_summary += timedelta(hours=self._frequency_hours)
+            if self._startup and datetime.now() > self._datetime_startup_summary:
+                self._send_daily_notification(startup=True)
+                self._startup = False
             sleep(1)
 
     def stop(self):

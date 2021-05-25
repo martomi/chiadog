@@ -23,7 +23,8 @@ def parse_arguments() -> Tuple[ArgumentParser, Namespace]:
     )
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--config', type=str, help="path to config.yaml")
-    group.add_argument('--version', action='store_true')
+    group.add_argument('--version', action='store_true', help="show current version of chiadog")
+    parser.add_argument('--startup', action='store_true', help="trigger startup notification after 1 minute")
     return parser, parser.parse_args()
 
 
@@ -67,7 +68,7 @@ def init(config:Config):
     notify_manager = NotifyManager(config=config, keep_alive_monitor=keep_alive_monitor)
 
     # Stats manager accumulates stats over 24 hours and sends a summary each day
-    stats_manager = StatsManager(config=config.get_daily_stats_config(), notify_manager=notify_manager)
+    stats_manager = StatsManager(config=config.get_daily_stats_config(), notify_manager=notify_manager, startup=args.startup)
 
     # Link stuff up in the log handler
     # Pipeline: Consume -> Handle -> Notify
