@@ -7,6 +7,32 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.6.0] - 2021-05-25
+
+### Added
+
+- Found proof notifications (again)
+- Configurable frequency for daily stats summary (24h default)
+- New flag `--version` to display the current version (thanks [@pieterhelsen](https://github.com/pieterhelsen))
+- Scripts to automate launching for Windows (thanks [fiveangle](https://github.com/fiveangle))
+- Windows WSL installation instructions (thanks [@ougni](https://github.com/ougni))
+
+### Changed
+
+- Increased the warning threshold for last farming events from 60 to 90 seconds.
+- Individual skipped signage points do not trigger notifications anymore. They will be part of daily summary.
+- Improved Linux install script by installing common dependencies
+  (thanks [@pieterhelsen](https://github.com/pieterhelsen))
+
+### Fixed
+
+- Improved log rotation handling on Windows (thanks [@pieterhelsen](https://github.com/pieterhelsen))
+- Misleading notifications for decreasing plots during copying. The warning threshold is now 2.
+- Wallet notification formatting - received coins are now displayed without scientific notation.
+- More correct handling of skipped signage points - most cases are correctly detected but not all.
+  (thanks [@ctrlaltdel](https://github.com/ctrlaltdel) for test-case submission)
+- More accurate daily stats about skipped signage points - now covered by unit test.
+
 ## [0.5.1] - 2021-05-17
 
 The purpose of this minor release is to get out a few fixes. No new features in this release.
@@ -140,7 +166,9 @@ The purpose of this minor release is to get out a few fixes. No new features in 
 - Adds basic condition checks for harvester operations.
 - Adds integration for Pushover (mobile notifications).
 
-[Unreleased]: https://github.com/martomi/chiadog/compare/v0.5.1...dev
+[Unreleased]: https://github.com/martomi/chiadog/compare/v0.6.0...dev
+
+[0.6.0]: https://github.com/martomi/chiadog/releases/tag/v0.6.0
 
 [0.5.1]: https://github.com/martomi/chiadog/releases/tag/v0.5.1
 
