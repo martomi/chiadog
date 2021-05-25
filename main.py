@@ -94,9 +94,12 @@ def init(config:Config):
 
 
 def version():
-    command_args = ["git", "describe", "--tags"]
-    f = subprocess.Popen(command_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    return f.stdout.readline().decode(encoding="utf-8").rstrip()
+    try:
+        command_args = ["git", "describe", "--tags"]
+        f = subprocess.Popen(command_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return f.stdout.readline().decode(encoding="utf-8").rstrip()
+    except:
+        return "unknown"
 
 
 if __name__ == "__main__":
