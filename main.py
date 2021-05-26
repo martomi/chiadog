@@ -97,7 +97,8 @@ def version():
     try:
         command_args = ["git", "describe", "--tags"]
         f = subprocess.Popen(command_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        return f.stdout.readline().decode(encoding="utf-8").rstrip()
+        stdout, stderr = f.communicate()
+        return stdout.decode(encoding="utf-8").rstrip()
     except:
         return "unknown"
 
