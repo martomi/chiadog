@@ -8,6 +8,7 @@ The latter has not been implemented yet. Feel free to add it.
 
 # std
 import logging
+import socket
 from abc import ABC, abstractmethod
 from pathlib import Path, PurePosixPath, PureWindowsPath, PurePath
 from threading import Thread
@@ -15,13 +16,13 @@ from time import sleep
 from typing import List, Optional, Tuple
 
 # project
-
 from src.config import check_keys
 from src.util import OS
 
 # lib
 import paramiko
 from paramiko.channel import ChannelStdinFile, ChannelStderrFile, ChannelFile
+from paramiko.ssh_exception import SSHException
 from pygtail import Pygtail  # type: ignore
 from retry import retry
 
@@ -102,13 +103,29 @@ class NetworkLogConsumer(LogConsumer):
 
     def stop(self):
         logging.info("Stopping")
+        self._ssh_client.close()
         self._is_running = False
+
+    @retry((socket.error, SSHException), delay=2, backoff=2, max_delay=120)
+    def _reconnect(self):
+        self._ssh_client.close()
+        self._ssh_client.load_system_host_keys()
+        self._ssh_client.connect(hostname=self._remote_host, username=self._remote_user, port=self._remote_port)
 
     def _consume_loop(self):
         logging.info(
             f"Consuming remote log file {self._remote_log_path}"
             + f" from {self._remote_host}:{self._remote_port} ({self._remote_platform})"
         )
+
+    def _exec_cmd(self, ssh_cmd:str) -> Tuple[ChannelStdinFile, ChannelFile, ChannelStderrFile]:
+        try:
+            stdin, stdout, stderr = self._ssh_client.exec_command(ssh_cmd)
+        except socket.error:
+            self._reconnect()
+            stdin, stdout, stderr = self._ssh_client.exec_command(ssh_cmd)
+
+        return stdin, stdout, stderr
 
 
 class PosixNetworkLogConsumer(NetworkLogConsumer):
@@ -124,12 +141,14 @@ class PosixNetworkLogConsumer(NetworkLogConsumer):
 
     def _consume_loop(self):
         super(PosixNetworkLogConsumer, self)._consume_loop()
-
-        stdin, stdout, stderr = self._ssh_client.exec_command(f"tail -F {self._remote_log_path}")
+        stdin, stdout, stderr = self._read_log()
 
         while self._is_running:
             log_line = stdout.readline()
             self._notify_subscribers(log_line)
+
+    def _read_log(self):
+        return self._exec_cmd(f"tail -F {self._remote_log_path}")
 
 
 class WindowsNetworkLogConsumer(NetworkLogConsumer):
@@ -156,17 +175,11 @@ class WindowsNetworkLogConsumer(NetworkLogConsumer):
             log_line = stdout.readline()
             self._notify_subscribers(log_line)
 
-    def _read_log(self) -> Tuple[ChannelStdinFile, ChannelFile, ChannelStderrFile]:
-        stdin, stdout, stderr = self._ssh_client.exec_command(
-            f"powershell.exe Get-Content {self._remote_log_path} -Wait -Tail 1"
-        )
-
-        return stdin, stdout, stderr
+    def _read_log(self):
+        return self._exec_cmd(f"powershell.exe Get-Content {self._remote_log_path} -Wait -Tail 1")
 
     def _has_rotated(self, path: PurePath) -> bool:
-        stdin, stdout, stderr = self._ssh_client.exec_command(
-            f"powershell.exe Write-Host((Get-Item {str(path)}).length"
-        )
+        stdin, stdout, stderr = self._exec_cmd(f"powershell.exe Write-Host((Get-Item {str(path)}).length")
 
         old_size = self._log_size
         self._log_size = int(stdout.readline())
