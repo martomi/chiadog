@@ -15,7 +15,7 @@ from time import sleep
 from typing import List, Optional, Tuple
 
 # project
-
+from src.config import Config
 from src.config import check_keys
 from src.util import OS
 
@@ -58,7 +58,7 @@ class FileLogConsumer(LogConsumer):
         super().__init__()
         logging.info("Enabled local file log consumer.")
         self._expanded_log_path = str(log_path.expanduser())
-        self._offset_path = PurePath("debug.log.offset")
+        self._offset_path = Config.get_offset()
         self._is_running = True
         self._thread = Thread(target=self._consume_loop)
         self._thread.start()

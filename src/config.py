@@ -1,7 +1,7 @@
 # std
 import logging
 import sys
-from pathlib import Path
+from pathlib import Path, PurePath
 from typing import Optional
 
 # lib
@@ -42,6 +42,10 @@ class Config:
 
     def get_daily_stats_config(self):
         return self._get_child_config("daily_stats")
+
+    @staticmethod
+    def get_offset() -> Path:
+        return Path("debug.log.offset")
 
 
 def check_keys(required_keys, config) -> bool:
