@@ -111,6 +111,7 @@ class NetworkLogConsumer(LogConsumer):
         self._ssh_client.close()
         self._ssh_client.load_system_host_keys()
         self._ssh_client.connect(hostname=self._remote_host, username=self._remote_user, port=self._remote_port)
+        logging.info("A connection to the SSH server was reestablished")
 
     def _consume_loop(self):
         logging.info(
