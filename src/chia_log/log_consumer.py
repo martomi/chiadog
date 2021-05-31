@@ -106,8 +106,9 @@ class NetworkLogConsumer(LogConsumer):
         self._ssh_client.close()
         self._is_running = False
 
-    @retry(socket.error, delay=2, backoff=2, max_delay=120)
+    @retry(socket.error, delay=10, backoff=2, max_delay=120)
     def _reconnect(self):
+        logging.debug("Connection with SSH server was terminated. Reconnecting...")
         self._ssh_client.close()
         self._ssh_client.load_system_host_keys()
         self._ssh_client.connect(hostname=self._remote_host, username=self._remote_user, port=self._remote_port)
