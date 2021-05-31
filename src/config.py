@@ -44,7 +44,7 @@ class Config:
         return self._get_child_config("daily_stats")
 
     @staticmethod
-    def get_offset() -> Path:
+    def get_log_offset_path() -> Path:
         return Path("debug.log.offset")
 
 

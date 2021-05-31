@@ -58,7 +58,7 @@ class FileLogConsumer(LogConsumer):
         super().__init__()
         logging.info("Enabled local file log consumer.")
         self._expanded_log_path = str(log_path.expanduser())
-        self._offset_path = Config.get_offset()
+        self._offset_path = Config.get_log_offset_path()
         self._is_running = True
         self._thread = Thread(target=self._consume_loop)
         self._thread.start()
