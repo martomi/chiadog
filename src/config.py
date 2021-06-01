@@ -43,6 +43,10 @@ class Config:
     def get_daily_stats_config(self):
         return self._get_child_config("daily_stats")
 
+    @staticmethod
+    def get_log_offset_path() -> Path:
+        return Path("debug.log.offset")
+
 
 def check_keys(required_keys, config) -> bool:
     for key in required_keys:
