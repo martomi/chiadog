@@ -165,7 +165,7 @@ class WindowsNetworkLogConsumer(NetworkLogConsumer):
 
     def _has_rotated(self, path: PurePath) -> bool:
         stdin, stdout, stderr = self._ssh_client.exec_command(
-            f"powershell.exe Write-Hos(Get-Item {str(path)}).length"
+            f"powershell.exe Write-Host(Get-Item {str(path)}).length"
         )
 
         old_size = self._log_size
