@@ -30,7 +30,8 @@ keep_alive_monitor:
 # on your farm performance at the specified time of the day.
 daily_stats:
   enable: true
-  time_of_day: 21
+  notify_hour: 21
+  notify_minute: 0
   frequency_hours: 24
 
 # We support a lot of notifiers, please check the README for more

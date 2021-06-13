@@ -27,7 +27,8 @@ class StatsManager:
 
     def __init__(self, config: dict, notify_manager: NotifyManager):
         self._enable = config.get("enable", False)
-        self._time_of_day = config.get("time_of_day", 21)
+        self._notify_hour = config.get("notify_hour", 21)
+        self._notify_minute = config.get("notify_minute", 0)
         self._frequency_hours = config.get("frequency_hours", 24)
 
         if not self._enable:
@@ -47,9 +48,9 @@ class StatsManager:
 
         logging.info(
             f"Summary notifications will be sent out every {self._frequency_hours} "
-            f"hours starting from {self._time_of_day} o'clock"
+            f"hours starting from {self._notify_hour:02d}:{self._notify_minute:02d}"
         )
-        self._datetime_next_summary = datetime.now().replace(hour=self._time_of_day, minute=0, second=0, microsecond=0)
+        self._datetime_next_summary = datetime.now().replace(hour=self._notify_hour, minute=self._notify_minute, second=0, microsecond=0)
         while datetime.now() > self._datetime_next_summary:
             self._datetime_next_summary += timedelta(hours=self._frequency_hours)
 
