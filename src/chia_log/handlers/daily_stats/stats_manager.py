@@ -1,5 +1,6 @@
 # std
 import logging
+import re
 from datetime import datetime, timedelta
 from typing import List
 from threading import Thread
@@ -27,8 +28,8 @@ class StatsManager:
 
     def __init__(self, config: dict, notify_manager: NotifyManager):
         self._enable = config.get("enable", False)
-        self._notify_hour = config.get("notify_hour", 21)
-        self._notify_minute = config.get("notify_minute", 0)
+        self._notify_hour = self._parse_notify_time(config.get("time_of_day", "21:00"), "hour")
+        self._notify_minute = self._parse_notify_time(config.get("time_of_day", "21:00"), "minute")
         self._frequency_hours = config.get("frequency_hours", 24)
 
         if not self._enable:
@@ -102,3 +103,20 @@ class StatsManager:
 
     def stop(self):
         self._is_running = False
+
+    def _parse_notify_time(self, value, hm):
+        if type(value) == int:
+            if hm == "hour":
+                return value
+            return 0
+        elif type(value) == str:
+            if re.match('(?:[01]\d|2[0123]):(?:[012345]\d)', value) is not None:
+                if hm == "hour":
+                    return int(value[:2])
+                elif hm == "minute":
+                    return int(value[-2:])
+            else:
+                if hm == "hour":
+                    return 21
+                elif hm == "minute":
+                    return 0
