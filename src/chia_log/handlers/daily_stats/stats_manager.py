@@ -2,7 +2,7 @@
 import logging
 import re
 from datetime import datetime, timedelta
-from typing import List
+from typing import List, Union
 from threading import Thread
 from time import sleep
 
@@ -28,8 +28,7 @@ class StatsManager:
 
     def __init__(self, config: dict, notify_manager: NotifyManager):
         self._enable = config.get("enable", False)
-        self._notify_hour = self._parse_notify_time(config.get("time_of_day", "21:00"), "hour")
-        self._notify_minute = self._parse_notify_time(config.get("time_of_day", "21:00"), "minute")
+        self._notify_time = self._parse_notify_time(config.get("time_of_day", "21:00"))
         self._frequency_hours = config.get("frequency_hours", 24)
 
         if not self._enable:
@@ -49,9 +48,9 @@ class StatsManager:
 
         logging.info(
             f"Summary notifications will be sent out every {self._frequency_hours} "
-            f"hours starting from {self._notify_hour:02d}:{self._notify_minute:02d}"
+            f"hours starting from {self._notify_time['hour']:02d}:{self._notify_time['minute']:02d}"
         )
-        self._datetime_next_summary = datetime.now().replace(hour=self._notify_hour, minute=self._notify_minute, second=0, microsecond=0)
+        self._datetime_next_summary = datetime.now().replace(hour=self._notify_time['hour'], minute=self._notify_time['minute'], second=0, microsecond=0)
         while datetime.now() > self._datetime_next_summary:
             self._datetime_next_summary += timedelta(hours=self._frequency_hours)
 
@@ -104,19 +103,12 @@ class StatsManager:
     def stop(self):
         self._is_running = False
 
-    def _parse_notify_time(self, value, hm):
+    def _parse_notify_time(self, value: Union[str, int], default: dict = {'hour': 21, 'minute': 0}) -> dict:
         if type(value) == int:
-            if hm == "hour":
-                return value
-            return 0
-        elif type(value) == str:
-            if re.match('(?:[01]\d|2[0123]):(?:[012345]\d)', value) is not None:
-                if hm == "hour":
-                    return int(value[:2])
-                elif hm == "minute":
-                    return int(value[-2:])
-            else:
-                if hm == "hour":
-                    return 21
-                elif hm == "minute":
-                    return 0
+            return {'hour': value, 'minute': 0}
+
+        match = re.match('(?:[01]\d|2[0-3]):(?:[0-5]\d)', value)
+        if match:
+            return {'hour': int(value[:2]), 'minute': int(value[-2:])}
+
+        return default
