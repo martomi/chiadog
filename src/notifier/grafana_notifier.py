@@ -6,11 +6,10 @@ import urllib.parse
 import re
 from datetime import datetime, timedelta
 from http.client import HTTPConnection, HTTPResponse
-from typing import List, Tuple, Union
-
-# project
+from typing import List, Tuple
 from urllib.parse import ParseResult
 
+# project
 from . import Notifier, Event
 
 
@@ -20,12 +19,12 @@ class GrafanaNotifier(Notifier):
         super().__init__(title_prefix, config)
         try:
             credentials = config["credentials"]
-            self._base_url = str(credentials["base_url"]).rstrip('/')
+            self._base_url = str(credentials["base_url"]).rstrip("/")
             self._api_token = credentials["api_token"]
             self._dashboard_id = credentials.get("dashboard_id", -1)
             self._panel_id = credentials.get("panel_id", -1)
             self._offline_annotation_id = 0
-            self._offline_duration = 0
+            self._offline_duration = 0.0
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
 
@@ -34,9 +33,11 @@ class GrafanaNotifier(Notifier):
         for event in events:
             if event.type in self._notification_types and event.service in self._notification_services:
                 start, end, duration = self._get_time_range(event.message)
-                if event.message.find('Your harvester appears to be offline') >= 0 \
-                        and self._offline_annotation_id != 0 \
-                        and self._offline_duration < duration:
+                if (
+                    event.message.find("Your harvester appears to be offline") >= 0
+                    and self._offline_annotation_id != 0
+                    and self._offline_duration < duration
+                ):
                     # update annotation
                     success = self._update_annotation(event)
                 else:
@@ -56,7 +57,7 @@ class GrafanaNotifier(Notifier):
         }
 
         endpoint = urllib.parse.urlparse(f"{self._base_url}/api/annotations/{self._offline_annotation_id}")
-        response = self._send_request('PATCH', endpoint, json_payload)
+        response = self._send_request("PATCH", endpoint, json_payload)
 
         if response.getcode() != 200:
             logging.warning(f"Problem sending event to user, code: {response.getcode()}")
@@ -84,20 +85,20 @@ class GrafanaNotifier(Notifier):
             json_payload["panelId"] = self._panel_id
 
         endpoint = urllib.parse.urlparse(f"{self._base_url}/api/annotations")
-        response = self._send_request('POST', endpoint, json_payload)
+        response = self._send_request("POST", endpoint, json_payload)
         if response.getcode() != 200:
             logging.warning(f"Problem sending event to user, code: {response.getcode()}")
             return False
         else:
-            result = json.loads(response.read().decode('utf-8'))
-            if event.message.find('Your harvester appears to be offline') >= 0:
-                self._offline_annotation_id = result['id']
+            result = json.loads(response.read().decode("utf-8"))
+            if event.message.find("Your harvester appears to be offline") >= 0:
+                self._offline_annotation_id = result["id"]
                 self._offline_duration = duration
 
         return True
 
     def _get_time_range(self, message: str) -> Tuple[int, int, float]:
-        res = re.search(r'(\d.+\d?)(?=\s+seconds)', message)
+        res = re.search(r"(\d.+\d?)(?=\s+seconds)", message)
         now = datetime.now()
         if res:
             seconds = float(res.group(1))
