@@ -55,6 +55,7 @@ You may use one (or more) of the following integrations to receive notifications
 | Telegram | Quick & easy setup. | Free |
 | Shell script (beta) | Execute anything in your own script. | Free |
 | MQTT | Well-suited for Home Automation. | Free | 
+| Grafana | For hardware monitoring. | Free |
 
 For detailed guide on how to test and configure, please refer to [INTEGRATIONS.md](INTEGRATIONS.md).
 

@@ -95,3 +95,10 @@ notifier:
       port: 8883
       username: ''
       password: ''
+  grafana:
+    enable: false
+    credentials:
+      base_url: ''
+      api_token: ''
+      dashboard_id: -1
+      panel_id: -1
