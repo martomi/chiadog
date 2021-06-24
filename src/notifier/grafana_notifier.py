@@ -29,7 +29,7 @@ class GrafanaNotifier(Notifier):
             logging.error(f"Invalid config.yaml. Missing key: {key}")
 
     def send_events_to_user(self, events: List[Event]) -> bool:
-        success = False
+        success = True
         for event in events:
             if event.type in self._notification_types and event.service in self._notification_services:
                 start, end, duration = self._get_time_range(event.message)
