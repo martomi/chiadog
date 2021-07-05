@@ -185,7 +185,7 @@ every 10 minutes. If it does not, it will notify you. It has integrations with P
 
 ```
 . ./venv/bin/activate
-nohup python3 -u main.py --config config.yaml > output.log &
+nohup python3 -u main.py --config config.yaml > output.log 2>&1 &
 ```
 
 To stop chiadog, you can find the Process ID (PID) via `ps aux | grep main.py` and then softly interrupt the process
