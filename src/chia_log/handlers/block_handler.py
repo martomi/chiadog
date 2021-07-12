@@ -8,7 +8,7 @@ from ..parsers.block_parser import BlockParser
 from .condition_checkers import BlockConditionChecker
 from .condition_checkers.found_blocks import FoundBlocks
 from .daily_stats.stats_manager import StatsManager
-from src.notifier import Event
+from src.notifier import Event, EventService, EventType, EventPriority
 
 
 class BlockHandler(LogHandler):
