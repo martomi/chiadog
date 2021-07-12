@@ -17,7 +17,7 @@ class FoundPartialStats(PartialConsumer, StatAccumulator):
 
     def consume(self, obj: PartialMessage):
         if obj.partials_count > 0:
-            logging.info("Found a proof!")
+            logging.info("Submitting a partial!")
         self._found_partials_total += obj.partials_count
 
     def get_summary(self) -> str:
