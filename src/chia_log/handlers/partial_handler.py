@@ -4,23 +4,22 @@ from typing import List, Optional
 
 # project
 from . import LogHandler
-from ..parsers.farming_parser import FarmingParser
-from .condition_checkers import FarmingConditionChecker
-from .condition_checkers.found_blocks import FoundBlocks
+from ..parsers.partial_parser import PartialParser
+from .condition_checkers import PartialConditionChecker
 from .condition_checkers.found_partials import FoundPartials
 from .daily_stats.stats_manager import StatsManager
 from src.notifier import Event
 
 
-class FarmingHandler(LogHandler):
-    """This handler parses all logs indicating found partials and block
+class PartialHandler(LogHandler):
+    """This handler parses all logs indicating found partials
     activity by the full node. It holds a list of condition checkers
     that are evaluated for each event.
     """
 
     def __init__(self):
-        self._parser = FarmingParser()
-        self._cond_checkers: List[FarmingConditionChecker] = [FoundBlocks(), FoundPartials()]
+        self._parser = PartialParser()
+        self._cond_checkers: List[PartialConditionChecker] = [FoundPartials()]
 
     def handle(self, logs: str, stats_manager: Optional[StatsManager] = None) -> List[Event]:
         """Process incoming logs, check all conditions
@@ -29,6 +28,8 @@ class FarmingHandler(LogHandler):
 
         events = []
         activity_messages = self._parser.parse(logs)
+        if stats_manager:
+            stats_manager.consume_partial_messages(activity_messages)
         
         # Create a keep-alive event if any logs indicating
         # activity have been successfully parsed
