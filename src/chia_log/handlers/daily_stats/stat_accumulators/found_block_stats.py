@@ -6,7 +6,7 @@ from datetime import datetime
 from .. import BlockConsumer, BlockMessage, StatAccumulator
 
 
-class FoundBlockStats(PartialConsumer, StatAccumulator):
+class FoundBlockStats(BlockConsumer, StatAccumulator):
     def __init__(self):
         self._last_reset_time = datetime.now()
         self._found_blocks_total = 0
