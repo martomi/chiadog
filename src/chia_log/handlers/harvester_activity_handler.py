@@ -27,7 +27,7 @@ class HarvesterActivityHandler(LogHandler):
             TimeSinceLastFarmEvent(),
             NonDecreasingPlots(),
             QuickPlotSearchTime(),
-            FoundProofs(),
+            # FoundProofs(),
         ]
 
     def handle(self, logs: str, stats_manager: Optional[StatsManager] = None) -> List[Event]:

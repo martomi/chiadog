@@ -19,7 +19,9 @@ class PartialHandler(LogHandler):
 
     def __init__(self):
         self._parser = PartialParser()
-        self._cond_checkers: List[PartialConditionChecker] = [FoundPartials()]
+        self._cond_checkers: List[PartialConditionChecker] = [
+            # FoundPartials()
+        ]
 
     def handle(self, logs: str, stats_manager: Optional[StatsManager] = None) -> List[Event]:
         """Process incoming logs, check all conditions
