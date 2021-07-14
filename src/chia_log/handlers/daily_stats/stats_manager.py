@@ -2,7 +2,7 @@
 import logging
 import re
 from datetime import datetime, timedelta
-from typing import List, Union
+from typing import cast, List, Union
 from threading import Thread
 from time import sleep
 
@@ -50,7 +50,9 @@ class StatsManager:
             f"Summary notifications will be sent out every {self._frequency_hours} "
             f"hours starting from {self._notify_time['hour']:02d}:{self._notify_time['minute']:02d}"
         )
-        self._datetime_next_summary = datetime.now().replace(hour=self._notify_time['hour'], minute=self._notify_time['minute'], second=0, microsecond=0)
+        self._datetime_next_summary = datetime.now().replace(
+            hour=self._notify_time["hour"], minute=self._notify_time["minute"], second=0, microsecond=0
+        )
         while datetime.now() > self._datetime_next_summary:
             self._datetime_next_summary += timedelta(hours=self._frequency_hours)
 
@@ -103,12 +105,13 @@ class StatsManager:
     def stop(self):
         self._is_running = False
 
-    def _parse_notify_time(self, value: Union[str, int], default: dict = {'hour': 21, 'minute': 0}) -> dict:
+    def _parse_notify_time(self, value: Union[str, int], default: dict = {"hour": 21, "minute": 0}) -> dict:
         if type(value) == int:
-            return {'hour': value, 'minute': 0}
+            return {"hour": value, "minute": 0}
 
-        match = re.match('(?:[01]\d|2[0-3]):(?:[0-5]\d)', value)
+        value = cast(str, value)
+        match = re.match(r"(?:[01]\d|2[0-3]):(?:[0-5]\d)", value)
         if match:
-            return {'hour': int(value[:2]), 'minute': int(value[-2:])}
+            return {"hour": int(value[:2]), "minute": int(value[-2:])}
 
         return default
