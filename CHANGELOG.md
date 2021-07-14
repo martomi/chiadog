@@ -7,6 +7,20 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.6.1] - 2021-07-14
+
+The purpose of this minor release is to get out a few fixes. No major new features in this release.
+
+### Added
+- Config: Now you can specify minutes (hh:mm) for daily stats scheduling (thanks [@kanasite](https://github.com/kanasite))
+
+### Fixed
+- Fix corrupt log offset file after unexpected shutdown of chiadog (thanks [@pieterhelsen](https://github.com/pieterhelsen))
+- Windows: Fix parsing for finished signage points (thanks [@pieterhelsen](https://github.com/pieterhelsen))
+- Windows: Fix check for rotated log files (thanks [@mezzovide](https://github.com/mezzovide))
+- Install script: Fix detection for already installed packages (thanks [@bradclow](https://github.com/bradclow))
+- Check version: Fix cleanup of git process after execution (thanks [@pieterhelsen](https://github.com/pieterhelsen))
+
 ## [0.6.0] - 2021-05-25
 
 ### Added
@@ -166,7 +180,9 @@ The purpose of this minor release is to get out a few fixes. No new features in 
 - Adds basic condition checks for harvester operations.
 - Adds integration for Pushover (mobile notifications).
 
-[Unreleased]: https://github.com/martomi/chiadog/compare/v0.6.0...dev
+[Unreleased]: https://github.com/martomi/chiadog/compare/v0.6.1...dev
+
+[0.6.1]: https://github.com/martomi/chiadog/releases/tag/v0.6.1
 
 [0.6.0]: https://github.com/martomi/chiadog/releases/tag/v0.6.0
 
