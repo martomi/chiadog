@@ -26,6 +26,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install black flake8 mypy
+        pip install types-PyYAML types-python-dateutil types-paramiko types-retry
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Format check with Black
       run: black --check src tests
