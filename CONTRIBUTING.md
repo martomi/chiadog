@@ -35,6 +35,7 @@ Before submitting a PR make sure that your feature is covered with tests.
 
 ```
 pip3 install black flake8 mypy
+pip3 install types-PyYAML types-python-dateutil types-paramiko types-retry
 ```
 
 2. Run formatting, type checking and linting:
