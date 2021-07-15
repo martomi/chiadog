@@ -55,7 +55,9 @@ def init(config:Config):
 
     # Remove the Pygtail offset file if it exists
     # Fixes a bug where hard reboot corrupts the offset file
-    Config.get_log_offset_path().unlink(missing_ok=True)
+    offset = Config.get_log_offset_path()
+    if offset.exists():
+        offset.unlink()
 
     # Create log consumer based on provided configuration
     chia_logs_config = config.get_chia_logs_config()
