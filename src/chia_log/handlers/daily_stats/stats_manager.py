@@ -2,7 +2,7 @@
 import logging
 import re
 from datetime import datetime, timedelta
-from typing import List, Union
+from typing import cast, List, Union
 from threading import Thread
 from time import sleep
 
@@ -109,7 +109,10 @@ class StatsManager:
         if type(value) == int:
             return {"hour": value, "minute": 0}
 
-        match = re.match("(?:[01]\d|2[0-3]):(?:[0-5]\d)", value)
+
+        value = cast(str, value)
+        match = re.match(r"(?:[01]\d|2[0-3]):(?:[0-5]\d)", value)
+
         if match:
             return {"hour": int(value[:2]), "minute": int(value[-2:])}
 
