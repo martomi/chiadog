@@ -109,7 +109,6 @@ class StatsManager:
         if type(value) == int:
             return {"hour": value, "minute": 0}
 
-
         value = cast(str, value)
         match = re.match(r"(?:[01]\d|2[0-3]):(?:[0-5]\d)", value)
 
