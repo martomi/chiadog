@@ -7,7 +7,6 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import List
 from enum import Enum
-import logging
 
 
 class EventPriority(Enum):
@@ -66,14 +65,14 @@ class Notifier(ABC):
         self._notification_types = [EventType.USER]
         self._notification_services = [EventService.HARVESTER, EventService.FARMER, EventService.FULL_NODE]
 
-        try:
-            if config["daily_stats"]:
-                self._notification_types.append(EventType.DAILY_STATS)
-                self._notification_services.append(EventService.DAILY)
-            if config["wallet_events"]:
-                self._notification_services.append(EventService.WALLET)
-        except KeyError as key:
-            logging.error(f"Invalid config.yaml. Missing key: {key}")
+        daily_stats = config.get("daily_stats", False)
+        wallet_events = config.get("wallet_events", False)
+
+        if daily_stats:
+            self._notification_types.append(EventType.DAILY_STATS)
+            self._notification_services.append(EventService.DAILY)
+        if wallet_events:
+            self._notification_services.append(EventService.WALLET)
 
     def get_title_for_event(self, event):
         icon = ""

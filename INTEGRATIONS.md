@@ -111,6 +111,30 @@ HOST=<hostname> PORT=<port> TOPIC=<mqtt_topic> MQTT_USERNAME=<username> MQTT_PAS
 QOS=<quality_of_service> RETAIN=<retain> python3 -m unittest tests.notifier.test_mqtt_notifier
 ```
 
+## Grafana
+
+[Grafana](https://grafana.com/) is a great way to monitor your hardware. This integration automatically creates
+annotations on your Dashboard so that you can inspect the state of your hardware right when there was a notification
+triggered by Chiadog. 
+
+This is a great article on how to use Grafana and Prometheus for monitoring your hardware:
+https://oastic.com/posts/how-to-monitor-an-ubuntu-server-with-grafana-prometheus/
+
+For this notifier, you will need the following credentials:
+
+- base_url: the base url of your Grafana instance.
+- api_token: instructions on how to create an API token are available [here](https://grafana.com/docs/grafana/latest/http_api/auth/#create-api-token). Make sure to give the client `editor` permissions
+- dashboard_id: You can find the dashboard id by navigating to Settings > JSON Model within your dashboard.
+- panel_id: You can find the panel id by clicking the panel and then selecting Inspect > Panel JSON
+
+Dashboard ID and Panel ID are both optional. If left out, a global annotation will be created.
+
+Test with:
+
+```
+GRAFANA_BASE_URL=<webhook_url> GRAFANA_API_TOKEN=<api_token> python3 -m unittest tests.notifier.test_grafana_notifier
+```
+
 ## Unit Testing on Windows
 
 When running unit tests on Windows, you will want to use PowerShell to set environment variables like this:
