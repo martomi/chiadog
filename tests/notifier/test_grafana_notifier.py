@@ -25,22 +25,22 @@ class TestGrafanaNotifier(unittest.TestCase):
         )
 
     @unittest.skipUnless(
-        os.getenv("GRAFANA_BASE_URL") and os.getenv("GRAFANA_BASE_URL"), "Run only if credentials available"
+        os.getenv("GRAFANA_BASE_URL") and os.getenv("GRAFANA_API_TOKEN"), "Run only if credentials available"
     )
-    def testSlackLowPriorityNotifications(self):
+    def testGrafanaLowPriorityNotifications(self):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
         self.assertTrue(success)
 
     @unittest.skipUnless(
         os.getenv("GRAFANA_BASE_URL") and os.getenv("GRAFANA_BASE_URL"), "Run only if credentials available"
     )
-    def testSlackNormalPriorityNotifications(self):
+    def testGrafanaNormalPriorityNotifications(self):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
         self.assertTrue(success)
 
     @unittest.skipUnless(
         os.getenv("GRAFANA_BASE_URL") and os.getenv("GRAFANA_BASE_URL"), "Run only if credentials available"
     )
-    def testSlackHighPriorityNotifications(self):
+    def testGrafanaHighPriorityNotifications(self):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
         self.assertTrue(success)
