@@ -7,7 +7,6 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import List
 from enum import Enum
-import logging
 
 
 class EventPriority(Enum):
