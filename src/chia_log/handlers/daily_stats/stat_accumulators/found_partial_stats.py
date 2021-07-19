@@ -21,6 +21,4 @@ class FoundPartialStats(PartialConsumer, StatAccumulator):
         self._found_partials_total += obj.partials_count
 
     def get_summary(self) -> str:
-        if self._found_partials_total == 0:
-            return "Partials submitted 🧾: None"
-        return f"Partials submitted 🧾: {self._found_partials_total}!"
+        return f"\t - {self._found_partials_total} partials submitted 📑"
