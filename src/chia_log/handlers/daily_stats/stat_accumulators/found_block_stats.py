@@ -21,6 +21,4 @@ class FoundBlockStats(BlockConsumer, StatAccumulator):
         self._found_blocks_total += obj.blocks_count
 
     def get_summary(self) -> str:
-        if self._found_blocks_total == 0:
-            return "Blocks 📦: None"
-        return f"Blocks 📦: {self._found_blocks_total} found!"
+        return f"\t - {self._found_blocks_total} blocks found 📦!"

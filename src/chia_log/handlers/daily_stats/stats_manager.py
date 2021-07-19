@@ -44,12 +44,12 @@ class StatsManager:
         self._stat_accumulators = [
             WalletAddedCoinStats(),
             FoundProofStats(),
+            FoundPartialStats(),
+            FoundBlockStats(),
             SearchTimeStats(),
             NumberPlotsStats(),
             EligiblePlotsStats(),
             SignagePointStats(),
-            FoundPartialStats(),
-            FoundBlockStats(),
         ]
 
         logging.info(
