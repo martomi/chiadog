@@ -53,6 +53,10 @@ def init(config:Config):
 
     logging.info(f"Starting Chiadog ({version()})")
 
+    # Remove the Pygtail offset file if it exists
+    # Fixes a bug where hard reboot corrupts the offset file
+    Config.get_log_offset_path().unlink(missing_ok=True)
+
     # Create log consumer based on provided configuration
     chia_logs_config = config.get_chia_logs_config()
     log_consumer = create_log_consumer_from_config(chia_logs_config)
@@ -97,7 +101,8 @@ def version():
     try:
         command_args = ["git", "describe", "--tags"]
         f = subprocess.Popen(command_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        return f.stdout.readline().decode(encoding="utf-8").rstrip()
+        stdout, stderr = f.communicate()
+        return stdout.decode(encoding="utf-8").rstrip()
     except:
         return "unknown"
 

@@ -15,7 +15,7 @@ from time import sleep
 from typing import List, Optional, Tuple
 
 # project
-
+from src.config import Config
 from src.config import check_keys
 from src.util import OS
 
@@ -58,7 +58,7 @@ class FileLogConsumer(LogConsumer):
         super().__init__()
         logging.info("Enabled local file log consumer.")
         self._expanded_log_path = str(log_path.expanduser())
-        self._offset_path = PurePath("debug.log.offset")
+        self._offset_path = Config.get_log_offset_path()
         self._is_running = True
         self._thread = Thread(target=self._consume_loop)
         self._thread.start()
@@ -164,9 +164,7 @@ class WindowsNetworkLogConsumer(NetworkLogConsumer):
         return stdin, stdout, stderr
 
     def _has_rotated(self, path: PurePath) -> bool:
-        stdin, stdout, stderr = self._ssh_client.exec_command(
-            f"powershell.exe Write-Host((Get-Item {str(path)}).length"
-        )
+        stdin, stdout, stderr = self._ssh_client.exec_command(f"powershell.exe Write-Host(Get-Item {str(path)}).length")
 
         old_size = self._log_size
         self._log_size = int(stdout.readline())
