@@ -24,9 +24,7 @@ class PartialParser:
     """
 
     def __init__(self):
-        logging.info("Enabled parser for partials stats.")
-        # Doing some "smart" tricks with this expression to also match the 64th signage point
-        # with the same regex expression. See test examples to see how they differ.
+        logging.info("Enabled parser for partial submitting stats.")
         self._regex = re.compile(
             r"([0-9:.]*) farmer (?:src|chia).farmer.farmer\s*: INFO\s* (Submitting partial)"
         )

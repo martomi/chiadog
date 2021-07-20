@@ -19,9 +19,7 @@ class PartialHandler(LogHandler):
 
     def __init__(self):
         self._parser = PartialParser()
-        self._cond_checkers: List[PartialConditionChecker] = [
-            # FoundPartials()
-        ]
+        self._cond_checkers: List[PartialConditionChecker] = []
 
     def handle(self, logs: str, stats_manager: Optional[StatsManager] = None) -> List[Event]:
         """Process incoming logs, check all conditions
@@ -32,16 +30,6 @@ class PartialHandler(LogHandler):
         activity_messages = self._parser.parse(logs)
         if stats_manager:
             stats_manager.consume_partial_messages(activity_messages)
-        
-        # Create a keep-alive event if any logs indicating
-        # activity have been successfully parsed
-        if len(activity_messages) > 0:
-            logging.debug(f"Parsed {len(activity_messages)} activity messages")
-            events.append(
-                Event(
-                    type=EventType.KEEPALIVE, priority=EventPriority.NORMAL, service=EventService.FARMER, message=""
-                )
-            )
 
         # Run messages through all condition checkers
         for msg in activity_messages:

@@ -30,16 +30,10 @@ class BlockHandler(LogHandler):
         activity_messages = self._parser.parse(logs)
         if stats_manager:
             stats_manager.consume_block_messages(activity_messages)
-        
-        # Create a keep-alive event if any logs indicating
-        # activity have been successfully parsed
+
         if len(activity_messages) > 0:
-            logging.debug(f"Parsed {len(activity_messages)} activity messages")
-            events.append(
-                Event(
-                    type=EventType.KEEPALIVE, priority=EventPriority.NORMAL, service=EventService.FULL_NODE, message=""
-                )
-            )
+            # Currently not generating keep-alive events for the full node
+            logging.debug(f"Parsed {len(activity_messages)} block found messages")
 
         # Run messages through all condition checkers
         for msg in activity_messages:
