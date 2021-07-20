@@ -19,7 +19,7 @@ class FoundBlocks(BlockConditionChecker):
             message = f"Block found!!"
             logging.info(message)
             return Event(
-                type=EventType.USER, priority=EventPriority.HIGH, service=EventService.FULL_NODE, message=message
+                type=EventType.USER, priority=EventPriority.LOW, service=EventService.FULL_NODE, message=message
             )
 
         return None
