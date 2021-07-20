@@ -21,6 +21,7 @@ helps with automated monitoring and sends you a mobile notification in case some
 | Harvester | Experiencing networking issues? Harvester did not participate in any challenge for 120 seconds. It's now working again. | NORMAL |
 | Harvester | Seeking plots took too long: 21.42 seconds! | NORMAL |
 | Full Node | Experiencing networking issues? Skipped 42 signage points! | NORMAL |
+| Full Node | Block found!! | LOW |
 | Harvester | Found 1 proof(s)! | LOW |
 | Wallet | Cha-ching! Just received 2.0 XCH ☘️ | LOW |
 | Daily Stats | Hello farmer! 👋 Here's what happened in the last 24 hours: <br /><br /> Received ☘️: **2.00** XCH️<br /> Proofs 🧾: **176** found!<br />  - **176** partials submitted 📑<br /> - **0** blocks found 📦<br/> Search 🔍: <br /> - average: **0.46**s <br /> - over 5s: 2 occasions <br /> - over 15s: 1 occasions <br/> Plots 🌱: **42**, new: **2** <br /> Eligible plots 🥇: **0.08** average<br /> Skipped SPs ⚠️: 7 (0.01%) <br /> | LOW |
