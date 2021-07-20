@@ -6,7 +6,6 @@ from typing import List, Optional
 from . import LogHandler
 from ..parsers.partial_parser import PartialParser
 from .condition_checkers import PartialConditionChecker
-from .condition_checkers.found_partials import FoundPartials
 from .daily_stats.stats_manager import StatsManager
 from src.notifier import Event, EventService, EventType, EventPriority
 
