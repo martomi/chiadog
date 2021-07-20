@@ -16,6 +16,7 @@ class PartialMessage:
     timestamp: datetime
     partials_count: int
 
+
 class PartialParser:
     """This class can parse info log messages from the chia farmer
 
@@ -25,9 +26,7 @@ class PartialParser:
 
     def __init__(self):
         logging.info("Enabled parser for partial submitting stats.")
-        self._regex = re.compile(
-            r"([0-9:.]*) farmer (?:src|chia).farmer.farmer\s*: INFO\s* (Submitting partial)"
-        )
+        self._regex = re.compile(r"([0-9:.]*) farmer (?:src|chia).farmer.farmer\s*: INFO\s* (Submitting partial)")
 
     def parse(self, logs: str) -> List[PartialMessage]:
         """Parses all farmer activity messages from a bunch of logs
@@ -39,8 +38,6 @@ class PartialParser:
         parsed_messages = []
         matches = self._regex.findall(logs)
         for match in matches:
-            parsed_messages.append(
-                PartialMessage(timestamp=dateutil_parser.parse(match[0]), partials_count=1)
-            )
+            parsed_messages.append(PartialMessage(timestamp=dateutil_parser.parse(match[0]), partials_count=1))
 
         return parsed_messages

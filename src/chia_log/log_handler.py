@@ -31,7 +31,13 @@ class LogHandler(LogConsumerSubscriber):
     ):
         self._notify_manager = notify_manager
         self._stats_manager = stats_manager
-        self._handlers = [HarvesterActivityHandler(), PartialHandler(), BlockHandler(), FinishedSignagePointHandler(), WalletAddedCoinHandler()]
+        self._handlers = [
+            HarvesterActivityHandler(),
+            PartialHandler(),
+            BlockHandler(),
+            FinishedSignagePointHandler(),
+            WalletAddedCoinHandler(),
+        ]
         log_consumer.subscribe(self)
 
     def consume_logs(self, logs: str):

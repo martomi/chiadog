@@ -16,6 +16,7 @@ class BlockMessage:
     timestamp: datetime
     blocks_count: int
 
+
 class BlockParser:
     """This class can parse info log messages from the chia farmer
 
@@ -39,8 +40,6 @@ class BlockParser:
         parsed_messages = []
         matches = self._regex.findall(logs)
         for match in matches:
-            parsed_messages.append(
-                BlockMessage(timestamp=dateutil_parser.parse(match[0]), blocks_count=1)
-            )
+            parsed_messages.append(BlockMessage(timestamp=dateutil_parser.parse(match[0]), blocks_count=1))
 
         return parsed_messages

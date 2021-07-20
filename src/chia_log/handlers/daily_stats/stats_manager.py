@@ -7,7 +7,13 @@ from threading import Thread
 from time import sleep
 
 # project
-from . import HarvesterActivityConsumer, PartialConsumer, BlockConsumer, WalletAddedCoinConsumer, FinishedSignageConsumer
+from . import (
+    HarvesterActivityConsumer,
+    PartialConsumer,
+    BlockConsumer,
+    WalletAddedCoinConsumer,
+    FinishedSignageConsumer,
+)
 from .stat_accumulators.eligible_plots_stats import EligiblePlotsStats
 from .stat_accumulators.wallet_added_coin_stats import WalletAddedCoinStats
 from .stat_accumulators.search_time_stats import SearchTimeStats
@@ -89,7 +95,7 @@ class StatsManager:
         for stat_acc in self._stat_accumulators:
             if isinstance(stat_acc, PartialConsumer):
                 for obj in objects:
-                    stat_acc.consume(obj)               
+                    stat_acc.consume(obj)
 
     def consume_block_messages(self, objects: List[BlockMessage]):
         if not self._enable:

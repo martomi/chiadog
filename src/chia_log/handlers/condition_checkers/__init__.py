@@ -21,10 +21,12 @@ class HarvesterConditionChecker(ABC):
     def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:
         pass
 
+
 class PartialConditionChecker(ABC):
     @abstractmethod
     def check(self, obj: PartialMessage) -> Optional[Event]:
         pass
+
 
 class BlockConditionChecker(ABC):
     @abstractmethod

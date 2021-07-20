@@ -18,8 +18,6 @@ class FoundPartials(PartialConditionChecker):
         if obj.partials_count > 0:
             message = f"Submitting partials"
             logging.info(message)
-            return Event(
-                type=EventType.USER, priority=EventPriority.LOW, service=EventService.FARMER, message=message
-            )
+            return Event(type=EventType.USER, priority=EventPriority.LOW, service=EventService.FARMER, message=message)
 
         return None

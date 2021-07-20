@@ -8,6 +8,7 @@ from ...parsers.wallet_added_coin_parser import WalletAddedCoinMessage
 from ...parsers.partial_parser import PartialMessage
 from ...parsers.block_parser import BlockMessage
 
+
 class FinishedSignageConsumer(ABC):
     @abstractmethod
     def consume(self, obj: FinishedSignagePointMessage):
@@ -19,15 +20,18 @@ class HarvesterActivityConsumer(ABC):
     def consume(self, obj: HarvesterActivityMessage):
         pass
 
+
 class PartialConsumer(ABC):
     @abstractmethod
     def consume(self, obj: PartialMessage):
         pass
 
+
 class BlockConsumer(ABC):
     @abstractmethod
     def consume(self, obj: BlockMessage):
         pass
+
 
 class WalletAddedCoinConsumer(ABC):
     @abstractmethod
