@@ -7,16 +7,26 @@ from threading import Thread
 from time import sleep
 
 # project
-from . import HarvesterActivityConsumer, WalletAddedCoinConsumer, FinishedSignageConsumer
+from . import (
+    HarvesterActivityConsumer,
+    PartialConsumer,
+    BlockConsumer,
+    WalletAddedCoinConsumer,
+    FinishedSignageConsumer,
+)
 from .stat_accumulators.eligible_plots_stats import EligiblePlotsStats
 from .stat_accumulators.wallet_added_coin_stats import WalletAddedCoinStats
 from .stat_accumulators.search_time_stats import SearchTimeStats
 from .stat_accumulators.signage_point_stats import SignagePointStats
 from .stat_accumulators.found_proof_stats import FoundProofStats
 from .stat_accumulators.number_plots_stats import NumberPlotsStats
+from .stat_accumulators.found_partial_stats import FoundPartialStats
+from .stat_accumulators.found_block_stats import FoundBlockStats
 from src.chia_log.parsers.wallet_added_coin_parser import WalletAddedCoinMessage
 from src.chia_log.parsers.harvester_activity_parser import HarvesterActivityMessage
 from src.chia_log.parsers.finished_signage_point_parser import FinishedSignagePointMessage
+from src.chia_log.parsers.partial_parser import PartialMessage
+from src.chia_log.parsers.block_parser import BlockMessage
 from src.notifier.notify_manager import NotifyManager
 from src.notifier import Event, EventType, EventPriority, EventService
 
@@ -40,6 +50,8 @@ class StatsManager:
         self._stat_accumulators = [
             WalletAddedCoinStats(),
             FoundProofStats(),
+            FoundPartialStats(),
+            FoundBlockStats(),
             SearchTimeStats(),
             NumberPlotsStats(),
             EligiblePlotsStats(),
@@ -74,6 +86,22 @@ class StatsManager:
             return
         for stat_acc in self._stat_accumulators:
             if isinstance(stat_acc, HarvesterActivityConsumer):
+                for obj in objects:
+                    stat_acc.consume(obj)
+
+    def consume_partial_messages(self, objects: List[PartialMessage]):
+        if not self._enable:
+            return
+        for stat_acc in self._stat_accumulators:
+            if isinstance(stat_acc, PartialConsumer):
+                for obj in objects:
+                    stat_acc.consume(obj)
+
+    def consume_block_messages(self, objects: List[BlockMessage]):
+        if not self._enable:
+            return
+        for stat_acc in self._stat_accumulators:
+            if isinstance(stat_acc, BlockConsumer):
                 for obj in objects:
                     stat_acc.consume(obj)
 

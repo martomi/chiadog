@@ -4,6 +4,8 @@ from typing import Optional
 # project
 from src.chia_log.handlers.daily_stats.stats_manager import StatsManager
 from src.chia_log.handlers.harvester_activity_handler import HarvesterActivityHandler
+from src.chia_log.handlers.partial_handler import PartialHandler
+from src.chia_log.handlers.block_handler import BlockHandler
 from src.chia_log.handlers.finished_signage_point_handler import FinishedSignagePointHandler
 from src.chia_log.handlers.wallet_added_coin_handler import WalletAddedCoinHandler
 from src.chia_log.log_consumer import LogConsumerSubscriber, LogConsumer
@@ -29,7 +31,13 @@ class LogHandler(LogConsumerSubscriber):
     ):
         self._notify_manager = notify_manager
         self._stats_manager = stats_manager
-        self._handlers = [HarvesterActivityHandler(), FinishedSignagePointHandler(), WalletAddedCoinHandler()]
+        self._handlers = [
+            HarvesterActivityHandler(),
+            PartialHandler(),
+            BlockHandler(),
+            FinishedSignagePointHandler(),
+            WalletAddedCoinHandler(),
+        ]
         log_consumer.subscribe(self)
 
     def consume_logs(self, logs: str):
