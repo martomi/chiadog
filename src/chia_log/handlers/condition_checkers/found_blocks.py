@@ -16,7 +16,7 @@ class FoundBlocks(BlockConditionChecker):
 
     def check(self, obj: BlockMessage) -> Optional[Event]:
         if obj.blocks_count > 0:
-            message = f"Block found!!"
+            message = "Block found!"
             logging.info(message)
             return Event(
                 type=EventType.USER, priority=EventPriority.LOW, service=EventService.FULL_NODE, message=message

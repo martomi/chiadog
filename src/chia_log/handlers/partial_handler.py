@@ -1,5 +1,4 @@
 # std
-import logging
 from typing import List, Optional
 
 # project
@@ -7,7 +6,7 @@ from . import LogHandler
 from ..parsers.partial_parser import PartialParser
 from .condition_checkers import PartialConditionChecker
 from .daily_stats.stats_manager import StatsManager
-from src.notifier import Event, EventService, EventType, EventPriority
+from src.notifier import Event
 
 
 class PartialHandler(LogHandler):
