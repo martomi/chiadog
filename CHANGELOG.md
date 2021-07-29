@@ -7,6 +7,21 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.7.0] - 2021-07-29
+
+This release adds support for pooling!
+
+### Added
+- Correct handling for partial proof submissions - thanks [@kanasite](https://github.com/kanasite)!
+  - No more spam notifications for every partial proof submissions when pooling
+  - Notifications about proofs are replaced by found block notifications
+  - Daily Stats will report the number of partials and blocks found.
+- (Optional) Integration: Grafana annotations - thanks [@pieterhelsen](https://github.com/pieterhelsen)!
+
+### Fixed
+- Thanks [@pieterhelsen](https://github.com/pieterhelsen) for restoring compatibility with Python 3.7.
+- Thanks [@pieterhelsen](https://github.com/pieterhelsen) for keeping our CI tasks running and fixing type checks dependencies.
+
 ## [0.6.1] - 2021-07-14
 
 The purpose of this minor release is to get out a few fixes. No major new features in this release.
@@ -180,22 +195,24 @@ The purpose of this minor release is to get out a few fixes. No new features in 
 - Adds basic condition checks for harvester operations.
 - Adds integration for Pushover (mobile notifications).
 
-[Unreleased]: https://github.com/martomi/chiadog/compare/v0.6.1...dev
+[Unreleased]: https://github.com/martomi/chiadog/compare/v0.7.0...dev
 
-[0.6.1]: https://github.com/martomi/chiadog/releases/tag/v0.6.1
+[0.7.0]: https://github.com/martomi/chiadog/compare/v0.6.1...v0.7.0
 
-[0.6.0]: https://github.com/martomi/chiadog/releases/tag/v0.6.0
+[0.6.1]: https://github.com/martomi/chiadog/compare/v0.6.0...v0.6.1
 
-[0.5.1]: https://github.com/martomi/chiadog/releases/tag/v0.5.1
+[0.6.0]: https://github.com/martomi/chiadog/compare/v0.5.1...v0.6.0
 
-[0.5.0]: https://github.com/martomi/chiadog/releases/tag/v0.5.0
+[0.5.1]: https://github.com/martomi/chiadog/compare/v0.5.0...v0.5.1
 
-[0.4.1]: https://github.com/martomi/chiadog/releases/tag/v0.4.1
+[0.5.0]: https://github.com/martomi/chiadog/compare/v0.4.1...v0.5.0
 
-[0.4.0]: https://github.com/martomi/chiadog/releases/tag/v0.4.0
+[0.4.1]: https://github.com/martomi/chiadog/compare/v0.4.0...v0.4.1
 
-[0.3.0]: https://github.com/martomi/chiadog/releases/tag/v0.3.0
+[0.4.0]: https://github.com/martomi/chiadog/compare/v0.3.0...v0.4.0
 
-[0.2.0]: https://github.com/martomi/chiadog/releases/tag/v0.2.0
+[0.3.0]: https://github.com/martomi/chiadog/compare/v0.2.0...v0.3.0
+
+[0.2.0]: https://github.com/martomi/chiadog/compare/v0.1.0...v0.2.0
 
 [0.1.0]: https://github.com/martomi/chiadog/releases/tag/v0.1.0
