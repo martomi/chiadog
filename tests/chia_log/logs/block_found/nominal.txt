@@ -1,0 +1,2 @@
+21:09:51.795 full_node chia.full_node.full_node: INFO     🍀 Farmed unfinished_block a29012c891bf8d764e66605ff3c5b9b12b125d528f3c530b8c68bf5c8b17d4d0, SP: 49, validation time: 0.06956624984741211, cost: 159432740
+23:19:13.564 full_node chia.full_node.full_node: INFO     Added unfinished_block 5ee48d91aabf8ba33eda4b67076e1348e64a6059995b25b4e1d0de77e3a5c18e, not farmed by us, SP: 5 farmer response time: 8.495556116104126, Pool pk xch189rpsfgve6d7rcm4aamgur5munpzfaaca89jcfdjczfjhnvjzz8qw5k3ru, validation time: 0.18387579917907715, cost: 560859505, percent full: 5.099%
