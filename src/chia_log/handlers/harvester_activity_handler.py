@@ -20,8 +20,8 @@ class HarvesterActivityHandler(LogHandler):
     ensure that farming is going smoothly.
     """
 
-    def __init__(self):
-        self._parser = HarvesterActivityParser()
+    def __init__(self, prefix='chia'):
+        self._parser = HarvesterActivityParser(prefix)
         self._cond_checkers: List[HarvesterConditionChecker] = [
             TimeSinceLastFarmEvent(),
             NonDecreasingPlots(),

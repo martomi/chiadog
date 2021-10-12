@@ -14,8 +14,9 @@ class WalletAddedCoinHandler(LogHandler):
     receiving XCH and creates user notifications.
     """
 
-    def __init__(self):
-        self._parser = WalletAddedCoinParser()
+    def __init__(self, prefix='chia', symbol='xch'):
+        self._parser = WalletAddedCoinParser(prefix)
+        self.symbol = symbol
 
     def handle(self, logs: str, stats_manager: Optional[StatsManager] = None) -> List[Event]:
         events = []
@@ -36,7 +37,7 @@ class WalletAddedCoinHandler(LogHandler):
                     type=EventType.USER,
                     priority=EventPriority.LOW,
                     service=EventService.WALLET,
-                    message=f"Cha-ching! Just received {xch_string} XCH ☘️",
+                    message=f"Cha-ching! Just received {xch_string} {0} ☘️".format(self.symbol.upper()),
                 )
             )
 
