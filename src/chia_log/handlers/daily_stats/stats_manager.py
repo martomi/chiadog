@@ -36,7 +36,7 @@ class StatsManager:
     with a summary from all stats that have been collected for the past 24 hours.
     """
 
-    def __init__(self, config: dict, notify_manager: NotifyManager):
+    def __init__(self, config: dict, notify_manager: NotifyManager, symbol: str):
         self._enable = config.get("enable", False)
         self._notify_time = self._parse_notify_time(config.get("time_of_day", "21:00"))
         self._frequency_hours = config.get("frequency_hours", 24)
@@ -48,7 +48,7 @@ class StatsManager:
         logging.info("Enabled stats for daily notifications")
         self._notify_manager = notify_manager
         self._stat_accumulators = [
-            WalletAddedCoinStats(),
+            WalletAddedCoinStats(symbol=symbol),
             FoundProofStats(),
             FoundPartialStats(),
             FoundBlockStats(),

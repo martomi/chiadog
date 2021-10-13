@@ -6,9 +6,10 @@ from .. import WalletAddedCoinMessage, WalletAddedCoinConsumer, StatAccumulator
 
 
 class WalletAddedCoinStats(WalletAddedCoinConsumer, StatAccumulator):
-    def __init__(self):
+    def __init__(self, symbol='chia'):
         self._last_reset_time = datetime.now()
         self._total_added_mojos = 0
+        self.symbol = symbol
 
     def reset(self):
         self._last_reset_time = datetime.now()
@@ -20,4 +21,4 @@ class WalletAddedCoinStats(WalletAddedCoinConsumer, StatAccumulator):
     def get_summary(self) -> str:
         chia_coins = self._total_added_mojos / 1e12
         xch_string = f"{chia_coins:.12f}".rstrip("0").rstrip(".")
-        return f"Received ☘️: {xch_string} XCH"
+        return f"Received ☘️: {xch_string} {0}".format(self.symbol.upper())
