@@ -73,7 +73,8 @@ def init(config:Config):
     notify_manager = NotifyManager(config=config, keep_alive_monitor=keep_alive_monitor)
 
     # Stats manager accumulates stats over 24 hours and sends a summary each day
-    stats_manager = StatsManager(config=config.get_daily_stats_config(), notify_manager=notify_manager)
+    stats_manager = StatsManager(config=config.get_daily_stats_config(), notify_manager=notify_manager, 
+        symbol=config.get_coin_symbol())
 
     # Link stuff up in the log handler
     # Pipeline: Consume -> Handle -> Notify

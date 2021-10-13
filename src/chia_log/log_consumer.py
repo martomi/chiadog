@@ -51,10 +51,16 @@ class LogConsumer(ABC):
     def _notify_subscribers(self, logs: str):
         for subscriber in self._subscribers:
             subscriber.consume_logs(logs)
+    
+    def get_prefix(self):
+        return 'chia'
+
+    def get_symbol(self):
+        return 'xch'
 
 
 class FileLogConsumer(LogConsumer):
-    def __init__(self, log_path: Path):
+    def __init__(self, log_path: Path, prefix='chia', symbol='xch'):
         super().__init__()
         logging.info("Enabled local file log consumer.")
         self._expanded_log_path = str(log_path.expanduser())
@@ -63,6 +69,8 @@ class FileLogConsumer(LogConsumer):
         self._thread = Thread(target=self._consume_loop)
         self._thread.start()
         self._log_size = 0
+        self.prefix = prefix
+        self.symbol = symbol
 
     def stop(self):
         logging.info("Stopping")
@@ -74,7 +82,12 @@ class FileLogConsumer(LogConsumer):
             sleep(1)  # throttle polling for new logs
             for log_line in Pygtail(self._expanded_log_path, read_from_end=True, offset_file=self._offset_path):
                 self._notify_subscribers(log_line)
+    
+    def get_prefix(self):
+        return self.prefix
 
+    def get_symbol(self):
+        return self.symbol
 
 class NetworkLogConsumer(LogConsumer):
     """Consume logs over SSH from a remote harvester"""
@@ -212,7 +225,15 @@ def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
         if not check_keys(required_keys=["file_path"], config=enabled_consumer_config):
             return None
 
-        return FileLogConsumer(log_path=Path(enabled_consumer_config["file_path"]))
+        try:
+            prefix = enabled_consumer_config["prefix"]
+        except:
+            prefix = 'chia'
+        try:
+            symbol = config['symbol']
+        except:
+            symbol = 'xch'
+        return FileLogConsumer(log_path=Path(enabled_consumer_config["file_path"]), prefix=prefix, symbol=symbol)
 
     if enabled_consumer == "network_log_consumer":
         if not check_keys(

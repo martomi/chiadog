@@ -36,6 +36,18 @@ class Config:
 
     def get_log_level_config(self):
         return self._get_child_config("log_level")
+    
+    def get_coin_name(self):
+        try:
+            return self._get_child_config("coin_name")
+        except:
+            return 'chia'
+    
+    def get_coin_symbol(self):
+        try:
+            return self._get_child_config("coin_symbol")
+        except:
+            return 'xch'
 
     def get_keep_alive_monitor_config(self):
         return self._get_child_config("keep_alive_monitor", required=False)

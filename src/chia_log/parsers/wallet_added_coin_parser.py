@@ -22,10 +22,10 @@ class WalletAddedCoinParser:
     The chia config.yaml is usually under ~/.chia/mainnet/config/config.yaml
     """
 
-    def __init__(self):
+    def __init__(self, prefix='chia'):
         logging.info("Enabled parser for wallet activity - added coins.")
         self._regex = re.compile(
-            r"([0-9:.]*) wallet (?:src|chia).wallet.wallet_state_manager(?:\s?): "
+            r"([0-9:.]*) wallet (?:src|" + prefix + ").wallet.wallet_state_manager(?:\s?): "
             r"INFO\s*Adding coin: {'amount': ([0-9]*),"
         )
 
