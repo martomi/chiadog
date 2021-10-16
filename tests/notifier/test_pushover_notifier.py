@@ -20,6 +20,8 @@ class TestPushoverNotifier(unittest.TestCase):
                 "enable": True,
                 "daily_stats": True,
                 "wallet_events": True,
+                "decreasing_plot_events": True,
+                "increasing_plot_events": True,
                 "credentials": {"api_token": self.api_token, "user_key": self.user_key},
             },
         )
@@ -84,8 +86,14 @@ class TestPushoverNotifier(unittest.TestCase):
         disconnected_hdd = Event(
             type=EventType.USER,
             priority=EventPriority.HIGH,
-            service=EventService.HARVESTER,
+            service=EventService.PLOTDECREASE,
             message="Disconnected HDD? The total plot count decreased from 101 to 42.",
+        )
+        connected_hdd = Event(
+            type=EventType.USER,
+            priority=EventPriority.HIGH,
+            service=EventService.PLOTINCREASE,
+            message="Connected HDD? The total plot count increased from 0 to 42.",
         )
         network_issues = Event(
             type=EventType.USER,
@@ -100,7 +108,7 @@ class TestPushoverNotifier(unittest.TestCase):
             service=EventService.HARVESTER,
             message="Your harvester appears to be offline! No events for the past 712 seconds.",
         )
-        events = [disconnected_hdd, offline, network_issues]
+        events = [disconnected_hdd, connected_hdd, offline, network_issues]
         for notifier, event in zip(notifiers, events):
             success = notifier.send_events_to_user(events=[event])
             self.assertTrue(success)

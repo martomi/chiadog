@@ -18,6 +18,7 @@ helps with automated monitoring and sends you a mobile notification in case some
 | ------------- | ------------- | ------|
 | Harvester | Your harvester appears to be offline! No events for the past 400 seconds. | HIGH |
 | Harvester | Disconnected HDD? The total plot count decreased from 100 to 40. | HIGH |
+| Harvester | Connected HDD? The total plot count increased from 0 to 42. | LOW |
 | Harvester | Experiencing networking issues? Harvester did not participate in any challenge for 120 seconds. It's now working again. | NORMAL |
 | Harvester | Seeking plots took too long: 21.42 seconds! | NORMAL |
 | Full Node | Experiencing networking issues? Skipped 42 signage points! | NORMAL |

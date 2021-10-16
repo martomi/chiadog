@@ -35,12 +35,31 @@ class TestHarvesterActivityHandler(unittest.TestCase):
             self.assertEqual(len(events), number_events, "Un-expected number of events")
             self.assertEqual(events[0].type, EventType.KEEPALIVE, "Unexpected event type")
             self.assertEqual(events[0].priority, EventPriority.NORMAL, "Unexpected priority")
-            self.assertEqual(events[0].service, EventService.HARVESTER, "Unexpected service")
+            self.assertEqual(events[0].service, EventService.PLOTDECREASE, "Unexpected service")
             if number_events == 2:
                 self.assertEqual(events[1].type, EventType.USER, "Unexpected event type")
                 self.assertEqual(events[1].priority, EventPriority.HIGH, "Unexpected priority")
-                self.assertEqual(events[1].service, EventService.HARVESTER, "Unexpected service")
+                self.assertEqual(events[1].service, EventService.PLOTDECREASE, "Unexpected service")
                 self.assertEqual(events[1].message, "Disconnected HDD? The total plot count decreased from 43 to 30.")
+
+    def testDecreasedPlots(self):
+        with open(self.example_logs_path / "plots_decreased.txt", encoding="UTF-8") as f:
+            logs = f.readlines()
+
+        # Fifth log should trigger an event for a decreased plot count
+        expected_number_events = [1, 1, 1, 2, 1]
+
+        for log, number_events in zip(logs, expected_number_events):
+            events = self.handler.handle(log)
+            self.assertEqual(len(events), number_events, "Un-expected number of events")
+            self.assertEqual(events[0].type, EventType.KEEPALIVE, "Unexpected event type")
+            self.assertEqual(events[0].priority, EventPriority.NORMAL, "Unexpected priority")
+            self.assertEqual(events[0].service, EventService.PLOTINCREASE, "Unexpected service")
+            if number_events == 2:
+                self.assertEqual(events[1].type, EventType.USER, "Unexpected event type")
+                self.assertEqual(events[1].priority, EventPriority.HIGH, "Unexpected priority")
+                self.assertEqual(events[1].service, EventService.PLOTINCREASE, "Unexpected service")
+                self.assertEqual(events[1].message, "Connected HDD? The total plot count increased from 40 to 42.")
 
     def testLostSyncTemporarily(self):
         with open(self.example_logs_path / "lost_sync_temporary.txt", encoding="UTF-8") as f:

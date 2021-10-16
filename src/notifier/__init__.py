@@ -41,6 +41,8 @@ class EventService(Enum):
     FULL_NODE = 2
     DAILY = 3
     WALLET = 4
+    PLOTDECREASE = 5
+    PLOTINCREASE = 6
 
 
 @dataclass
@@ -67,12 +69,17 @@ class Notifier(ABC):
 
         daily_stats = config.get("daily_stats", False)
         wallet_events = config.get("wallet_events", False)
-
+        decreasing_plot_events = config.get("decreasing_plot_events", False)
+        increasing_plot_events = config.get("increasing_plot_events", False)
         if daily_stats:
             self._notification_types.append(EventType.DAILY_STATS)
             self._notification_services.append(EventService.DAILY)
         if wallet_events:
             self._notification_services.append(EventService.WALLET)
+        if decreasing_plot_events:
+            self._notification_services.append(EventService.PLOTDECREASE)
+        if increasing_plot_events:
+            self._notification_services.append(EventService.PLOTINCREASE)
 
     def get_title_for_event(self, event):
         icon = ""

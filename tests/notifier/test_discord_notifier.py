@@ -17,6 +17,8 @@ class TestDiscordNotifier(unittest.TestCase):
                 "enable": True,
                 "daily_stats": True,
                 "wallet_events": True,
+                "decreasing_plot_events": True,
+                "increasing_plot_events": True,
                 "credentials": {"webhook_url": webhook_url},
             },
         )
