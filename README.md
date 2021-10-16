@@ -49,6 +49,7 @@ You may use one (or more) of the following integrations to receive notifications
 | Integration | Advantages | Cost |
 | ------------- | ------------- | ------|
 | [Pushover](https://pushover.net/) | High priority notifications that can override your phone's silent mode. | $5 one time purchase after 30 day trial. |
+<!-- | [Pushcut](https://pushover.net/) | Alternative to Pushover | -->
 | E-mail | You probably already have an email. No additional apps. | Free |
 | Slack | Quick & easy setup. | Free |
 | Discord | Quick & easy setup. | Free |
