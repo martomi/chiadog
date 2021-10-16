@@ -6,7 +6,7 @@ from .. import WalletAddedCoinMessage, WalletAddedCoinConsumer, StatAccumulator
 
 
 class WalletAddedCoinStats(WalletAddedCoinConsumer, StatAccumulator):
-    def __init__(self, symbol='chia'):
+    def __init__(self, symbol='xch'):
         self._last_reset_time = datetime.now()
         self._total_added_mojos = 0
         self.symbol = symbol
