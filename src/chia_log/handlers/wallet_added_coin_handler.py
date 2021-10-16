@@ -37,7 +37,7 @@ class WalletAddedCoinHandler(LogHandler):
                     type=EventType.USER,
                     priority=EventPriority.LOW,
                     service=EventService.WALLET,
-                    message=f"Cha-ching! Just received {xch_string} {0} ☘️".format(self.symbol.upper()),
+                    message=f"Cha-ching! Just received {xch_string} {self.symbol.upper()} ☘️",
                 )
             )
 
