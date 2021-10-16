@@ -135,6 +135,16 @@ Test with:
 GRAFANA_BASE_URL=<webhook_url> GRAFANA_API_TOKEN=<api_token> python3 -m unittest tests.notifier.test_grafana_notifier
 ```
 
+## Ifttt
+
+[Ifttt](https://ifttt.com/) is available for both Android and iOS. Can be used to send push notifications and to integrate with various other APIs.  For example if you wanted to flash a Philips hue lightbulb when you have a Chiadog notification.
+
+Test with:
+
+```
+IFTTT_API_TOKEN=<api_token> IFTTT_WEBHOOK_NAME=<user_key> python3 -m unittest tests.notifier.test_ifttt_notifier
+```
+
 ## Unit Testing on Windows
 
 When running unit tests on Windows, you will want to use PowerShell to set environment variables like this:
