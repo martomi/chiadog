@@ -13,12 +13,13 @@ then
   exit 1
 fi
 
-# Check existence of required python build packages
-if ! package_installed libpython3-dev || ! package_installed build-essential; then
-  sudo apt-get update
-  sudo apt-get install libpython3-dev build-essential -y
+# Check existence of required python build packages for non-MacOS
+if [[ "$OSTYPE" != "darwin"* ]]; then
+  if ! package_installed libpython3-dev || ! package_installed build-essential; then
+    sudo apt-get update
+    sudo apt-get install libpython3-dev build-essential -y
+  fi
 fi
-
 # Create virtual environment
 python3 -m venv venv
 
