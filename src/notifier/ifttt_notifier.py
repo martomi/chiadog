@@ -1,6 +1,7 @@
 # std
 import http.client
 import logging
+import json
 import urllib.parse
 from typing import List
 
@@ -24,16 +25,21 @@ class IftttNotifier(Notifier):
         for event in events:
             if event.type in self._notification_types and event.service in self._notification_services:
                 conn = http.client.HTTPSConnection("maker.ifttt.com:443", timeout=self._conn_timeout_seconds)
+                request_body = json.dumps(
+                    {
+                    "Message": event.message,
+                    "Title": self.get_title_for_event(event)
+                    }
+                )
                 conn.request(
                     "POST",
-                    "/trigger/{self.webhookname}/json/with/key/{self.token}",
-                    urllib.parse.urlencode(
-                        {
-                            "title": self.get_title_for_event(event),
-                            "message": event.message,
-                        }
-                    ),
-                    {"Content-type": "application/json"},
+                    f"/trigger/{self.webhook_name}/json/with/key/{self.token}",
+                    request_body,
+                    headers={
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "API-Key": f"{self.token}",
+                     },
                 )
                 response = conn.getresponse()
                 if response.getcode() != 200:
