@@ -42,11 +42,11 @@ class TestHarvesterActivityHandler(unittest.TestCase):
                 self.assertEqual(events[1].service, EventService.PLOTDECREASE, "Unexpected service")
                 self.assertEqual(events[1].message, "Disconnected HDD? The total plot count decreased from 43 to 30.")
 
-    def testDecreasedPlots(self):
-        with open(self.example_logs_path / "plots_decreased.txt", encoding="UTF-8") as f:
+    def testIncreasedPlots(self):
+        with open(self.example_logs_path / "plots_increased.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
-        # Fifth log should trigger an event for a decreased plot count
+        # Fourth log should trigger an event for a decreased plot count
         expected_number_events = [1, 1, 1, 2, 1]
 
         for log, number_events in zip(logs, expected_number_events):
