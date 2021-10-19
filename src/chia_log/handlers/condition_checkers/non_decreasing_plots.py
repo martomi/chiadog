@@ -25,21 +25,18 @@ class NonDecreasingPlots(HarvesterConditionChecker):
         event = None
         if obj.total_plots_count > self._max_farmed_plots:
             logging.info(f"Detected new plots. Farming with {obj.total_plots_count} plots.")
-            if self._max_farmed_plots - obj.total_plots_count > self._decrease_warn_threshold:
-                logging.info(
-                    f"Plots increased from {self._max_farmed_plots} to {obj.total_plots_count}. "
-                    f"This is ignored because it's below threshold of {self._decrease_warn_threshold}"
-                )
-            else:
-                message = (
-                    f"Connected HDD? The total plot count increased from "
-                    f"{self._max_farmed_plots} to {obj.total_plots_count}."
-                )
-                logging.warning(message)
-                event = Event(
-                    type=EventType.USER, priority=EventPriority.LOW, service=EventService.PLOTINCREASE, message=message
-                )
-        else:
+            message = (
+                f"Connected HDD? The total plot count decreased from "
+                f"{self._max_farmed_plots} to {obj.total_plots_count}."
+            )
+            logging.warning(message)
+
+            self._max_farmed_plots = obj.total_plots_count
+            event = Event(
+                type=EventType.USER, priority=EventPriority.HIGH, service=EventService.PLOTINCREASE, message=message
+            )
+
+        if obj.total_plots_count < self._max_farmed_plots:
             if self._max_farmed_plots - obj.total_plots_count < self._decrease_warn_threshold:
                 logging.info(
                     f"Plots decreased from {self._max_farmed_plots} to {obj.total_plots_count}. "
