@@ -26,7 +26,7 @@ of the day to make you aware of any issues in a timely manner.
 Test with:
 
 ```
-PUSHCUT_API_TOKEN=<api_token> PUSHCUT_USER_KEY=<user_key> python3 -m unittest tests.notifier.test_pushcut_notifier
+PUSHCUT_API_TOKEN=<api_token> PUSHCUT_NOTIFICATION_NAME=<notification_name> python3 -m unittest tests.notifier.test_pushcut_notifier
 ```
 
 ## SMTP / E-Mail

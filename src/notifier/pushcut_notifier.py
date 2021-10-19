@@ -1,6 +1,7 @@
 # std
 import http.client
 import logging
+import json
 import urllib.parse
 from typing import List
 
@@ -15,7 +16,7 @@ class PushcutNotifier(Notifier):
         try:
             credentials = config["credentials"]
             self.token = credentials["api_token"]
-            self.user = credentials["user_key"]
+            self.notification_name = credentials["notification_name"]
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
 
@@ -23,20 +24,22 @@ class PushcutNotifier(Notifier):
         errors = False
         for event in events:
             if event.type in self._notification_types and event.service in self._notification_services:
-                # conn = http.client.HTTPSConnection("api.pushover.net:443", timeout=self._conn_timeout_seconds)
+                conn = http.client.HTTPSConnection("api.pushcut.io:443", timeout=self._conn_timeout_seconds)
+                request_body = json.dumps(
+                    {
+                    "text": event.message,
+                    "title": self.get_title_for_event(event)
+                    }
+                )
                 conn.request(
                     "POST",
-                    "/1/messages.json",
-                    urllib.parse.urlencode(
-                        {
-                            "token": self.token,
-                            "user": self.user,
-                            "title": self.get_title_for_event(event),
-                            "message": event.message,
-                            "priority": event.priority.value,
-                        }
-                    ),
-                    {"Content-type": "application/x-www-form-urlencoded"},
+                    f"/v1/notifications/{self.notification_name}",
+                    request_body,
+                    headers={
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "API-Key": f"{self.token}",
+                     },
                 )
                 response = conn.getresponse()
                 if response.getcode() != 200:
