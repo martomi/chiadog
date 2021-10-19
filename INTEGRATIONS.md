@@ -19,7 +19,7 @@ PUSHOVER_API_TOKEN=<api_token> PUSHOVER_USER_KEY=<user_key> python3 -m unittest 
 
 ## Pushcut
 
-<!-- [Pushcut](https://pushcut.net/) is available for both Android and iOS. High priority notifications can be configured -->
+[Pushcut](https://pushcut.io/) is available for both Android and iOS. High priority notifications can be configured
 from the Pushcut app to overwrite any Silence or Do-Not-Disturb modes on your phone and sound a loud alarm at any time
 of the day to make you aware of any issues in a timely manner.
 
