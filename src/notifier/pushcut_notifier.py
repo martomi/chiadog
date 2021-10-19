@@ -25,12 +25,7 @@ class PushcutNotifier(Notifier):
         for event in events:
             if event.type in self._notification_types and event.service in self._notification_services:
                 conn = http.client.HTTPSConnection("api.pushcut.io:443", timeout=self._conn_timeout_seconds)
-                request_body = json.dumps(
-                    {
-                    "text": event.message,
-                    "title": self.get_title_for_event(event)
-                    }
-                )
+                request_body = json.dumps({"text": event.message, "title": self.get_title_for_event(event)})
                 conn.request(
                     "POST",
                     f"/v1/notifications/{self.notification_name}",
@@ -39,7 +34,7 @@ class PushcutNotifier(Notifier):
                         "Content-Type": "application/json",
                         "Accept": "application/json",
                         "API-Key": f"{self.token}",
-                     },
+                    },
                 )
                 response = conn.getresponse()
                 if response.getcode() != 200:
