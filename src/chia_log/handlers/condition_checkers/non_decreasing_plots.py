@@ -29,7 +29,7 @@ class NonDecreasingPlots(HarvesterConditionChecker):
                 f"Connected HDD? The total plot count increased from "
                 f"{self._max_farmed_plots} to {obj.total_plots_count}."
             )
-            logging.warning(message)
+            logging.info(message)
 
             if obj.total_plots_count - self._max_farmed_plots > self._decrease_warn_threshold:
                 event = Event(
