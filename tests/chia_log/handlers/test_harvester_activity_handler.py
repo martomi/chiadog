@@ -16,73 +16,60 @@ class TestHarvesterActivityHandler(unittest.TestCase):
         with open(self.example_logs_path / "nominal.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
+
         for log in logs:
             events = self.handler.handle(log)
-            self.assertEqual(len(events), 1, "Only expecting 1 event for keep-alive")
-            self.assertEqual(events[0].type, EventType.KEEPALIVE, "Unexpected event type")
-            self.assertEqual(events[0].priority, EventPriority.NORMAL, "Unexpected priority")
-            self.assertEqual(events[0].service, EventService.HARVESTER, "Unexpected service")
+            keepAliveEvents = 0
+            for event in events:
+                if(event.type==EventType.KEEPALIVE):
+                    keepAliveEvents += 1
+                    self.assertEqual(event.priority, EventPriority.NORMAL, "Unexpected priority")
+                    self.assertEqual(event.service, EventService.HARVESTER, "Unexpected service")
+
+            self.assertEqual(keepAliveEvents, 1, "Only expecting 1 event for keep-alive")
+
+
 
     def testDecreasedPlots(self):
         with open(self.example_logs_path / "plots_decreased.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
         # Fourth log should trigger an event for a decreased plot count
-        expected_number_events = [1, 1, 1, 2, 1]
-
-        for log, number_events in zip(logs, expected_number_events):
+        for log in logs:
             events = self.handler.handle(log)
-            self.assertEqual(len(events), number_events, "Un-expected number of events")
-            self.assertEqual(events[0].type, EventType.KEEPALIVE, "Unexpected event type")
-            self.assertEqual(events[0].priority, EventPriority.NORMAL, "Unexpected priority")
-            self.assertEqual(events[0].service, EventService.PLOTDECREASE, "Unexpected service")
-            if number_events == 2:
-                self.assertEqual(events[1].type, EventType.USER, "Unexpected event type")
-                self.assertEqual(events[1].priority, EventPriority.HIGH, "Unexpected priority")
-                self.assertEqual(events[1].service, EventService.PLOTDECREASE, "Unexpected service")
-                self.assertEqual(events[1].message, "Disconnected HDD? The total plot count decreased from 43 to 30.")
+            for event in events:
+                if(event.type==EventType.PLOTDECREASE):
+                    self.assertEqual(event.priority, EventPriority.HIGH, "Unexpected priority")
+                    self.assertEqual(event.service, EventService.HARVESTER, "Unexpected service")
+                    self.assertEqual(event.message, "Disconnected HDD? The total plot count decreased from 43 to 30.")
+
 
     def testIncreasedPlots(self):
         with open(self.example_logs_path / "plots_increased.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
-        # Fourth log should trigger an event for a decreased plot count
-        expected_number_events = [1, 1, 1, 2, 1]
-
-        for log, number_events in zip(logs, expected_number_events):
+        # Fourth log should trigger an event for a increased plot count
+        for log in logs:
             events = self.handler.handle(log)
-            self.assertEqual(len(events), number_events, "Un-expected number of events")
-            self.assertEqual(events[0].type, EventType.KEEPALIVE, "Unexpected event type")
-            self.assertEqual(events[0].priority, EventPriority.NORMAL, "Unexpected priority")
-            self.assertEqual(events[0].service, EventService.PLOTINCREASE, "Unexpected service")
-            if number_events == 2:
-                self.assertEqual(events[1].type, EventType.USER, "Unexpected event type")
-                self.assertEqual(events[1].priority, EventPriority.HIGH, "Unexpected priority")
-                self.assertEqual(events[1].service, EventService.PLOTINCREASE, "Unexpected service")
-                self.assertEqual(events[1].message, "Connected HDD? The total plot count increased from 40 to 42.")
+            for event in events:
+                if(event.type==EventType.PLOTINCREASE):
+                    self.assertEqual(event.priority, EventPriority.LOW, "Unexpected priority")
+                    self.assertEqual(event.service, EventService.HARVESTER, "Unexpected service")
+                    self.assertEqual(event.message, "Connected HDD? The total plot count increased from 0 to 40.")
 
     def testLostSyncTemporarily(self):
         with open(self.example_logs_path / "lost_sync_temporary.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
         # Fourth log should trigger an event for harvester outage
-        expected_number_events = [1, 1, 1, 2, 1]
-
-        for log, number_events in zip(logs, expected_number_events):
+        for log in logs:
             events = self.handler.handle(log)
-            self.assertEqual(len(events), number_events, "Un-expected number of events")
-            self.assertEqual(events[0].type, EventType.KEEPALIVE, "Unexpected event type")
-            self.assertEqual(events[0].priority, EventPriority.NORMAL, "Unexpected priority")
-            self.assertEqual(events[0].service, EventService.HARVESTER, "Unexpected service")
-            if number_events == 2:
-                self.assertEqual(events[1].type, EventType.USER, "Unexpected event type")
-                self.assertEqual(events[1].priority, EventPriority.NORMAL, "Unexpected priority")
-                self.assertEqual(events[1].service, EventService.HARVESTER, "Unexpected service")
-                self.assertEqual(
-                    events[1].message,
-                    "Experiencing networking issues? Harvester did not participate in any "
-                    "challenge for 608 seconds. It's now working again.",
-                )
+
+            for event in events:
+                if(event.type==EventType.USER):
+                    self.assertEqual(event.priority, EventPriority.NORMAL, "Unexpected priority")
+                    self.assertEqual(event.service, EventService.HARVESTER, "Unexpected service")
+                    self.assertEqual(event.message, "Experiencing networking issues? Harvester did not participate in any challenge for 608 seconds. It's now working again.")
 
     def testSlowSeekTime(self):
         with open(self.example_logs_path / "slow_seek_time.txt", encoding="UTF-8") as f:
@@ -90,11 +77,17 @@ class TestHarvesterActivityHandler(unittest.TestCase):
 
         for log in logs:
             events = self.handler.handle(log)
-            self.assertEqual(len(events), 2, "Un-expected number of events")
-            self.assertEqual(events[1].type, EventType.USER, "Unexpected event type")
-            self.assertEqual(events[1].priority, EventPriority.NORMAL, "Unexpected priority")
-            self.assertEqual(events[1].service, EventService.HARVESTER, "Unexpected service")
-            self.assertEqual(events[1].message, "Seeking plots took too long: 28.12348 seconds!")
+            userEvents = 0
+
+            for event in events:
+                if(event.type==EventType.USER):
+                    userEvents += 1
+                    self.assertEqual(event.type, EventType.USER, "Unexpected event type")
+                    self.assertEqual(event.priority, EventPriority.NORMAL, "Unexpected priority")
+                    self.assertEqual(event.service, EventService.HARVESTER, "Unexpected service")
+                    self.assertEqual(event.message, "Seeking plots took too long: 28.12348 seconds!")
+
+            self.assertEqual(userEvents, 1, "Only expecting 1 event for user")
 
 
 if __name__ == "__main__":

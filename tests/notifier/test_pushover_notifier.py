@@ -84,15 +84,15 @@ class TestPushoverNotifier(unittest.TestCase):
             ),
         ]
         disconnected_hdd = Event(
-            type=EventType.USER,
+            type=EventType.PLOTDECREASE,
             priority=EventPriority.HIGH,
-            service=EventService.PLOTDECREASE,
+            service=EventService.HARVESTER,
             message="Disconnected HDD? The total plot count decreased from 101 to 42.",
         )
         connected_hdd = Event(
-            type=EventType.USER,
+            type=EventType.PLOTINCREASE,
             priority=EventPriority.HIGH,
-            service=EventService.PLOTINCREASE,
+            service=EventService.HARVESTER,
             message="Connected HDD? The total plot count increased from 0 to 42.",
         )
         network_issues = Event(
