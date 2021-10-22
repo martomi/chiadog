@@ -32,7 +32,7 @@ class LogHandler(LogConsumerSubscriber):
         self._notify_manager = notify_manager
         self._stats_manager = stats_manager
         prefix = log_consumer.get_prefix()
-        symbol = log_consumer.get_symbol()
+        symbol = log_consumer.get_coin_symbol()
         self._handlers = [
             HarvesterActivityHandler(prefix),
             PartialHandler(),

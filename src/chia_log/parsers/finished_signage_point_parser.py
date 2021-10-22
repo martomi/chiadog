@@ -24,7 +24,7 @@ class FinishedSignagePointParser:
     The chia config.yaml is usually under ~/.chia/mainnet/config/config.yaml
     """
 
-    def __init__(self, prefix='chia'):
+    def __init__(self, prefix):
         logging.info("Enabled parser for finished signage points.")
         # Doing some "smart" tricks with this expression to also match the 64th signage point
         # with the same regex expression. See test examples to see how they differ.

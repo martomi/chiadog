@@ -61,7 +61,7 @@ def init(config:Config):
 
     # Create log consumer based on provided configuration
     chia_logs_config = config.get_chia_logs_config()
-    log_consumer = create_log_consumer_from_config(chia_logs_config)
+    log_consumer = create_log_consumer_from_config(chia_logs_config, config.get_coin_name(), config.get_coin_symbol())
     if log_consumer is None:
         exit(0)
 

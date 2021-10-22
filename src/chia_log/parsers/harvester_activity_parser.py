@@ -28,7 +28,7 @@ class HarvesterActivityParser:
     The chia config.yaml is usually under ~/.chia/mainnet/config/config.yaml
     """
 
-    def __init__(self, prefix='chia'):
+    def __init__(self, prefix):
         logging.info("Enabled parser for harvester activity - eligible plot events.")
         self._regex = re.compile(
             r"([0-9:.]*) harvester (?:src|" + prefix + ").harvester.harvester(?:\s?): INFO\s*([0-9]+) plots were "

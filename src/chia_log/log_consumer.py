@@ -38,7 +38,9 @@ class LogConsumerSubscriber(ABC):
 class LogConsumer(ABC):
     """Abstract class providing common interface for log consumers"""
 
-    def __init__(self):
+    def __init__(self, coin_name: str, coin_symbol: str):
+        self.coin_name = coin_name
+        self.coin_symbol = coin_symbol
         self._subscribers: List[LogConsumerSubscriber] = []
 
     @abstractmethod
@@ -52,16 +54,16 @@ class LogConsumer(ABC):
         for subscriber in self._subscribers:
             subscriber.consume_logs(logs)
     
-    def get_prefix(self):
-        return 'chia'
+    def get_coin_name(self):
+        return self.coin_name
 
-    def get_symbol(self):
-        return 'xch'
+    def get_coin_symbol(self):
+        return self.coin_symbol
 
 
 class FileLogConsumer(LogConsumer):
-    def __init__(self, log_path: Path, prefix='chia', symbol='xch'):
-        super().__init__()
+    def __init__(self, log_path: Path, coin_name: str, coin_symbol: str, prefix: str):
+        super().__init__(coin_name, coin_symbol)
         logging.info("Enabled local file log consumer.")
         self._expanded_log_path = str(log_path.expanduser())
         self._offset_path = Config.get_log_offset_path()
@@ -69,8 +71,7 @@ class FileLogConsumer(LogConsumer):
         self._thread = Thread(target=self._consume_loop)
         self._thread.start()
         self._log_size = 0
-        self.prefix = prefix
-        self.symbol = symbol
+        self._prefix = prefix
 
     def stop(self):
         logging.info("Stopping")
@@ -82,20 +83,17 @@ class FileLogConsumer(LogConsumer):
             sleep(1)  # throttle polling for new logs
             for log_line in Pygtail(self._expanded_log_path, read_from_end=True, offset_file=self._offset_path):
                 self._notify_subscribers(log_line)
-    
+
     def get_prefix(self):
-        return self.prefix
-
-    def get_symbol(self):
-        return self.symbol
-
+        return self._prefix
+    
 class NetworkLogConsumer(LogConsumer):
     """Consume logs over SSH from a remote harvester"""
 
     def __init__(
-        self, remote_log_path: PurePath, remote_user: str, remote_host: str, remote_port: int, remote_platform: OS
+        self, remote_log_path: PurePath, remote_user: str, remote_host: str, remote_port: int, remote_platform: OS, coin_name: str, coin_symbol: str
     ):
-        super().__init__()
+        super().__init__(coin_name, coin_symbol)
 
         self._remote_user = remote_user
         self._remote_host = remote_host
@@ -128,11 +126,11 @@ class PosixNetworkLogConsumer(NetworkLogConsumer):
     """Consume logs over SSH from a remote Linux/MacOS harvester"""
 
     def __init__(
-        self, remote_log_path: PurePath, remote_user: str, remote_host: str, remote_port: int, remote_platform: OS
+        self, remote_log_path: PurePath, remote_user: str, remote_host: str, remote_port: int, remote_platform: OS, coin_name: str, coin_symbol: str
     ):
         logging.info("Enabled Posix network log consumer.")
         super(PosixNetworkLogConsumer, self).__init__(
-            remote_log_path, remote_user, remote_host, remote_port, remote_platform
+            remote_log_path, remote_user, remote_host, remote_port, remote_platform, coin_name, coin_symbol
         )
 
     def _consume_loop(self):
@@ -149,11 +147,11 @@ class WindowsNetworkLogConsumer(NetworkLogConsumer):
     """Consume logs over SSH from a remote Windows harvester"""
 
     def __init__(
-        self, remote_log_path: PurePath, remote_user: str, remote_host: str, remote_port: int, remote_platform: OS
+        self, remote_log_path: PurePath, remote_user: str, remote_host: str, remote_port: int, remote_platform: OS, coin_name: str, coin_symbol: str
     ):
         logging.info("Enabled Windows network log consumer.")
         super(WindowsNetworkLogConsumer, self).__init__(
-            remote_log_path, remote_user, remote_host, remote_port, remote_platform
+            remote_log_path, remote_user, remote_host, remote_port, remote_platform, coin_name, coin_symbol
         )
 
     def _consume_loop(self):
@@ -207,7 +205,7 @@ def get_host_info(host: str, user: str, path: str, port: int) -> Tuple[OS, PureP
     return OS.LINUX, PurePosixPath(path)
 
 
-def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
+def create_log_consumer_from_config(config: dict, coin_name: str, coin_symbol: str) -> Optional[LogConsumer]:
     enabled_consumer = None
     for consumer in config.keys():
         if config[consumer]["enable"]:
@@ -225,15 +223,11 @@ def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
         if not check_keys(required_keys=["file_path"], config=enabled_consumer_config):
             return None
 
-        try:
-            prefix = enabled_consumer_config["prefix"]
-        except:
-            prefix = 'chia'
-        try:
-            symbol = config['symbol']
-        except:
-            symbol = 'xch'
-        return FileLogConsumer(log_path=Path(enabled_consumer_config["file_path"]), prefix=prefix, symbol=symbol)
+        return FileLogConsumer(
+            log_path=Path(enabled_consumer_config["file_path"]),
+            coin_name=coin_name, coin_symbol=coin_symbol, 
+            prefix=enabled_consumer_config.get("prefix", "chia")
+        )
 
     if enabled_consumer == "network_log_consumer":
         if not check_keys(
@@ -258,6 +252,8 @@ def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
                 remote_user=enabled_consumer_config["remote_user"],
                 remote_port=remote_port,
                 remote_platform=platform,
+                coin_name=coin_name,
+                coin_symbol=coin_symbol, 
             )
         else:
             return PosixNetworkLogConsumer(
@@ -266,6 +262,8 @@ def create_log_consumer_from_config(config: dict) -> Optional[LogConsumer]:
                 remote_user=enabled_consumer_config["remote_user"],
                 remote_port=remote_port,
                 remote_platform=platform,
+                coin_name=coin_name,
+                coin_symbol=coin_symbol,
             )
 
     logging.error("Unhandled consumer type")
