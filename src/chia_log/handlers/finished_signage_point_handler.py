@@ -17,7 +17,7 @@ class FinishedSignagePointHandler(LogHandler):
     that are evaluated for each event.
     """
 
-    def __init__(self, prefix='chia'):
+    def __init__(self, prefix):
         self._parser = FinishedSignagePointParser(prefix)
         self._cond_checkers: List[FinishedSignageConditionChecker] = [NonSkippedSignagePoints()]
 

@@ -22,8 +22,9 @@ class WalletAddedCoinParser:
     The chia config.yaml is usually under ~/.chia/mainnet/config/config.yaml
     """
 
-    def __init__(self, prefix='chia'):
+    def __init__(self, prefix):
         logging.info("Enabled parser for wallet activity - added coins.")
+        self._prefix = prefix
         self._regex = re.compile(
             r"([0-9:.]*) wallet (?:src|" + prefix + ").wallet.wallet_state_manager(?:\s?): "
             r"INFO\s*Adding coin: {'amount': ([0-9]*),"
@@ -39,10 +40,14 @@ class WalletAddedCoinParser:
         parsed_messages = []
         matches = self._regex.findall(logs)
         for match in matches:
+            # If Chives, we must multiply by 10,000 due to their fork choices
+            mojos = int(match[1])
+            if self._prefix == 'chives':
+                mojos = mojos * 10000
             parsed_messages.append(
                 WalletAddedCoinMessage(
                     timestamp=dateutil_parser.parse(match[0]),
-                    amount_mojos=int(match[1]),
+                    amount_mojos=mojos,
                 )
             )
 

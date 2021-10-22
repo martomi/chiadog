@@ -202,6 +202,26 @@ for [chiadog-docker](https://github.com/ajacobson/chiadog-docker).
 Alternatively, [as suggested here](https://github.com/martomi/chiadog/issues/24) you can run `chiadog` from a unix user
 with limited permissions.
 
+## Running `chiadog` against a blockchain fork
+
+Despite the name, it's possible to monitor [blockchain forks](https://xchforks.com/), such as Flax, N-Chain, Chives, HDDCoin, Flora, and others.  In the [config.yml](config.yml), change the following:
+* coin_name: 'chia' --> A lower-cased string of the coin's name.
+* coin_symbol: 'xch' --> A lower-cased string of the coin's symbol, often 3-letters long.
+
+Then in the next section, set the log line prefix used for matching into the blockchain's debug.log:
+```
+chia_logs:
+  file_log_consumer:
+     ...
+     prefix: 'chia'
+     ...
+```
+While the Chia blockchain's logline prefix is 'chia', Flax's is 'flax', etc, some chains are different:
+* N-Chain: 'chia' -> They never bothered to change it.
+* Flora: prefix: 'flora_proxy: chia'  -> They added 'flora_proxy: ' instead.
+
+*DISCLAIMER*: As every blockchain fork is different from the main Chia blockchain, often to differing amounts, there is no guarantee every single fork can be monitored by Chiadog.  Raise an [issue](https://github.com/martomi/chiadog/issues) for problems with a particular fork.
+
 # Contributing
 
 Contributions are always welcome! Please refer to [CONTRIBUTING](CONTRIBUTING.md) documentation.

@@ -38,16 +38,10 @@ class Config:
         return self._get_child_config("log_level")
     
     def get_coin_name(self):
-        try:
-            return self._get_child_config("coin_name")
-        except:
-            return 'chia'
+        return self._config.get("coin_name", "chia")
     
     def get_coin_symbol(self):
-        try:
-            return self._get_child_config("coin_symbol")
-        except:
-            return 'xch'
+        return self._config.get("coin_symbol", "xch")
 
     def get_keep_alive_monitor_config(self):
         return self._get_child_config("keep_alive_monitor", required=False)
