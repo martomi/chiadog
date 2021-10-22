@@ -35,6 +35,7 @@ class NonDecreasingPlots(HarvesterConditionChecker):
                 event = Event(
                     type=EventType.PLOTINCREASE, priority=EventPriority.LOW, service=EventService.HARVESTER, message=message
                 )
+                
             self._max_farmed_plots = obj.total_plots_count
 
         if obj.total_plots_count < self._max_farmed_plots:

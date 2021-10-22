@@ -78,9 +78,9 @@ class Notifier(ABC):
         if wallet_events:
             self._notification_services.append(EventService.WALLET)
         if decreasing_plot_events:
-            self._notification_services.append(EventService.HARVESTER)
+            self._notification_types.append(EventType.PLOTDECREASE)
         if increasing_plot_events:
-            self._notification_services.append(EventService.HARVESTER)
+            self._notification_types.append(EventType.PLOTINCREASE)
 
     def get_title_for_event(self, event):
         icon = ""
