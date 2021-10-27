@@ -17,6 +17,18 @@ Test with:
 PUSHOVER_API_TOKEN=<api_token> PUSHOVER_USER_KEY=<user_key> python3 -m unittest tests.notifier.test_pushover_notifier
 ```
 
+## Pushcut
+
+[Pushcut](https://pushcut.io/) is available for both Android and iOS. High priority notifications can be configured
+from the Pushcut app to overwrite any Silence or Do-Not-Disturb modes on your phone and sound a loud alarm at any time
+of the day to make you aware of any issues in a timely manner.
+
+Test with:
+
+```
+PUSHCUT_API_TOKEN=<api_token> PUSHCUT_NOTIFICATION_NAME=<notification_name> python3 -m unittest tests.notifier.test_pushcut_notifier
+```
+
 ## SMTP / E-Mail
 
 This integration uses SMTP to send an e-mail to a designated address. Alert information is sent in the subject line of
