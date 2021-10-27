@@ -11,7 +11,7 @@ from . import Notifier, Event
 
 class IftttNotifier(Notifier):
     def __init__(self, title_prefix: str, config: dict):
-        logging.info("Initializing Pushover notifier.")
+        logging.info("Initializing Ifttt notifier.")
         super().__init__(title_prefix, config)
         try:
             credentials = config["credentials"]
