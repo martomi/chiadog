@@ -104,8 +104,8 @@ notifier:
       panel_id: -1
   ifttt:
     enable: false
-    daily_stats: true
-    wallet_events: true
+    daily_stats: false
+    wallet_events: false
     credentials:
       api_token: 'dummy_token'
       webhook_name: 'dummy_key'
