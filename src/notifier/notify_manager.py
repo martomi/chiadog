@@ -15,6 +15,7 @@ from .smtp_notifier import SMTPNotifier
 from .telegram_notifier import TelegramNotifier
 from .discord_notifier import DiscordNotifier
 from .slack_notifier import SlackNotifier
+from .ifttt_notifier import IftttNotifier
 from src.config import Config
 
 
@@ -43,6 +44,7 @@ class NotifyManager:
             "slack": SlackNotifier,
             "mqtt": MqttNotifier,
             "grafana": GrafanaNotifier,
+            "ifttt": IftttNotifier,
         }
         for key in self._config.keys():
             if key not in key_notifier_mapping.keys():
