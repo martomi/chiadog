@@ -45,7 +45,6 @@ class EventService(Enum):
     WALLET = 4
 
 
-
 @dataclass
 class Event:
     type: EventType
