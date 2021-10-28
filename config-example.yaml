@@ -49,6 +49,13 @@ notifier:
     credentials:
       api_token: 'dummy_token'
       user_key: 'dummy_key'
+  pushcut:
+    enable: false
+    daily_stats: true
+    wallet_events: true
+    credentials:
+      api_token: 'dummy_token'
+      user_key: 'dummy_key'
   telegram:
     enable: false
     daily_stats: true
@@ -116,3 +123,10 @@ notifier:
       api_token: ''
       dashboard_id: -1
       panel_id: -1
+  ifttt:
+    enable: false
+    daily_stats: false
+    wallet_events: false
+    credentials:
+      api_token: 'dummy_token'
+      webhook_name: 'dummy_key'

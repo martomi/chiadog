@@ -50,6 +50,7 @@ You may use one (or more) of the following integrations to receive notifications
 | Integration | Advantages | Cost |
 | ------------- | ------------- | ------|
 | [Pushover](https://pushover.net/) | High priority notifications that can override your phone's silent mode. | $5 one time purchase after 30 day trial. |
+| [Pushcut](https://pushcut.io/) | Alternative to Pushover |
 | E-mail | You probably already have an email. No additional apps. | Free |
 | Slack | Quick & easy setup. | Free |
 | Discord | Quick & easy setup. | Free |
@@ -57,6 +58,8 @@ You may use one (or more) of the following integrations to receive notifications
 | Shell script (beta) | Execute anything in your own script. | Free |
 | MQTT | Well-suited for Home Automation. | Free | 
 | Grafana | For hardware monitoring. | Free |
+| [Ifttt](https://ifttt.com/) | Can be used to send push notifications or to do other API integrations depending on incoming data. | Free |
+
 
 For detailed guide on how to test and configure, please refer to [INTEGRATIONS.md](INTEGRATIONS.md).
 
