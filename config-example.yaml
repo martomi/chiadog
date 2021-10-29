@@ -53,6 +53,8 @@ notifier:
     enable: false
     daily_stats: true
     wallet_events: true
+    decreasing_plot_events: true
+    increasing_plot_events: false
     credentials:
       api_token: 'dummy_token'
       user_key: 'dummy_key'
@@ -127,6 +129,8 @@ notifier:
     enable: false
     daily_stats: false
     wallet_events: false
+    decreasing_plot_events: true
+    increasing_plot_events: false
     credentials:
       api_token: 'dummy_token'
       webhook_name: 'dummy_key'
