@@ -87,6 +87,12 @@ class TestPushcutNotifier(unittest.TestCase):
             service=EventService.HARVESTER,
             message="Disconnected HDD? The total plot count decreased from 101 to 42.",
         )
+        connected_hdd = Event(
+            type=EventType.PLOTINCREASE,
+            priority=EventPriority.HIGH,
+            service=EventService.HARVESTER,
+            message="Connected HDD? The total plot count increased from 0 to 42.",
+        )
         network_issues = Event(
             type=EventType.USER,
             priority=EventPriority.NORMAL,
@@ -100,7 +106,7 @@ class TestPushcutNotifier(unittest.TestCase):
             service=EventService.HARVESTER,
             message="Your harvester appears to be offline! No events for the past 712 seconds.",
         )
-        events = [disconnected_hdd, offline, network_issues]
+        events = [disconnected_hdd, connected_hdd, offline, network_issues]
         for notifier, event in zip(notifiers, events):
             success = notifier.send_events_to_user(events=[event])
             self.assertTrue(success)

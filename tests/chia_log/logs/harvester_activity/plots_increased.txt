@@ -1,0 +1,5 @@
+10:39:36.535 harvester chia.harvester.harvester: INFO     0 plots were eligible for farming e25et6cb36... Found 0 proofs. Time: 0.55515 s. Total 40 plots
+10:39:45.931 harvester chia.harvester.harvester: INFO     1 plots were eligible for farming e25et6cb36... Found 0 proofs. Time: 1.05515 s. Total 41 plots
+10:39:54.412 harvester chia.harvester.harvester: INFO     2 plots were eligible for farming e25et6cb36... Found 0 proofs. Time: 0.23412 s. Total 42 plots
+10:40:03.331 harvester chia.harvester.harvester: INFO     3 plots were eligible for farming e25et6cb36... Found 0 proofs. Time: 0.12348 s. Total 45 plots
+10:40:12.112 harvester chia.harvester.harvester: INFO     0 plots were eligible for farming e25et6cb36... Found 0 proofs. Time: 0.34952 s. Total 45 plots
