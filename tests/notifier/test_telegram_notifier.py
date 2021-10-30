@@ -19,6 +19,8 @@ class TestTelegramNotifier(unittest.TestCase):
                 "enable": True,
                 "daily_stats": True,
                 "wallet_events": True,
+                "decreasing_plot_events": True,
+                "increasing_plot_events": True,
                 "credentials": {"bot_token": bot_token, "chat_id": chat_id},
             },
         )
