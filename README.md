@@ -18,6 +18,7 @@ helps with automated monitoring and sends you a mobile notification in case some
 | ------------- | ------------- | ------|
 | Harvester | Your harvester appears to be offline! No events for the past 400 seconds. | HIGH |
 | Harvester | Disconnected HDD? The total plot count decreased from 100 to 40. | HIGH |
+| Harvester | Connected HDD? The total plot count increased from 0 to 42. | LOW |
 | Harvester | Experiencing networking issues? Harvester did not participate in any challenge for 120 seconds. It's now working again. | NORMAL |
 | Harvester | Seeking plots took too long: 21.42 seconds! | NORMAL |
 | Full Node | Experiencing networking issues? Skipped 42 signage points! | NORMAL |
@@ -49,6 +50,7 @@ You may use one (or more) of the following integrations to receive notifications
 | Integration | Advantages | Cost |
 | ------------- | ------------- | ------|
 | [Pushover](https://pushover.net/) | High priority notifications that can override your phone's silent mode. | $5 one time purchase after 30 day trial. |
+| [Pushcut](https://pushcut.io/) | Alternative to Pushover |
 | E-mail | You probably already have an email. No additional apps. | Free |
 | Slack | Quick & easy setup. | Free |
 | Discord | Quick & easy setup. | Free |
@@ -56,6 +58,8 @@ You may use one (or more) of the following integrations to receive notifications
 | Shell script (beta) | Execute anything in your own script. | Free |
 | MQTT | Well-suited for Home Automation. | Free | 
 | Grafana | For hardware monitoring. | Free |
+| [Ifttt](https://ifttt.com/) | Can be used to send push notifications or to do other API integrations depending on incoming data. | Free |
+
 
 For detailed guide on how to test and configure, please refer to [INTEGRATIONS.md](INTEGRATIONS.md).
 
