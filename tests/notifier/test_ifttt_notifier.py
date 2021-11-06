@@ -4,17 +4,17 @@ import unittest
 
 # project
 from src.notifier import Event, EventType, EventPriority, EventService
-from src.notifier.pushover_notifier import PushoverNotifier
+from src.notifier.ifttt_notifier import IftttNotifier
 from .dummy_events import DummyEvents
 
 
-class TestPushoverNotifier(unittest.TestCase):
+class TestIftttNotifier(unittest.TestCase):
     def setUp(self) -> None:
-        self.api_token = os.getenv("PUSHOVER_API_TOKEN")
-        self.user_key = os.getenv("PUSHOVER_USER_KEY")
-        self.assertIsNotNone(self.api_token, "You must export PUSHOVER_API_TOKEN as env variable")
-        self.assertIsNotNone(self.user_key, "You must export PUSHOVER_USER_KEY as env variable")
-        self.notifier = PushoverNotifier(
+        self.api_token = os.getenv("IFTTT_API_TOKEN")
+        self.webhook_name = os.getenv("IFTTT_WEBHOOK_NAME")
+        self.assertIsNotNone(self.api_token, "You must export IFTTT_API_TOKEN as env variable")
+        self.assertIsNotNone(self.webhook_name, "You must export IFTTT_WEBHOOK_NAME as env variable")
+        self.notifier = IftttNotifier(
             title_prefix="Test",
             config={
                 "enable": True,
@@ -22,21 +22,21 @@ class TestPushoverNotifier(unittest.TestCase):
                 "wallet_events": True,
                 "decreasing_plot_events": True,
                 "increasing_plot_events": True,
-                "credentials": {"api_token": self.api_token, "user_key": self.user_key},
+                "credentials": {"api_token": self.api_token, "webhook_name": self.webhook_name},
             },
         )
 
-    @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
+    @unittest.skipUnless(os.getenv("IFTTT_API_TOKEN"), "Run only if token available")
     def testLowPriorityNotifications(self):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
         self.assertTrue(success)
 
-    @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
+    @unittest.skipUnless(os.getenv("IFTTT_API_TOKEN"), "Run only if token available")
     def testNormalPriorityNotifications(self):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
         self.assertTrue(success)
 
-    @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
+    @unittest.skipUnless(os.getenv("IFTTT_API_TOKEN"), "Run only if token available")
     def testHighPriorityNotifications(self):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
         self.assertTrue(success)
@@ -44,17 +44,17 @@ class TestPushoverNotifier(unittest.TestCase):
     @unittest.skipUnless(os.getenv("SHOWCASE_NOTIFICATIONS"), "Only for showcasing")
     def testShowcaseGoodNotifications(self):
         notifiers = [
-            PushoverNotifier(
+            IftttNotifier(
                 title_prefix="Harvester 1",
-                config={"enable": True, "api_token": self.api_token, "user_key": self.user_key},
+                config={"enable": True, "api_token": self.api_token, "webhook_name": self.webhook_name},
             ),
-            PushoverNotifier(
+            IftttNotifier(
                 title_prefix="Harvester 2",
-                config={"enable": True, "api_token": self.api_token, "user_key": self.user_key},
+                config={"enable": True, "api_token": self.api_token, "webhook_name": self.webhook_name},
             ),
-            PushoverNotifier(
+            IftttNotifier(
                 title_prefix="Harvester 3",
-                config={"enable": True, "api_token": self.api_token, "user_key": self.user_key},
+                config={"enable": True, "api_token": self.api_token, "webhook_name": self.webhook_name},
             ),
         ]
         found_proof_event = Event(
@@ -70,21 +70,21 @@ class TestPushoverNotifier(unittest.TestCase):
     @unittest.skipUnless(os.getenv("SHOWCASE_NOTIFICATIONS"), "Only for showcasing")
     def testShowcaseBadNotifications(self):
         notifiers = [
-            PushoverNotifier(
+            IftttNotifier(
                 title_prefix="Harvester 1",
-                config={"enable": True, "api_token": self.api_token, "user_key": self.user_key},
+                config={"enable": True, "api_token": self.api_token, "webhook_name": self.webhook_name},
             ),
-            PushoverNotifier(
+            IftttNotifier(
                 title_prefix="Harvester 2",
-                config={"enable": True, "api_token": self.api_token, "user_key": self.user_key},
+                config={"enable": True, "api_token": self.api_token, "webhook_name": self.webhook_name},
             ),
-            PushoverNotifier(
+            IftttNotifier(
                 title_prefix="Harvester 3",
-                config={"enable": True, "api_token": self.api_token, "user_key": self.user_key},
+                config={"enable": True, "api_token": self.api_token, "webhook_name": self.webhook_name},
             ),
         ]
         disconnected_hdd = Event(
-            type=EventType.PLOTDECREASE,
+            type=EventType.USER,
             priority=EventPriority.HIGH,
             service=EventService.HARVESTER,
             message="Disconnected HDD? The total plot count decreased from 101 to 42.",

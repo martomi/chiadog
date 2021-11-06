@@ -9,11 +9,13 @@ from .grafana_notifier import GrafanaNotifier
 from .keep_alive_monitor import KeepAliveMonitor
 from .mqtt_notifier import MqttNotifier
 from .pushover_notifier import PushoverNotifier
+from .pushcut_notifier import PushcutNotifier
 from .script_notifier import ScriptNotifier
 from .smtp_notifier import SMTPNotifier
 from .telegram_notifier import TelegramNotifier
 from .discord_notifier import DiscordNotifier
 from .slack_notifier import SlackNotifier
+from .ifttt_notifier import IftttNotifier
 from src.config import Config
 
 
@@ -34,6 +36,7 @@ class NotifyManager:
     def _initialize_notifiers(self):
         key_notifier_mapping = {
             "pushover": PushoverNotifier,
+            "pushcut": PushcutNotifier,
             "script": ScriptNotifier,
             "telegram": TelegramNotifier,
             "discord": DiscordNotifier,
@@ -41,6 +44,7 @@ class NotifyManager:
             "slack": SlackNotifier,
             "mqtt": MqttNotifier,
             "grafana": GrafanaNotifier,
+            "ifttt": IftttNotifier,
         }
         for key in self._config.keys():
             if key not in key_notifier_mapping.keys():

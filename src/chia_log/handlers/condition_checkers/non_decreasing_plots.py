@@ -20,13 +20,28 @@ class NonDecreasingPlots(HarvesterConditionChecker):
         # When copying plots it's common that plots decrease by 1 temporarily
         # by setting the default threshold to 2, we can avoid false alarms
         self._decrease_warn_threshold = 2
+        self._increase_info_threshold = 2
 
     def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:
+        event = None
         if obj.total_plots_count > self._max_farmed_plots:
             logging.info(f"Detected new plots. Farming with {obj.total_plots_count} plots.")
+            message = (
+                f"Connected HDD? The total plot count increased from "
+                f"{self._max_farmed_plots} to {obj.total_plots_count}."
+            )
+            logging.info(message)
+
+            if obj.total_plots_count - self._max_farmed_plots > self._increase_info_threshold:
+                event = Event(
+                    type=EventType.PLOTINCREASE,
+                    priority=EventPriority.LOW,
+                    service=EventService.HARVESTER,
+                    message=message,
+                )
+
             self._max_farmed_plots = obj.total_plots_count
 
-        event = None
         if obj.total_plots_count < self._max_farmed_plots:
             if self._max_farmed_plots - obj.total_plots_count < self._decrease_warn_threshold:
                 logging.info(
@@ -40,7 +55,10 @@ class NonDecreasingPlots(HarvesterConditionChecker):
                 )
                 logging.warning(message)
                 event = Event(
-                    type=EventType.USER, priority=EventPriority.HIGH, service=EventService.HARVESTER, message=message
+                    type=EventType.PLOTDECREASE,
+                    priority=EventPriority.HIGH,
+                    service=EventService.HARVESTER,
+                    message=message,
                 )
 
         # Update max plots to prevent repeated alarms
