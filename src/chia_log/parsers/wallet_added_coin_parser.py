@@ -46,6 +46,8 @@ class WalletAddedCoinParser:
                 mojos = mojos * 10000
             elif self._prefix == 'staicoin':
                 mojos = mojos * 1000
+            elif self._prefix == 'cryptodoge':
+                mojos = mojos * 1000000
             parsed_messages.append(
                 WalletAddedCoinMessage(
                     timestamp=dateutil_parser.parse(match[0]),
