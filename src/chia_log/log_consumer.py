@@ -10,6 +10,7 @@ The latter has not been implemented yet. Feel free to add it.
 import logging
 from abc import ABC, abstractmethod
 from pathlib import Path, PurePosixPath, PureWindowsPath, PurePath
+from tempfile import mkdtemp
 from threading import Thread
 from time import sleep
 from typing import List, Optional, Tuple
@@ -58,7 +59,8 @@ class FileLogConsumer(LogConsumer):
         super().__init__()
         logging.info("Enabled local file log consumer.")
         self._expanded_log_path = str(log_path.expanduser())
-        self._offset_path = Config.get_log_offset_path()
+        self._offset_path = mkdtemp() / Config.get_log_offset_path()
+        logging.info(f"Using temporary directory {self._offset_path}")
         self._is_running = True
         self._thread = Thread(target=self._consume_loop)
         self._thread.start()
@@ -66,6 +68,12 @@ class FileLogConsumer(LogConsumer):
 
     def stop(self):
         logging.info("Stopping")
+
+        # Cleanup the temporary file
+        if self._offset_path.exists():
+            logging.info(f"Deleting {self._offset_path}")
+            self._offset_path.unlink()
+
         self._is_running = False
 
     @retry((FileNotFoundError, PermissionError), delay=2)
