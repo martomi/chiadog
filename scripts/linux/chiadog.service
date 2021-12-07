@@ -1,0 +1,81 @@
+# Runs chiadog as a limited service
+#
+# It requires at least systemd 235 for the sandboxing features,
+# although it will run without them on earlier versions.
+#
+# Replace {home-path} and {path-to-chiadog} with your absolute
+# paths before copying it to your systemd directory -
+#
+# /etc/systemd/system/chiadog.service
+#
+# It can then be run by reloading services and starting it -
+#
+# > sudo systemctl daemon-reload
+# > sudo systemctl start chiadog
+#
+# You can watch the log output by using -
+#
+# > sudo journalctl -u chiadog -f
+#
+# You can also review the security policy by using -
+#
+# > systemd-analyze security chiadog.service
+#
+
+[Unit]
+Description=chiadog
+Wants=network-online.target
+After=network.target network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+
+# Create a new user with limited access each time the service is started
+DynamicUser=yes
+
+# Hide any important chia files (such as the wallet keys)
+#
+# It's important to update these paths as chia adds any new directories we want to hide,
+# as there's no way to hide everything *except* for log/debug.log (without using newer,
+# less supported temporary filesystem features).
+#
+# You could also configure chia to place the log file outside of ~/.chia, and then block
+# the entire ~./chia directory if you prefer.
+#
+InaccessiblePaths=/{home-path}/.chia/mainnet/config /{home-path}/.chia/mainnet/wallet /{home-path}/.chia/mainnet/db /{home-path}/.chia/mainnet/run
+
+# Absolute path to chiadog such as /home/my-user/chiadog
+WorkingDirectory=/{path-to-chiadog}
+
+# Using the python from venv bin will activate the environment automatically  
+ExecStart=/{path-to-chiadog}/venv/bin/python -u main.py --config config.yaml
+
+Restart=always
+RestartSec=1
+
+# Allow chiadog to shut down smoothly
+KillSignal=SIGINT
+
+# Lock down the service further
+# See https://www.digitalocean.com/community/tutorials/how-to-sandbox-processes-with-systemd-on-ubuntu-20-04
+# as well as https://gist.github.com/ageis/f5595e59b1cddb1513d1b425a323db04
+SystemCallFilter=@system-service
+NoNewPrivileges=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+PrivateDevices=yes
+ProtectHostname=yes
+PrivateUsers=yes
+RestrictNamespaces=yes
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+LockPersonality=yes
+DevicePolicy=closed
+
+[Install]
+WantedBy=multi-user.target

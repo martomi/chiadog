@@ -196,16 +196,19 @@ nohup python3 -u main.py --config config.yaml > output.log 2>&1 &
 To stop chiadog, you can find the Process ID (PID) via `ps aux | grep main.py` and then softly interrupt the process
 with `kill -SIGINT <pid_here>`.
 
+You can also run chiadog as a sandboxed systemd service.
+
 ## Running `chiadog` in sandboxed environment
 
-We're in the early stages of exploring the best way to provide easy to setup sandboxed environment where the `chiadog`
-process is completely isolated from potentially accessing your private keys. Contributions in that direction are very
-welcome. Meanwhile you can check out @ajacobson repository
-for [chiadog-docker](https://github.com/ajacobson/chiadog-docker).
+We're still exploring the best way to provide easy to setup sandboxed environment where the `chiadog` process is
+completely isolated from potentially accessing your private keys. Contributions in that direction are very welcome.
 
-Alternatively, [as suggested here](https://github.com/martomi/chiadog/issues/24) you can run `chiadog` from a unix user
-with limited permissions.
-
+* There is an example [systemd service](scripts/linux/chiadog.service) you can configure which runs chiadog as a limited
+user and blocks access to key chia locations.
+* Alternatively, [as suggested here](https://github.com/martomi/chiadog/issues/24) you can run `chiadog` from a unix
+user with limited permissions.
+* For running in docker, you can check out @ajacobson repository for
+[chiadog-docker](https://github.com/ajacobson/chiadog-docker).
 # Contributing
 
 Contributions are always welcome! Please refer to [CONTRIBUTING](CONTRIBUTING.md) documentation.
