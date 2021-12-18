@@ -24,6 +24,7 @@ class SMTPNotifier(Notifier):
             self.password_smtp = credentials["password_smtp"]
             self.host = credentials["host"]
             self.port = credentials["port"]
+            self.enable_smtp_auth = credentials.get("enable_smtp_auth", True)
 
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
@@ -57,7 +58,8 @@ class SMTPNotifier(Notifier):
                     server.starttls()
                     # stmplib docs recommend calling ehlo() before & after starttls()
                     server.ehlo()
-                    server.login(self.username_smtp, self.password_smtp)
+                    if self.enable_smtp_auth:
+                        server.login(self.username_smtp, self.password_smtp)
                     server.sendmail(self.sender, self.recipient, msg.as_string())
                     server.quit()
                 # Display an error message if something goes wrong.

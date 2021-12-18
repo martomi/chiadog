@@ -79,6 +79,7 @@ notifier:
       recipient: 'you@example.com'
       username_smtp: 'username'
       password_smtp: 'password'
+      enable_smtp_auth: true
       host: 'smtp.example.com'
       port: 587
   script:
