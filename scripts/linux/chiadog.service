@@ -43,7 +43,7 @@ DynamicUser=yes
 # You could also configure chia to place the log file outside of ~/.chia, and then block
 # the entire ~./chia directory if you prefer.
 #
-InaccessiblePaths=/{home-path}/.chia/mainnet/config /{home-path}/.chia/mainnet/wallet /{home-path}/.chia/mainnet/db /{home-path}/.chia/mainnet/run
+InaccessiblePaths=/{home-path}/.chia/mainnet/config /{home-path}/.chia/mainnet/wallet /{home-path}/.chia/mainnet/db /{home-path}/.chia/mainnet/run /{home-path}/.chia_keys
 
 # Absolute path to chiadog such as /home/my-user/chiadog
 WorkingDirectory=/{path-to-chiadog}
