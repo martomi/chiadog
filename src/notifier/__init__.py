@@ -7,6 +7,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import List
 from enum import Enum
+from datetime import datetime
 
 
 class EventPriority(Enum):
@@ -51,6 +52,7 @@ class Event:
     priority: EventPriority
     service: EventService
     message: str
+    iteration: int = 0
 
 
 class Notifier(ABC):
@@ -96,3 +98,15 @@ class Notifier(ABC):
     def send_events_to_user(self, events: List[Event]) -> bool:
         """Implementation specific to the integration"""
         pass
+
+def exponential_backoff(incident_time, interval, iteration=0, rate=1.5) -> float:
+    """Calculate timestamps of notification thresholds.
+
+    Given an initial incident time and normal reasonable notification interval in seconds,
+    calculate notification threshold timestamps for different iterations.
+    The iteration is expected to increase every time a notification is sent.
+    """
+    if type(incident_time) is datetime:
+        incident_time = incident_time.timestamp()
+    timestamp = incident_time + (interval * pow(rate, iteration))
+    return datetime.fromtimestamp(timestamp)
