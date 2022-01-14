@@ -100,7 +100,7 @@ class Notifier(ABC):
         pass
 
 
-def exponential_backoff(incident_time, interval, iteration=0, rate=1.5) -> float:
+def exponential_backoff(incident_time, interval, iteration=0, rate=1.5) -> datetime:
     """Calculate timestamps of notification thresholds.
 
     Given an initial incident time and normal reasonable notification interval in seconds,
