@@ -93,17 +93,17 @@ class KeepAliveMonitor:
                         iteration=self._keep_alive_iteration[service],
                     )
                     if new_incident or datetime.now() >= notification_threshold:
-                        # We only increase iteration for notifications sent, not for every time the check fails.
-                        self._keep_alive_iteration[service] += 1
                         events.append(
                             Event(
                                 type=EventType.USER,
                                 priority=EventPriority.HIGH,
                                 service=EventService.HARVESTER,
                                 message=message,
-                                iteration=self._keep_alive_iteration,
+                                iteration=self._keep_alive_iteration[service],
                             )
                         )
+                        # We only increase iteration for notifications sent, not for every time the check fails.
+                        self._keep_alive_iteration[service] += 1
                     else:
                         message += f" The next notification won't be sent before {notification_threshold}"
                     # Message is logged regardless of threshold
