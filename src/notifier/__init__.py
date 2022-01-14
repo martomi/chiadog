@@ -99,6 +99,7 @@ class Notifier(ABC):
         """Implementation specific to the integration"""
         pass
 
+
 def exponential_backoff(incident_time, interval, iteration=0, rate=1.5) -> float:
     """Calculate timestamps of notification thresholds.
 

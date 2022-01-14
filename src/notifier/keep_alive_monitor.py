@@ -79,8 +79,7 @@ class KeepAliveMonitor:
                 logging.debug(f"Keep-alive check for {service.name}: Last activity {seconds_since_last} seconds ago.")
                 if seconds_since_last > self._last_keep_alive_threshold_seconds[service]:
                     message = (
-                        "Your harvester appears to be offline! "
-                        f"No events for the past {seconds_since_last} seconds."
+                        "Your harvester appears to be offline! " f"No events for the past {seconds_since_last} seconds."
                     )
                     new_incident = False
                     if self._keep_alive_iteration[service] == 0:
@@ -89,10 +88,10 @@ class KeepAliveMonitor:
                         self._keep_alive_incident_time[service] = datetime.now()
                     # Get the current notify threshold timestamp based on initial event time & iteration count.
                     notification_threshold = exponential_backoff(
-                            incident_time=self._keep_alive_incident_time[service],
-                            interval=self._last_keep_alive_threshold_seconds[service],
-                            iteration=self._keep_alive_iteration[service]
-                            )
+                        incident_time=self._keep_alive_incident_time[service],
+                        interval=self._last_keep_alive_threshold_seconds[service],
+                        iteration=self._keep_alive_iteration[service],
+                    )
                     if new_incident or datetime.now() >= notification_threshold:
                         # We only increase iteration for notifications sent, not for every time the check fails.
                         self._keep_alive_iteration[service] += 1
@@ -112,7 +111,7 @@ class KeepAliveMonitor:
                 else:
                     # All is fine, reset iteration
                     if self._keep_alive_iteration[service] > 0:
-                        logging.info(f'incident for {service} is over')
+                        logging.info(f"incident for {service} is over")
                     self._keep_alive_iteration[service] = 0
                     self._keep_alive_incident_time[service] = None
             if len(events):
