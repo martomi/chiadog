@@ -48,7 +48,7 @@ class WalletAddedCoinParser:
                 mojos = mojos * 1000000
             elif self._prefix == 'shibgreen':
                 mojos = mojos * 1000000000
-            elif self._prefix == 'staicoin':
+            elif self._prefix == 'stai':
                 mojos = mojos * 1000
             parsed_messages.append(
                 WalletAddedCoinMessage(
