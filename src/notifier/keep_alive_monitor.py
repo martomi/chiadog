@@ -99,7 +99,6 @@ class KeepAliveMonitor:
                                 priority=EventPriority.HIGH,
                                 service=EventService.HARVESTER,
                                 message=message,
-                                iteration=self._keep_alive_iteration[service],
                             )
                         )
                         # We only increase iteration for notifications sent, not for every time the check fails.

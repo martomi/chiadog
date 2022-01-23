@@ -52,7 +52,6 @@ class Event:
     priority: EventPriority
     service: EventService
     message: str
-    iteration: int = 0
 
 
 class Notifier(ABC):
