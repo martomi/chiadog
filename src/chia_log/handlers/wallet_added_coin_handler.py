@@ -16,7 +16,12 @@ class WalletAddedCoinHandler(LogHandler):
 
     def __init__(self, config: dict):
         self._parser = WalletAddedCoinParser()
-        self._config = config
+        self._config_filters = None
+        if config and config.get("enable"):
+            logging.info("Enabled wallet_added_coin_handler")
+            if config.get("filters"):
+                logging.info("Detected filters in wallet_added_coin_handler")
+                self._config_filters = config.get("filters")
 
     @staticmethod
     def __create_event(chia_coins: float) -> Event:
@@ -41,9 +46,8 @@ class WalletAddedCoinHandler(LogHandler):
 
         if total_mojos > 0:
             chia_coins = total_mojos / 1e12
-            if self._config and self._config.get("enable") and self._config.get("filters") and \
-                    self._config.get("filters")["transaction_amount"]:
-                transaction_amount_filter = float(self._config.get("filters")["transaction_amount"])
+            if self._config_filters and self._config_filters.get("transaction_amount"):
+                transaction_amount_filter = float(self._config_filters.get("transaction_amount"))
                 if chia_coins > transaction_amount_filter:
                     events.append(self.__create_event(chia_coins))
                 else:
