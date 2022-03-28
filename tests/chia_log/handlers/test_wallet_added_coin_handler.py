@@ -36,7 +36,10 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
 
     def testTransactionAmountFilter(self):
         filter_handler = WalletAddedCoinHandler(config={
-            'transaction_amount': "0.000000000001"
+            'enable': "True",
+            'filters': {
+                'transaction_amount': "0.000000000001"
+            }
         })
         with open(self.example_logs_path / "small_values.txt", encoding="UTF-8") as f:
             logs = f.readlines()

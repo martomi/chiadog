@@ -71,7 +71,7 @@ def init(config:Config):
 
     # Link stuff up in the log handler
     # Pipeline: Consume -> Handle -> Notify
-    log_handler = LogHandler(config=config.filter(), log_consumer=log_consumer, notify_manager=notify_manager,
+    log_handler = LogHandler(config=config.wallet_added_coin_handler(), log_consumer=log_consumer, notify_manager=notify_manager,
                              stats_manager=stats_manager)
 
     def interrupt(signal_number, frame):

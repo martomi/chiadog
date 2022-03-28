@@ -34,8 +34,8 @@ class Config:
     def get_chia_logs_config(self):
         return self._get_child_config("chia_logs")
 
-    def filter(self):
-        return self._get_child_config("filter", required=False)
+    def wallet_added_coin_handler(self):
+        return self._get_child_config("handlers.wallet_added_coin_handler", required=False)
 
     def get_log_level_config(self):
         return self._get_child_config("log_level")
