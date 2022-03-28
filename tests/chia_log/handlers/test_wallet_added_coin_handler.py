@@ -35,16 +35,24 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
         self.assertEqual(events[0].message, "Cha-ching! Just received 0.000000000001 XCH ☘️")
 
     def testTransactionAmountFilter(self):
-        filter_handler = WalletAddedCoinHandler(config={
+        filter_handler_pass = WalletAddedCoinHandler(config={
             'enable': "True",
             'filters': {
                 'transaction_amount': "0.000000000001"
             }
         })
+        filter_handler_fail = WalletAddedCoinHandler(config={
+            'enable': "True",
+            'filters': {
+                'transaction_amount': "0.0000000000001"
+            }
+        })
         with open(self.example_logs_path / "small_values.txt", encoding="UTF-8") as f:
             logs = f.readlines()
-        events = filter_handler.handle("".join(logs))
-        self.assertEqual(0, len(events))
+        pass_events = filter_handler_pass.handle("".join(logs))
+        self.assertEqual(0, len(pass_events))
+        fail_events = filter_handler_fail.handle("".join(logs))
+        self.assertEqual(1, len(fail_events))
 
 
 if __name__ == "__main__":
