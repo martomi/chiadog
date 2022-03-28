@@ -46,6 +46,10 @@ class WalletAddedCoinHandler(LogHandler):
                 transaction_amount_filter = float(self._config.get("filters")["transaction_amount"])
                 if chia_coins > transaction_amount_filter:
                     events.append(self.__create_event(chia_coins))
+                else:
+                    logging.info(
+                        f"Filtering out chia received message since chia amount ${chia_coins} received is less than"
+                        f"or equal to configured transaction_amount: ${transaction_amount_filter}")
             else:
                 events.append(self.__create_event(chia_coins))
 
