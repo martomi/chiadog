@@ -209,21 +209,6 @@ user and blocks access to key chia locations.
 user with limited permissions.
 * For running in docker, you can check out @ajacobson repository for
 [chiadog-docker](https://github.com/ajacobson/chiadog-docker).
-
-## Filters
-
-Filters are also supported by adding them under the `filter` section, i.e.
-
-```yaml
-filter:
-  transaction_amount: "0.000000000002"
-```
-
-The above example will filter out all chia messages for transactions that are not bigger than `0.000000000002`. This is
-useful in reducing spam that is often a result of chia 
-[dust storms](https://blog.lopp.net/history-bitcoin-transaction-dust-spam-storms/). When using [Pushover](https://pushover.net/)
-as an integration the setting is necessary due their cap on monthly amount of messages.
-
 # Contributing
 
 Contributions are always welcome! Please refer to [CONTRIBUTING](CONTRIBUTING.md) documentation.
