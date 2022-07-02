@@ -2,7 +2,6 @@
 import http.client
 import logging
 import json
-import urllib.parse
 from typing import List
 
 # project
