@@ -39,12 +39,14 @@ class WalletAddedCoinHandler(LogHandlerInterface):
         if total_mojos > self.min_mojos_amount:
             chia_coins = total_mojos / 1e12
             xch_string = f"{chia_coins:.12f}".rstrip("0").rstrip(".")
-            events.append(Event(
-                type=EventType.USER,
-                priority=EventPriority.LOW,
-                service=EventService.WALLET,
-                message=f"Cha-ching! Just received {xch_string} XCH ☘️",
-            ))
+            events.append(
+                Event(
+                    type=EventType.USER,
+                    priority=EventPriority.LOW,
+                    service=EventService.WALLET,
+                    message=f"Cha-ching! Just received {xch_string} XCH ☘️",
+                )
+            )
         else:
             logging.debug(
                 f"Filtering out chia coin message since the amount ${total_mojos} received is less than"
