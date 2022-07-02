@@ -38,7 +38,7 @@ one of your external HDDs disconnected and your harvester doesn't have access to
 ## Access & Security
 
 It only requires read-access to your `debug.log` file and internet connection to send out notifications. It's highly
-recommended that you run `chiadog` in a sandboxed environment - this is described in the advanced section below.
+recommended that you run `chiadog` in a sandboxed environment. Please use the official [docker image](https://github.com/martomi/chiadog/pkgs/container/chiadog/versions).
 
 Furthermore, following best security practices, you
 should [keep your wallet separate](https://github.com/Chia-Network/chia-blockchain/wiki/Good-Security-Practices-on-Many-Machines#keep-your-wallet-separate).
@@ -98,6 +98,12 @@ cat ~/.chia/mainnet/log/debug.log
 
 ## Installation
 
+### Recommended
+
+The new recommended way of using `chiadog` is via the official [docker image](https://github.com/martomi/chiadog/pkgs/container/chiadog/versions).
+
+### Manual Installation
+
 _For updating from previous version, see section below._
 
 1. Clone the repository
@@ -121,7 +127,7 @@ cp config-example.yaml config.yaml
 
 4. Open up `config.yaml` in your editor and configure it to your preferences.
 
-## Updating to the latest release
+### Updating to the latest release
 
 _Skip this if you followed the above section_.
 
@@ -176,8 +182,7 @@ keep-alive event from the harvester.
 ## Redundant monitoring for `chiadog`
 
 There are failure-cases in which `chiadog` is helpless. For example, your computer completely freezes or shuts down.
-Perhaps your entire home network goes down.
-`chiadog` won't be able to send you a notification.
+Perhaps your entire home network goes down. `chiadog` won't be able to send you a notification.
 
 There's a way however: in the [config](config-example.yaml) under the section of `keep_alive_monitor`, you can enable
 pinging to a remote service that will act as a watchdog of `chiadog`. A second level of redundancy, if you wish!
@@ -196,19 +201,11 @@ nohup python3 -u main.py --config config.yaml > output.log 2>&1 &
 To stop chiadog, you can find the Process ID (PID) via `ps aux | grep main.py` and then softly interrupt the process
 with `kill -SIGINT <pid_here>`.
 
-You can also run chiadog as a sandboxed systemd service.
+## Running `chiadog` as sandboxed systemd service
 
-## Running `chiadog` in sandboxed environment
+Alternatively to the original chiadog docker image, you can setup a [systemd service](scripts/linux/chiadog.service)
+which runs chiadog as a limited user and blocks access to key chia locations.
 
-We're still exploring the best way to provide easy to setup sandboxed environment where the `chiadog` process is
-completely isolated from potentially accessing your private keys. Contributions in that direction are very welcome.
-
-* There is an example [systemd service](scripts/linux/chiadog.service) you can configure which runs chiadog as a limited
-user and blocks access to key chia locations.
-* Alternatively, [as suggested here](https://github.com/martomi/chiadog/issues/24) you can run `chiadog` from a unix
-user with limited permissions.
-* For running in docker, you can check out @ajacobson repository for
-[chiadog-docker](https://github.com/ajacobson/chiadog-docker).
 # Contributing
 
 Contributions are always welcome! Please refer to [CONTRIBUTING](CONTRIBUTING.md) documentation.
