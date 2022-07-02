@@ -35,18 +35,12 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
         self.assertEqual(events[0].message, "Cha-ching! Just received 0.000000000001 XCH ☘️")
 
     def testTransactionAmountFilter(self):
-        filter_handler_pass = WalletAddedCoinHandler(config={
-            'enable': "True",
-            'filters': {
-                'transaction_amount': "0.000000000001"
-            }
-        })
-        filter_handler_fail = WalletAddedCoinHandler(config={
-            'enable': "True",
-            'filters': {
-                'transaction_amount': "0.0000000000001"
-            }
-        })
+        filter_handler_pass = WalletAddedCoinHandler(
+            config={"enable": "True", "filters": {"transaction_amount": "0.000000000001"}}
+        )
+        filter_handler_fail = WalletAddedCoinHandler(
+            config={"enable": "True", "filters": {"transaction_amount": "0.0000000000001"}}
+        )
         with open(self.example_logs_path / "small_values.txt", encoding="UTF-8") as f:
             logs = f.readlines()
         pass_events = filter_handler_pass.handle("".join(logs))

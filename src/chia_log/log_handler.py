@@ -27,8 +27,11 @@ class LogHandler(LogConsumerSubscriber):
     """
 
     def __init__(
-            self, config: dict, log_consumer: LogConsumer, notify_manager: NotifyManager,
-            stats_manager: Optional[StatsManager] = None
+        self,
+        config: dict,
+        log_consumer: LogConsumer,
+        notify_manager: NotifyManager,
+        stats_manager: Optional[StatsManager] = None,
     ):
         self._notify_manager = notify_manager
         self._stats_manager = stats_manager
