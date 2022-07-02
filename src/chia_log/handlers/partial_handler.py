@@ -2,20 +2,25 @@
 from typing import List, Optional
 
 # project
-from . import LogHandler
+from . import LogHandlerInterface
 from ..parsers.partial_parser import PartialParser
 from .condition_checkers import PartialConditionChecker
 from .daily_stats.stats_manager import StatsManager
 from src.notifier import Event
 
 
-class PartialHandler(LogHandler):
+class PartialHandler(LogHandlerInterface):
     """This handler parses all logs indicating found partials
     activity by the full node. It holds a list of condition checkers
     that are evaluated for each event.
     """
 
-    def __init__(self):
+    @staticmethod
+    def config_name() -> str:
+        return "partial_handler"
+
+    def __init__(self, config: Optional[dict] = None):
+        super().__init__(config)
         self._parser = PartialParser()
         self._cond_checkers: List[PartialConditionChecker] = []
 

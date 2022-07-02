@@ -3,25 +3,27 @@ import logging
 from typing import List, Optional
 
 # project
-from . import LogHandler
+from . import LogHandlerInterface
 from ..parsers.wallet_added_coin_parser import WalletAddedCoinParser
 from .daily_stats.stats_manager import StatsManager
 from src.notifier import Event, EventService, EventType, EventPriority
 
 
-class WalletAddedCoinHandler(LogHandler):
+class WalletAddedCoinHandler(LogHandlerInterface):
     """This handler parses all logs that report wallet
     receiving XCH and creates user notifications.
     """
 
-    def __init__(self, config: dict):
+    @staticmethod
+    def config_name() -> str:
+        return "wallet_added_coin_handler"
+
+    def __init__(self, config: Optional[dict] = None):
+        super().__init__(config)
         self._parser = WalletAddedCoinParser()
-        self._config_filters = None
-        if config and config.get("enable"):
-            logging.info("Enabled wallet_added_coin_handler")
-            if config.get("filters"):
-                logging.info("Detected filters in wallet_added_coin_handler")
-                self._config_filters = config.get("filters")
+        config = config or {}
+        self.min_transaction_amount = config.get("min_transaction_amount", 0)
+        logging.info(f"Wallet min_transaction_amount: {self.min_transaction_amount}")
 
     @staticmethod
     def __create_event(chia_coins: float) -> Event:
@@ -46,16 +48,12 @@ class WalletAddedCoinHandler(LogHandler):
 
         if total_mojos > 0:
             chia_coins = total_mojos / 1e12
-            if self._config_filters and self._config_filters.get("transaction_amount"):
-                transaction_amount_filter = float(self._config_filters.get("transaction_amount"))
-                if chia_coins > transaction_amount_filter:
-                    events.append(self.__create_event(chia_coins))
-                else:
-                    logging.info(
-                        f"Filtering out chia received message since chia amount ${chia_coins} received is less than"
-                        f"or equal to configured transaction_amount: ${transaction_amount_filter}"
-                    )
-            else:
+            if chia_coins >= self.min_transaction_amount:
                 events.append(self.__create_event(chia_coins))
+            else:
+                logging.debug(
+                    f"Filtering out chia coin message since the amount ${chia_coins} received is less than"
+                    f"the configured transaction_amount: ${self.min_transaction_amount}"
+                )
 
         return events

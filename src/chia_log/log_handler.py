@@ -1,7 +1,9 @@
 # std
-from typing import Optional
+from typing import Optional, List, Type
+import logging
 
 # project
+from src.chia_log.handlers import LogHandlerInterface
 from src.chia_log.handlers.daily_stats.stats_manager import StatsManager
 from src.chia_log.handlers.harvester_activity_handler import HarvesterActivityHandler
 from src.chia_log.handlers.partial_handler import PartialHandler
@@ -10,6 +12,15 @@ from src.chia_log.handlers.finished_signage_point_handler import FinishedSignage
 from src.chia_log.handlers.wallet_added_coin_handler import WalletAddedCoinHandler
 from src.chia_log.log_consumer import LogConsumerSubscriber, LogConsumer
 from src.notifier.notify_manager import NotifyManager
+
+
+def _check_handler_enabled(config: dict, handler_name: str) -> bool:
+    """Fallback to True for backwards compatability"""
+    try:
+        return config[handler_name].get("enable", True)
+    except KeyError as key:
+        logging.error(f"Invalid config.yaml. Missing key: {key}")
+    return True
 
 
 class LogHandler(LogConsumerSubscriber):
@@ -28,20 +39,29 @@ class LogHandler(LogConsumerSubscriber):
 
     def __init__(
         self,
-        config: dict,
+        config: Optional[dict],
         log_consumer: LogConsumer,
         notify_manager: NotifyManager,
         stats_manager: Optional[StatsManager] = None,
     ):
         self._notify_manager = notify_manager
         self._stats_manager = stats_manager
-        self._handlers = [
-            HarvesterActivityHandler(),
-            PartialHandler(),
-            BlockHandler(),
-            FinishedSignagePointHandler(),
-            WalletAddedCoinHandler(config),
+
+        config = config or {}
+        available_handlers: List[Type[LogHandlerInterface]] = [
+            HarvesterActivityHandler,
+            PartialHandler,
+            BlockHandler,
+            FinishedSignagePointHandler,
+            WalletAddedCoinHandler,
         ]
+        self._handlers = []
+        for handler in available_handlers:
+            if _check_handler_enabled(config, handler.config_name()):
+                self._handlers.append(handler(config.get(handler.config_name())))
+            else:
+                logging.info(f"Disabled handler: {handler.config_name()}")
+
         log_consumer.subscribe(self)
 
     def consume_logs(self, logs: str):
