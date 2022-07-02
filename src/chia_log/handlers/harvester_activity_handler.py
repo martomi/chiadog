@@ -3,7 +3,7 @@ import logging
 from typing import List, Optional
 
 # project
-from . import LogHandler
+from . import LogHandlerInterface
 from ..parsers.harvester_activity_parser import HarvesterActivityParser
 from .condition_checkers import HarvesterConditionChecker
 from .condition_checkers.non_decreasing_plots import NonDecreasingPlots
@@ -13,14 +13,19 @@ from .daily_stats.stats_manager import StatsManager
 from src.notifier import Event, EventService, EventType, EventPriority
 
 
-class HarvesterActivityHandler(LogHandler):
+class HarvesterActivityHandler(LogHandlerInterface):
     """This handler parses all logs indicating harvester
     activity and participation in challenges. It holds a list
     of condition checkers that are evaluated for each event to
     ensure that farming is going smoothly.
     """
 
-    def __init__(self):
+    @staticmethod
+    def config_name() -> str:
+        return "harvester_activity_handler"
+
+    def __init__(self, config: Optional[dict] = None):
+        super().__init__(config)
         self._parser = HarvesterActivityParser()
         self._cond_checkers: List[HarvesterConditionChecker] = [
             TimeSinceLastFarmEvent(),

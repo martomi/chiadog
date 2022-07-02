@@ -3,7 +3,7 @@ import logging
 from typing import List, Optional
 
 # project
-from . import LogHandler
+from . import LogHandlerInterface
 from ..parsers.block_parser import BlockParser
 from .condition_checkers import BlockConditionChecker
 from .condition_checkers.found_blocks import FoundBlocks
@@ -11,13 +11,18 @@ from .daily_stats.stats_manager import StatsManager
 from src.notifier import Event
 
 
-class BlockHandler(LogHandler):
+class BlockHandler(LogHandlerInterface):
     """This handler parses all logs indicating found block
     activity by the full node. It holds a list of condition checkers
     that are evaluated for each event.
     """
 
-    def __init__(self):
+    @staticmethod
+    def config_name() -> str:
+        return "block_handler"
+
+    def __init__(self, config: Optional[dict] = None):
+        super().__init__(config)
         self._parser = BlockParser()
         self._cond_checkers: List[BlockConditionChecker] = [FoundBlocks()]
 
