@@ -71,7 +71,8 @@ def init(config:Config):
 
     # Link stuff up in the log handler
     # Pipeline: Consume -> Handle -> Notify
-    log_handler = LogHandler(log_consumer=log_consumer, notify_manager=notify_manager, stats_manager=stats_manager)
+    log_handler = LogHandler(config=config.get_handlers_config(), log_consumer=log_consumer, notify_manager=notify_manager,
+                             stats_manager=stats_manager)
 
     def interrupt(signal_number, frame):
         if signal_number == signal.SIGINT:

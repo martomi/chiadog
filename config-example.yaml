@@ -33,6 +33,28 @@ daily_stats:
   time_of_day: "21:00"
   frequency_hours: 24
 
+# In this section you can enable and configure the log handlers
+handlers:
+  # Checks for new coins received (wallet)
+  wallet_added_coin_handler:
+    enable: true
+    # Transactions with lower amount mojos will be ignored
+    # Use this to avoid notification spam during dust storms
+    min_mojos_amount:  5
+  # Checks for skipped signage points (full node)
+  finished_signage_point_handler:
+    enable: true
+  # Checks for new blocks found (full node)
+  block_handler:
+    enable: true
+  # Checks for found partials (farmer)
+  partial_handler:
+    enable: true
+  # Checks harvester activity & health (harvester)
+  harvester_activity_handler:
+    enable: true
+
+
 # We support a lot of notifiers, please check the README for more
 # information. You can delete the sections which you aren't using.
 # You can also enable more than one notifier and send different

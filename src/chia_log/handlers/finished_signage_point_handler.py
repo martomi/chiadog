@@ -3,7 +3,7 @@ import logging
 from typing import List, Optional
 
 # project
-from . import LogHandler
+from . import LogHandlerInterface
 from ..parsers.finished_signage_point_parser import FinishedSignagePointParser
 from .condition_checkers import FinishedSignageConditionChecker
 from .condition_checkers.non_skipped_signage_points import NonSkippedSignagePoints
@@ -11,13 +11,18 @@ from .daily_stats.stats_manager import StatsManager
 from src.notifier import Event
 
 
-class FinishedSignagePointHandler(LogHandler):
+class FinishedSignagePointHandler(LogHandlerInterface):
     """This handler parses all logs indicating finished signage point
     activity by the full node. It holds a list of condition checkers
     that are evaluated for each event.
     """
 
-    def __init__(self):
+    @staticmethod
+    def config_name() -> str:
+        return "finished_signage_point_handler"
+
+    def __init__(self, config: Optional[dict] = None):
+        super().__init__(config)
         self._parser = FinishedSignagePointParser()
         self._cond_checkers: List[FinishedSignageConditionChecker] = [NonSkippedSignagePoints()]
 
