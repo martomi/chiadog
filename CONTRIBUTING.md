@@ -12,12 +12,9 @@ You can open and edit the [architecture.drawio](./docs/architecture.drawio) file
 ## How to contribute?
 
 1. Fork the repository
-2. Create a feature or bugfix branch from `dev`
+2. Create a feature or bugfix branch from `main`
 3. Push your changes to the branch on your forked repository
-4. Submit a PR towards `dev` branch of this repository.
-
-> Note: It's important to base your work on top of the `dev` branch. The `main` branch will only be
-> updated once a new release is ready to be pushed. I'll then be merging all changes from `dev` into `main`.
+4. Submit a PR towards `main` branch of this repository.
 
 ## Commit messages
 

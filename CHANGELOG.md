@@ -7,6 +7,28 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.7.1] - 2022-07-02
+
+Howdy farmers! It's been a long while. This release brings everything from `dev` to `main` branch
+and going forward, all new development will happen directly on the `main` branch.
+
+There's now an [official docker image](https://github.com/martomi/chiadog/pkgs/container/chiadog/versions) that will
+be published automatically with every new release. For the most stable experience, I recommend using the docker image
+or sticking to release tagged versions of the `main` branch.
+
+### Added
+- Automated docker image builds - thanks [@Artanicus](https://github.com/Artanicus)!
+- Pushcut notifier - thanks [@Connor-Knabe](https://github.com/Connor-Knabe)!
+- IFTTT notifier - thanks [@Connor-Knabe](https://github.com/Connor-Knabe)!
+- Optional notification for plot increases - thanks [@Connor-Knabe](https://github.com/Connor-Knabe)!
+- Ability to run in sandboxed systemd service - thanks [@alexking](https://github.com/alexking)!
+- Option to disable SMPT Auth - thanks [@unsocial-bleach](https://github.com/unsocial-bleach)!
+- Config for log handlers and option to filter dust storm wallet events - thanks [@egeedot](https://github.com/egeedot) and [@martomi](https://github.com/martomi)!
+
+### Fixed
+- Thanks [@kanasite](https://github.com/kanasite) for fixing the block parser and adding tests!
+
+
 ## [0.7.0] - 2021-07-29
 
 This release adds support for pooling!
@@ -195,7 +217,9 @@ The purpose of this minor release is to get out a few fixes. No new features in 
 - Adds basic condition checks for harvester operations.
 - Adds integration for Pushover (mobile notifications).
 
-[Unreleased]: https://github.com/martomi/chiadog/compare/v0.7.0...dev
+[Unreleased]: https://github.com/martomi/chiadog/compare/v0.7.1...main
+
+[0.7.1]: https://github.com/martomi/chiadog/compare/v0.7.0...v0.7.1
 
 [0.7.0]: https://github.com/martomi/chiadog/compare/v0.6.1...v0.7.0
 
