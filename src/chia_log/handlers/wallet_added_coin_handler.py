@@ -22,18 +22,8 @@ class WalletAddedCoinHandler(LogHandlerInterface):
         super().__init__(config)
         self._parser = WalletAddedCoinParser()
         config = config or {}
-        self.min_transaction_amount = config.get("min_transaction_amount", 0)
-        logging.info(f"Wallet min_transaction_amount: {self.min_transaction_amount}")
-
-    @staticmethod
-    def __create_event(chia_coins: float) -> Event:
-        xch_string = f"{chia_coins:.12f}".rstrip("0").rstrip(".")
-        return Event(
-            type=EventType.USER,
-            priority=EventPriority.LOW,
-            service=EventService.WALLET,
-            message=f"Cha-ching! Just received {xch_string} XCH ☘️",
-        )
+        self.min_mojos_amount = config.get("min_mojos_amount", 0)
+        logging.info(f"Filtering transaction with mojos less than {self.min_mojos_amount}")
 
     def handle(self, logs: str, stats_manager: Optional[StatsManager] = None) -> List[Event]:
         events = []
@@ -46,14 +36,19 @@ class WalletAddedCoinHandler(LogHandlerInterface):
             logging.info(f"Cha-ching! Just received {coin_msg.amount_mojos} mojos.")
             total_mojos += coin_msg.amount_mojos
 
-        if total_mojos > 0:
+        if total_mojos > self.min_mojos_amount:
             chia_coins = total_mojos / 1e12
-            if chia_coins >= self.min_transaction_amount:
-                events.append(self.__create_event(chia_coins))
-            else:
-                logging.debug(
-                    f"Filtering out chia coin message since the amount ${chia_coins} received is less than"
-                    f"the configured transaction_amount: ${self.min_transaction_amount}"
-                )
+            xch_string = f"{chia_coins:.12f}".rstrip("0").rstrip(".")
+            events.append(Event(
+                type=EventType.USER,
+                priority=EventPriority.LOW,
+                service=EventService.WALLET,
+                message=f"Cha-ching! Just received {xch_string} XCH ☘️",
+            ))
+        else:
+            logging.debug(
+                f"Filtering out chia coin message since the amount ${total_mojos} received is less than"
+                f"the configured transaction_amount: ${self.min_mojos_amount}"
+            )
 
         return events

@@ -38,10 +38,9 @@ handlers:
   # Checks for new coins received (wallet)
   wallet_added_coin_handler:
     enable: true
-    # Set this to filter out all transactions that are less
-    # than the transaction_amount. Useful to avoid notification
-    # spam during dust storm events on the network
-    min_transaction_amount:  0.000000000002
+    # Transactions with lower amount mojos will be ignored
+    # Use this to avoid notification spam during dust storms
+    min_mojos_amount:  5
   # Checks for skipped signage points (full node)
   finished_signage_point_handler:
     enable: true

@@ -20,7 +20,7 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
 
     def testConfig(self):
         self.assertEqual(self.handler_config["enable"], True)
-        self.assertEqual(self.handler_config["min_transaction_amount"], 0.000000000002)
+        self.assertEqual(self.handler_config["min_mojos_amount"], 5)
 
     def testNominal(self):
         with open(self.example_logs_path / "nominal.txt", encoding="UTF-8") as f:
@@ -47,7 +47,7 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
     def testTransactionAmountFilter(self):
         default_config = self.handler_config
         no_filter_config = copy.deepcopy(default_config)
-        no_filter_config["min_transaction_amount"] = 0
+        no_filter_config["min_mojos_amount"] = 0
 
         filter_handler = WalletAddedCoinHandler(default_config)
         no_filter_handler = WalletAddedCoinHandler(no_filter_config)
