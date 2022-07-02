@@ -201,7 +201,10 @@ nohup python3 -u main.py --config config.yaml > output.log 2>&1 &
 To stop chiadog, you can find the Process ID (PID) via `ps aux | grep main.py` and then softly interrupt the process
 with `kill -SIGINT <pid_here>`.
 
-You can also run chiadog as a sandboxed systemd service.
+## Running `chiadog` as sandboxed systemd service
+
+Alternatively to the original chiadog docker image, you can setup a [systemd service](scripts/linux/chiadog.service)
+which runs chiadog as a limited user and blocks access to key chia locations.
 
 # Contributing
 
