@@ -26,7 +26,7 @@ class WalletAddedCoinParser:
         logging.info("Enabled parser for wallet activity - added coins.")
         self._regex = re.compile(
             r"([0-9:.]*) wallet (?:src|chia).wallet.wallet_state_manager(?:\s?): "
-            r"INFO\s*Adding coin: {'amount': ([0-9]*),"
+            r"INFO\s*Adding( | record to state manager )?coin: {'amount': ([0-9]*),"
         )
 
     def parse(self, logs: str) -> List[WalletAddedCoinMessage]:
@@ -42,7 +42,7 @@ class WalletAddedCoinParser:
             parsed_messages.append(
                 WalletAddedCoinMessage(
                     timestamp=dateutil_parser.parse(match[0]),
-                    amount_mojos=int(match[1]),
+                    amount_mojos=int(match[2]),
                 )
             )
 
