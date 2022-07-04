@@ -1,0 +1,6 @@
+22:50:45.215 wallet chia.wallet.wallet_state_manager: INFO     Adding record to state manager coin: {'amount': 250000000000,
+ 'parent_coin_info': '0x3333333333333333333333333333333333333333333333333333333333333333',
+ 'puzzle_hash': '0x1111111111111111111111111111111111111111111111111111111111111111'} at 424242
+22:50:47.227 wallet chia.wallet.wallet_state_manager: INFO     Adding record to state manager coin: {'amount': 1750000000000,
+ 'parent_coin_info': '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+ 'puzzle_hash': '0x1fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'} at 424242
