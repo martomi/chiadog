@@ -7,6 +7,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.7.2] - 2022-07-04
+
+### Fixed
+- Fixed wallet parser for Chia v1.4.0+ - thanks [@djerfy](https://github.com/djerfy)!
+
 ## [0.7.1] - 2022-07-02
 
 Howdy farmers! It's been a long while. This release brings everything from `dev` to `main` branch
@@ -217,7 +222,9 @@ The purpose of this minor release is to get out a few fixes. No new features in 
 - Adds basic condition checks for harvester operations.
 - Adds integration for Pushover (mobile notifications).
 
-[Unreleased]: https://github.com/martomi/chiadog/compare/v0.7.1...main
+[Unreleased]: https://github.com/martomi/chiadog/compare/v0.7.2...main
+
+[0.7.2]: https://github.com/martomi/chiadog/compare/v0.7.1...v0.7.2
 
 [0.7.1]: https://github.com/martomi/chiadog/compare/v0.7.0...v0.7.1
 
