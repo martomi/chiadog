@@ -7,6 +7,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.7.3] - 2022-08-26
+
+### Added
+- Docker image build for linux/arm64 architecture - thanks [@lryanuk](https://github.com/lryanuk)!
+
+### Fixed
+- Fixed wallet parser for Chia v1.5.1+ - thanks [@djerfy](https://github.com/djerfy)!
+
 ## [0.7.2] - 2022-07-04
 
 ### Fixed
@@ -222,7 +230,9 @@ The purpose of this minor release is to get out a few fixes. No new features in 
 - Adds basic condition checks for harvester operations.
 - Adds integration for Pushover (mobile notifications).
 
-[Unreleased]: https://github.com/martomi/chiadog/compare/v0.7.2...main
+[Unreleased]: https://github.com/martomi/chiadog/compare/v0.7.3...main
+
+[0.7.3]: https://github.com/martomi/chiadog/compare/v0.7.2...v0.7.3
 
 [0.7.2]: https://github.com/martomi/chiadog/compare/v0.7.1...v0.7.2
 
