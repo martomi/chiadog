@@ -1,0 +1,2 @@
+15:37:11.668 wallet chia.wallet.wallet_node    : INFO     request coin: cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc{'coin': {'amount': 250000000000,
+16:53:59.677 wallet chia.wallet.wallet_node    : INFO     request coin: 1fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff{'coin': {'amount': 1750000000000,
