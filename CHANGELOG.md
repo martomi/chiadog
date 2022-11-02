@@ -7,6 +7,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.7.4] - 2022-11-02
+
+### Fixed
+- Bumped `paramiko` dependency to latest version (2.11.0) to fix a deprecation warning
+
 ## [0.7.3] - 2022-08-26
 
 ### Added
@@ -230,7 +235,9 @@ The purpose of this minor release is to get out a few fixes. No new features in 
 - Adds basic condition checks for harvester operations.
 - Adds integration for Pushover (mobile notifications).
 
-[Unreleased]: https://github.com/martomi/chiadog/compare/v0.7.3...main
+[Unreleased]: https://github.com/martomi/chiadog/compare/v0.7.4...main
+
+[0.7.4]: https://github.com/martomi/chiadog/compare/v0.7.3...v0.7.4
 
 [0.7.3]: https://github.com/martomi/chiadog/compare/v0.7.2...v0.7.3
 
