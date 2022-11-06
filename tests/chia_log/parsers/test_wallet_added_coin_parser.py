@@ -16,9 +16,11 @@ class TestWalletAddedCoinParser(unittest.TestCase):
             self.nominal_logs_after_140 = f.read()
         with open(self.example_logs_path / "nominal-after-1.5.1.txt", encoding="UTF-8") as f:
             self.nominal_logs_after_151 = f.read()
+        with open(self.example_logs_path / "nominal-after-1.6.1.txt", encoding="UTF-8") as f:
+            self.nominal_logs_after_161 = f.read()
 
     def testBasicParsing(self):
-        for nominal_logs in [self.nominal_logs_before_140, self.nominal_logs_after_140, self.nominal_logs_after_151]:
+        for nominal_logs in [self.nominal_logs_before_140, self.nominal_logs_after_140, self.nominal_logs_after_151, self.nominal_logs_after_161]:
             added_coins = self.parser.parse(nominal_logs)
             total_mojos = 0
             for coin in added_coins:
