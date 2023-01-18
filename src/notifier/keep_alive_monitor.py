@@ -4,7 +4,7 @@ import urllib.request
 from datetime import datetime
 from threading import Thread
 from time import sleep
-from typing import List
+from typing import List, Optional
 
 # project
 from . import EventService, Event, EventType, EventPriority
@@ -24,7 +24,7 @@ class KeepAliveMonitor:
     receiving keep-alive ping events and can notify the user.
     """
 
-    def __init__(self, config: dict = None, thresholds: dict = None):
+    def __init__(self, config: Optional[dict] = None, thresholds: Optional[dict] = None):
         self._notify_manager = None
 
         self._last_keep_alive = {EventService.HARVESTER: datetime.now()}

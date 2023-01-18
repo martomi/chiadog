@@ -47,7 +47,7 @@ class WalletAddedCoinHandler(LogHandlerInterface):
                     message=f"Cha-ching! Just received {xch_string} XCH ☘️",
                 )
             )
-        else:
+        elif total_mojos != 0:
             logging.debug(
                 f"Filtering out chia coin message since the amount ${total_mojos} received is less than"
                 f"the configured transaction_amount: ${self.min_mojos_amount}"
