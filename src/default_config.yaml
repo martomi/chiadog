@@ -18,28 +18,34 @@ chia_logs:
     remote_user: "chia"
     remote_port: 22
 
+# All services and thus handlers are enabled by default
+monitored_services:
+  - FULL_NODE
+  - HARVESTER
+  - FARMER
+  - WALLET
+
 keep_alive_monitor:
   enable_remote_ping: false
   ping_url: null
+  notify_threshold_seconds:
+    FULL_NODE: 300
+    HARVESTER: 300
+    FARMER: 300
+    WALLET: 300
+
 
 daily_stats:
   enable: false
   time_of_day: "21:00"
   frequency_hours: 24
 
-# All handlers are enabled by default
+# Only handlers that have config options are defined here.
+# The enabled param is deprecated, all are enabled if their
+# service is enabled in monitored_services.
 handlers:
   wallet_added_coin_handler:
-    enable: true
     min_mojos_amount: 0
-  finished_signage_point_handler:
-    enable: true
-  block_handler:
-    enable: true
-  partial_handler:
-    enable: true
-  harvester_activity_handler:
-    enable: true
 
 
 # No notifier or notifier feature is enabled by default
