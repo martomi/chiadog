@@ -29,7 +29,6 @@ class SearchTimeStats(HarvesterActivityConsumer, StatAccumulator):
             self._over_15_seconds += 1
 
     def get_summary(self) -> str:
-
         pct_over_5seconds: float = 0
         pct_over_15seconds: float = 0
 

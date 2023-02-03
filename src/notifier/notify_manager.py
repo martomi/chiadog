@@ -3,6 +3,9 @@ import logging
 import time
 from typing import List, Dict
 
+# lib
+import confuse
+
 # project
 from . import Event, Notifier
 from .grafana_notifier import GrafanaNotifier
@@ -16,7 +19,6 @@ from .telegram_notifier import TelegramNotifier
 from .discord_notifier import DiscordNotifier
 from .slack_notifier import SlackNotifier
 from .ifttt_notifier import IftttNotifier
-from src.config import Config
 
 
 class NotifyManager:
@@ -25,12 +27,12 @@ class NotifyManager:
     delivered to multiple services at once.
     """
 
-    def __init__(self, config: Config, keep_alive_monitor: KeepAliveMonitor):
+    def __init__(self, config: confuse.core.Configuration, keep_alive_monitor: KeepAliveMonitor):
         self._keep_alive_monitor = keep_alive_monitor
         self._keep_alive_monitor.set_notify_manager(self)
         self._notifiers: Dict[str, Notifier] = {}
-        self._config = config.get_notifier_config()
-        self._notification_title_prefix = config.get_config()["notification_title_prefix"]
+        self._config = config["notifier"].get()
+        self._notification_title_prefix = config["notification_title_prefix"].get()
         self._initialize_notifiers()
 
     def _initialize_notifiers(self):

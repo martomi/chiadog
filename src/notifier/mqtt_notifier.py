@@ -116,7 +116,6 @@ class MqttNotifier(Notifier):
 
         for event in events:
             if event.type in self._notification_types and event.service in self._notification_services:
-
                 payload = json.dumps({"type": event.type.name, "prio": event.priority.name, "msg": event.message})
 
                 response = self._client.publish(self._topic, payload=payload, qos=self._qos, retain=self._retain)

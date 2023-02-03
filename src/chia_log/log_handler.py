@@ -2,6 +2,9 @@
 from typing import Optional, List, Type
 import logging
 
+# lib
+import confuse
+
 # project
 from src.chia_log.handlers import LogHandlerInterface
 from src.chia_log.handlers.daily_stats.stats_manager import StatsManager
@@ -17,7 +20,7 @@ from src.notifier.notify_manager import NotifyManager
 def _check_handler_enabled(config: dict, handler_name: str) -> bool:
     """Fallback to True for backwards compatability"""
     try:
-        return config[handler_name].get("enable", True)
+        return config["handlers"][handler_name]["enable"].get()
     except KeyError as key:
         logging.error(f"Invalid config.yaml. Missing key: {key}")
     return True
@@ -39,7 +42,7 @@ class LogHandler(LogConsumerSubscriber):
 
     def __init__(
         self,
-        config: Optional[dict],
+        config: confuse.core.Configuration,
         log_consumer: LogConsumer,
         notify_manager: NotifyManager,
         stats_manager: Optional[StatsManager] = None,
@@ -47,7 +50,6 @@ class LogHandler(LogConsumerSubscriber):
         self._notify_manager = notify_manager
         self._stats_manager = stats_manager
 
-        config = config or {}
         available_handlers: List[Type[LogHandlerInterface]] = [
             HarvesterActivityHandler,
             PartialHandler,
@@ -58,7 +60,7 @@ class LogHandler(LogConsumerSubscriber):
         self._handlers = []
         for handler in available_handlers:
             if _check_handler_enabled(config, handler.config_name()):
-                self._handlers.append(handler(config.get(handler.config_name())))
+                self._handlers.append(handler(config["handlers"][handler.config_name()].get()))
             else:
                 logging.info(f"Disabled handler: {handler.config_name()}")
 
