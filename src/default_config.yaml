@@ -1,0 +1,138 @@
+# This file defines the default values used if not overriden in config.yaml
+
+notification_title_prefix: 'Chia'
+log_level: DEBUG
+
+# Only one consumer can be enabled at a time, we default to local default path
+chia_logs:
+  file_log_consumer:
+    enable: true
+    file_path: '~/.chia/mainnet/log/debug.log'
+  network_log_consumer:
+    enable: false
+    remote_file_path: '~/.chia/mainnet/log/debug.log'
+    remote_host: null # no sane default can be set
+    remote_user: "chia"
+    remote_port: 22
+
+keep_alive_monitor:
+  enable_remote_ping: false
+  ping_url: null
+
+daily_stats:
+  enable: true
+  time_of_day: "21:00"
+  frequency_hours: 24
+
+# All handlers are enabled by default
+handlers:
+  wallet_added_coin_handler:
+    enable: true
+    min_mojos_amount: 0
+  finished_signage_point_handler:
+    enable: true
+  block_handler:
+    enable: true
+  partial_handler:
+    enable: true
+  harvester_activity_handler:
+    enable: true
+
+
+# No notifier is enabled by default but sane defaults for all are provided, minus tokens
+notifier:
+  pushover:
+    enable: false
+    daily_stats: true
+    wallet_events: true
+    decreasing_plot_events: true
+    increasing_plot_events: false
+    credentials:
+      api_token: null
+      user_key: null
+  pushcut:
+    enable: false
+    daily_stats: true
+    wallet_events: true
+    decreasing_plot_events: true
+    increasing_plot_events: false
+    credentials:
+      api_token: null
+      user_key: null
+  telegram:
+    enable: false
+    daily_stats: true
+    wallet_events: true
+    decreasing_plot_events: true
+    increasing_plot_events: false
+    credentials:
+      bot_token: null
+      chat_id: null
+  smtp:
+    enable: false
+    daily_stats: true
+    wallet_events: true
+    decreasing_plot_events: true
+    increasing_plot_events: false
+    credentials:
+      sender: null
+      sender_name: 'chiadog'
+      recipient: null
+      username_smtp: null
+      password_smtp: null
+      enable_smtp_auth: true
+      host: null
+      port: 587
+  script:
+    enable: false
+    daily_stats: true
+    wallet_events: true
+    decreasing_plot_events: true
+    increasing_plot_events: false
+    script_path: 'tests/test_script.sh'
+  discord:
+    enable: false
+    daily_stats: true
+    wallet_events: true
+    decreasing_plot_events: true
+    increasing_plot_events: false
+    credentials:
+      webhook_url: null
+  slack:
+    enable: false
+    daily_stats: true
+    wallet_events: true
+    decreasing_plot_events: true
+    increasing_plot_events: false
+    credentials:
+      webhook_url: null
+  mqtt:
+    enable: false
+    daily_stats: true
+    wallet_events: true
+    decreasing_plot_events: true
+    increasing_plot_events: false
+    topic: chia/chiadog/alert
+    qos: 1
+    retain: false
+    credentials:
+      host: null
+      port: 8883
+      username: null
+      password: null
+  grafana:
+    enable: false
+    credentials:
+      base_url: null
+      api_token: null
+      dashboard_id: -1
+      panel_id: -1
+  ifttt:
+    enable: false
+    daily_stats: false
+    wallet_events: false
+    decreasing_plot_events: true
+    increasing_plot_events: false
+    credentials:
+      api_token: null
+      webhook_name: null

@@ -20,7 +20,6 @@ class TestHarvesterActivityParser(unittest.TestCase):
 
     def testBasicParsing(self):
         for logs in [self.nominal_logs, self.nominal_logs_old_format]:
-
             # Check that important fields are correctly parsed
             activity_messages = self.parser.parse(logs)
             self.assertNotEqual(len(activity_messages), 0, "No log messages found")
