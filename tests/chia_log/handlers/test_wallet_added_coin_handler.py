@@ -14,17 +14,20 @@ from src.notifier import EventType, EventService, EventPriority
 class TestWalledAddedCoinHandler(unittest.TestCase):
     def setUp(self) -> None:
         config_dir = Path(__file__).resolve().parents[3]
-        config = confuse.Configuration("chiadog", __name__)
-        config.set_file(config_dir / "src/default_config.yaml")
-        config.set_file(config_dir / "config-example.yaml")
-        self.handler_config = config["handlers"][WalletAddedCoinHandler.config_name()]
+        self.config = confuse.Configuration("chiadog", __name__)
+        self.config.set_file(config_dir / "src/default_config.yaml")
+        self.handler_config = self.config["handlers"][WalletAddedCoinHandler.config_name()]
 
         self.handler = WalletAddedCoinHandler(config=self.handler_config)
         self.example_logs_path = Path(__file__).resolve().parents[1] / "logs/wallet_added_coin"
 
+    def tearDown(self) -> None:
+        # self.handler_config.clear()
+        self.config.clear()
+
     def testConfig(self):
         self.assertEqual(self.handler_config["enable"].get(bool), True)
-        self.assertEqual(self.handler_config["min_mojos_amount"].get(int), 5)
+        self.assertEqual(self.handler_config["min_mojos_amount"].get(int), 5)  # Dependent on default value being 5
 
     def testNominal(self):
         with open(self.example_logs_path / "nominal-before-1.4.0.txt", encoding="UTF-8") as f:
@@ -44,12 +47,11 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
         with open(self.example_logs_path / "small_values.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
-        default_config = self.handler_config
-        no_filter_config = copy.deepcopy(default_config)
-        no_filter_config["min_mojos_amount"] = 0
-        no_filter_handler = WalletAddedCoinHandler(no_filter_config)
+        # Default mojo filter excludes the event we will expect
+        self.handler_config["min_mojos_amount"].set(0)
+        handler = WalletAddedCoinHandler(self.handler_config)
 
-        events = no_filter_handler.handle("".join(logs))
+        events = handler.handle("".join(logs))
         self.assertEqual(1, len(events))
         self.assertEqual(events[0].type, EventType.USER, "Unexpected event type")
         self.assertEqual(events[0].priority, EventPriority.LOW, "Unexpected priority")
@@ -59,7 +61,7 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
     def testTransactionAmountFilter(self):
         default_config = self.handler_config
         no_filter_config = copy.deepcopy(default_config)
-        no_filter_config["min_mojos_amount"] = 0
+        no_filter_config["min_mojos_amount"].set(0)
 
         filter_handler = WalletAddedCoinHandler(default_config)
         no_filter_handler = WalletAddedCoinHandler(no_filter_config)
