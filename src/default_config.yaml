@@ -1,7 +1,10 @@
-# This file defines the default values used if not overriden in config.yaml
+# !!YOU SHOULD NOT MODIFY THIS FILE!!
+# Instead create and provide a minimal config.yaml that overrides what you need to change.
+# While this can be a useful reference for all available options,
+# config-example.yaml provides more useful comments and examples.
 
 notification_title_prefix: 'Chia'
-log_level: DEBUG
+log_level: INFO
 
 # Only one consumer can be enabled at a time, we default to local default path
 chia_logs:
