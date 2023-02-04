@@ -12,7 +12,7 @@ from typing import List, Optional
 import logging
 
 # lib
-import confuse
+from confuse import ConfigView
 
 # project
 from .daily_stats.stats_manager import StatsManager
@@ -27,7 +27,7 @@ class LogHandlerInterface(ABC):
     def config_name() -> str:
         pass
 
-    def __init__(self, config: confuse.core.Configuration):
+    def __init__(self, config: ConfigView):
         logging.info(f"Initializing handler: {self.config_name()}")
 
     @abstractmethod
