@@ -3,7 +3,7 @@ from typing import Optional, List, Type
 import logging
 
 # lib
-import confuse
+from confuse import ConfigView
 
 # project
 from src.chia_log.handlers import LogHandlerInterface
@@ -42,7 +42,7 @@ class LogHandler(LogConsumerSubscriber):
 
     def __init__(
         self,
-        config: confuse.core.Configuration,
+        config: ConfigView,
         log_consumer: LogConsumer,
         notify_manager: NotifyManager,
         stats_manager: Optional[StatsManager] = None,

@@ -3,7 +3,7 @@ import logging
 from typing import List, Optional
 
 # lib
-import confuse
+from confuse import ConfigView
 
 # project
 from . import LogHandlerInterface
@@ -21,7 +21,7 @@ class WalletAddedCoinHandler(LogHandlerInterface):
     def config_name() -> str:
         return "wallet_added_coin_handler"
 
-    def __init__(self, config: confuse.core.Configuration):
+    def __init__(self, config: ConfigView):
         super().__init__(config)
         self._parser = WalletAddedCoinParser()
         self.min_mojos_amount = config["min_mojos_amount"].get(int)

@@ -19,8 +19,9 @@ from typing import List, Optional, Tuple
 from src.util import OS
 
 # lib
-import confuse
 import paramiko
+from confuse import ConfigView
+from confuse import Path as confuse_Path
 from paramiko.channel import ChannelStdinFile, ChannelStderrFile, ChannelFile
 from pygtail import Pygtail  # type: ignore
 from retry import retry
@@ -200,7 +201,7 @@ def get_host_info(host: str, user: str, path: str, port: int) -> Tuple[OS, PureP
     return OS.LINUX, PurePosixPath(path)
 
 
-def create_log_consumer_from_config(config: confuse.core.Configuration) -> Optional[LogConsumer]:
+def create_log_consumer_from_config(config: ConfigView) -> Optional[LogConsumer]:
     enabled_consumer = None
     for consumer in config.keys():
         if config[consumer]["enable"].get(bool):
@@ -218,7 +219,7 @@ def create_log_consumer_from_config(config: confuse.core.Configuration) -> Optio
         if "file_path" not in enabled_consumer_config or not enabled_consumer_config["file_path"]:
             return None
 
-        return FileLogConsumer(log_path=Path(enabled_consumer_config["file_path"].get(confuse.Path())))
+        return FileLogConsumer(log_path=Path(enabled_consumer_config["file_path"].get(confuse_Path())))
 
     if enabled_consumer == "network_log_consumer":
         for key in ["remote_file_path", "remote_host", "remote_user"]:
@@ -230,7 +231,7 @@ def create_log_consumer_from_config(config: confuse.core.Configuration) -> Optio
         platform, path = get_host_info(
             enabled_consumer_config["remote_host"].get(),
             enabled_consumer_config["remote_user"].get(),
-            enabled_consumer_config["remote_file_path"].get(confuse.Path()),
+            enabled_consumer_config["remote_file_path"].get(confuse_Path()),
             remote_port,
         )
 

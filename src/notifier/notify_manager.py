@@ -4,7 +4,7 @@ import time
 from typing import List, Dict
 
 # lib
-import confuse
+from confuse import ConfigView
 
 # project
 from . import Event, Notifier
@@ -27,7 +27,7 @@ class NotifyManager:
     delivered to multiple services at once.
     """
 
-    def __init__(self, config: confuse.core.Configuration, keep_alive_monitor: KeepAliveMonitor):
+    def __init__(self, config: ConfigView, keep_alive_monitor: KeepAliveMonitor):
         self._keep_alive_monitor = keep_alive_monitor
         self._keep_alive_monitor.set_notify_manager(self)
         self._notifiers: Dict[str, Notifier] = {}
