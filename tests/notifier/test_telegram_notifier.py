@@ -2,6 +2,9 @@
 import os
 import unittest
 
+# lib
+import confuse
+
 # project
 from src.notifier.telegram_notifier import TelegramNotifier
 from .dummy_events import DummyEvents
@@ -13,16 +16,20 @@ class TestTelegramNotifier(unittest.TestCase):
         chat_id = os.getenv("TELEGRAM_CHAT_ID")
         self.assertIsNotNone(bot_token, "You must export TELEGRAM_API_KEY as env variable")
         self.assertIsNotNone(chat_id, "You must export TELEGRAM_CHAT_ID as env variable")
-        self.notifier = TelegramNotifier(
-            title_prefix="Test",
-            config={
+        self.config = confuse.Configuration("chiadog", __name__)
+        self.config.set(
+            {
                 "enable": True,
                 "daily_stats": True,
                 "wallet_events": True,
                 "decreasing_plot_events": True,
                 "increasing_plot_events": True,
                 "credentials": {"bot_token": bot_token, "chat_id": chat_id},
-            },
+            }
+        )
+        self.notifier = TelegramNotifier(
+            title_prefix="Test",
+            config=self.config,
         )
 
     @unittest.skipUnless(os.getenv("TELEGRAM_BOT_TOKEN"), "Run only if token available")

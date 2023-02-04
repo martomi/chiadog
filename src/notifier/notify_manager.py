@@ -31,11 +31,11 @@ class NotifyManager:
         self._keep_alive_monitor = keep_alive_monitor
         self._keep_alive_monitor.set_notify_manager(self)
         self._notifiers: Dict[str, Notifier] = {}
-        self._config = config["notifier"].get()
-        self._notification_title_prefix = config["notification_title_prefix"].get()
+        self._config = config["notifier"]
+        self._notification_title_prefix = config["notification_title_prefix"].get(str)
         self._initialize_notifiers()
 
-    def _initialize_notifiers(self):
+    def _initialize_notifiers(self) -> None:
         key_notifier_mapping = {
             "pushover": PushoverNotifier,
             "pushcut": PushcutNotifier,
@@ -51,8 +51,8 @@ class NotifyManager:
         for key in self._config.keys():
             if key not in key_notifier_mapping.keys():
                 logging.warning(f"Cannot find mapping for {key} notifier.")
-            if self._config[key]["enable"]:
-                self._notifiers[key] = key_notifier_mapping[key](
+            if self._config[key]["enable"].get(bool):
+                self._notifiers[key] = key_notifier_mapping[key](  # type: ignore[abstract]
                     title_prefix=self._notification_title_prefix, config=self._config[key]
                 )
 

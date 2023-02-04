@@ -9,7 +9,7 @@ from .. import FinishedSignagePointMessage, FinishedSignageConsumer, StatAccumul
 class SignagePointStats(FinishedSignageConsumer, StatAccumulator):
     def __init__(self):
         self._last_reset_time = datetime.now()
-        self._last_signage_point_timestamp = None
+        self._last_signage_point_timestamp = datetime.fromtimestamp(0)
         self._last_signage_point = None
         self._skips_total = 0
         self._total = 0
@@ -26,7 +26,10 @@ class SignagePointStats(FinishedSignageConsumer, StatAccumulator):
             return
 
         valid, skips = calculate_skipped_signage_points(
-            self._last_signage_point_timestamp, self._last_signage_point, obj.timestamp, obj.signage_point
+            self._last_signage_point_timestamp,
+            self._last_signage_point,
+            obj.timestamp,
+            obj.signage_point,
         )
 
         if not valid:

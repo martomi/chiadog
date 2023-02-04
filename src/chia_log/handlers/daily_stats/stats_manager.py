@@ -40,9 +40,9 @@ class StatsManager:
     """
 
     def __init__(self, config: confuse.core.Configuration, notify_manager: NotifyManager):
-        self._enable = config["enable"].get()
+        self._enable = config["enable"].get(bool)
         self._notify_time = self._parse_notify_time(config["time_of_day"].get())
-        self._frequency_hours = config["frequency_hours"].get()
+        self._frequency_hours = config["frequency_hours"].get(int)
 
         if not self._enable:
             logging.warning("Disabled stats and daily notifications")

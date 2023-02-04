@@ -4,16 +4,19 @@ import os
 import subprocess
 from typing import List
 
+# lib
+from confuse import ConfigView, Path
+
 # project
 from . import Notifier, Event
 
 
 class ScriptNotifier(Notifier):
-    def __init__(self, title_prefix: str, config: dict):
+    def __init__(self, title_prefix: str, config: ConfigView):
         logging.info("Initializing script notifier.")
         super().__init__(title_prefix, config)
         try:
-            self.script_path = config["script_path"]
+            self.script_path = config["script_path"].get(Path())
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
         if self.script_path:

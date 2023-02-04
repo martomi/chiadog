@@ -3,12 +3,15 @@ import json
 import logging
 from typing import List
 
+# lib
+from confuse import ConfigView
+
 # project
 from . import Notifier, Event
 
 
 class MqttNotifier(Notifier):
-    def __init__(self, title_prefix: str, config: dict):
+    def __init__(self, title_prefix: str, config: ConfigView):
         logging.info("Initializing MQTT notifier.")
         super().__init__(title_prefix, config)
 
@@ -16,7 +19,7 @@ class MqttNotifier(Notifier):
         self._password = None
 
         try:
-            credentials = config["credentials"]
+            credentials = config["credentials"].get(dict)
             self._set_config(config)
             self._set_credentials(credentials)
         except KeyError as key:
@@ -30,9 +33,9 @@ class MqttNotifier(Notifier):
         :param config: The YAML config for this notifier
         :returns: None
         """
-        self._topic = config["topic"]
-        self._qos: int = config.get("qos", 0)
-        self._retain: bool = config.get("retain", False)
+        self._topic = config["topic"].get()
+        self._qos: int = config["qos"].get(int)
+        self._retain: bool = config["retain"].get(bool)
 
         if self._qos not in [0, 1, 2]:
             logging.warning(
@@ -44,7 +47,7 @@ class MqttNotifier(Notifier):
     def _set_credentials(self, credentials: dict):
         """
         :raises KeyError: If a key in the config doesn't exist
-        :param config: The YAML config for this notifier
+        :param credentials: The YAML config for this notifier
         :returns: None
         """
         self._host = credentials["host"]

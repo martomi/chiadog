@@ -4,16 +4,19 @@ import logging
 import json
 from typing import List
 
+# lib
+from confuse import ConfigView
+
 # project
 from . import Notifier, Event
 
 
 class IftttNotifier(Notifier):
-    def __init__(self, title_prefix: str, config: dict):
+    def __init__(self, title_prefix: str, config: ConfigView):
         logging.info("Initializing Ifttt notifier.")
         super().__init__(title_prefix, config)
         try:
-            credentials = config["credentials"]
+            credentials = config["credentials"].get(dict)
             self.token = credentials["api_token"]
             self.webhook_name = credentials["webhook_name"]
         except KeyError as key:

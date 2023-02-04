@@ -2,6 +2,9 @@
 import os
 import unittest
 
+# lib
+import confuse
+
 # project
 from src.notifier.slack_notifier import SlackNotifier
 from .dummy_events import DummyEvents
@@ -11,16 +14,20 @@ class TestSlackNotifier(unittest.TestCase):
     def setUp(self) -> None:
         webhook_url = os.getenv("SLACK_WEBHOOK_URL")
         self.assertIsNotNone(webhook_url, "You must export SLACK_WEBHOOK_URL as env variable")
-        self.notifier = SlackNotifier(
-            title_prefix="Test",
-            config={
+        self.config = confuse.Configuration("chiadog", __name__)
+        self.config.set(
+            {
                 "enable": True,
                 "daily_stats": True,
                 "wallet_events": True,
                 "decreasing_plot_events": True,
                 "increasing_plot_events": True,
                 "credentials": {"webhook_url": webhook_url},
-            },
+            }
+        )
+        self.notifier = SlackNotifier(
+            title_prefix="Test",
+            config=self.config,
         )
 
     @unittest.skipUnless(os.getenv("SLACK_WEBHOOK_URL"), "Run only if webhook available")

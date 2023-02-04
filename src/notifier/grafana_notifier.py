@@ -9,16 +9,19 @@ from http.client import HTTPConnection, HTTPResponse
 from typing import List, Tuple
 from urllib.parse import ParseResult
 
+# lib
+from confuse import ConfigView
+
 # project
 from . import Notifier, Event
 
 
 class GrafanaNotifier(Notifier):
-    def __init__(self, title_prefix: str, config: dict):
+    def __init__(self, title_prefix: str, config: ConfigView):
         logging.info("Initializing Grafana notifier.")
         super().__init__(title_prefix, config)
         try:
-            credentials = config["credentials"]
+            credentials = config["credentials"].get(dict)
             self._base_url = str(credentials["base_url"]).rstrip("/")
             self._api_token = credentials["api_token"]
             self._dashboard_id = credentials.get("dashboard_id", -1)

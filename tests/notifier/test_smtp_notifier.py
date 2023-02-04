@@ -2,6 +2,9 @@
 import os
 import unittest
 
+# lib
+import confuse
+
 # project
 from src.notifier.smtp_notifier import SMTPNotifier
 from .dummy_events import DummyEvents
@@ -24,9 +27,9 @@ class TestSMTPNotifier(unittest.TestCase):
         self.assertIsNotNone(host, "You must export HOST as env variable")
         self.assertIsNotNone(port, "You must export PORT as env variable")
 
-        self.notifier = SMTPNotifier(
-            title_prefix="Test",
-            config={
+        self.config = confuse.Configuration("chiadog", __name__)
+        self.config.set(
+            {
                 "enable": True,
                 "daily_stats": True,
                 "wallet_events": True,
@@ -41,7 +44,12 @@ class TestSMTPNotifier(unittest.TestCase):
                     "host": host,
                     "port": port,
                 },
-            },
+            }
+        )
+
+        self.notifier = SMTPNotifier(
+            title_prefix="Test",
+            config=self.config,
         )
 
     @unittest.skipUnless(os.getenv("USERNAME_SMTP"), "Run only if SMTP available")

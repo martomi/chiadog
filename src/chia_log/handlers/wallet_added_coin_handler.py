@@ -24,7 +24,7 @@ class WalletAddedCoinHandler(LogHandlerInterface):
     def __init__(self, config: confuse.core.Configuration):
         super().__init__(config)
         self._parser = WalletAddedCoinParser()
-        self.min_mojos_amount = config["min_mojos_amount"].get()
+        self.min_mojos_amount = config["min_mojos_amount"].get(int)
         logging.info(f"Filtering transaction with mojos less than {self.min_mojos_amount}")
 
     def handle(self, logs: str, stats_manager: Optional[StatsManager] = None) -> List[Event]:
