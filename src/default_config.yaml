@@ -31,7 +31,7 @@ daily_stats:
 handlers:
   wallet_added_coin_handler:
     enable: true
-    min_mojos_amount: 0
+    min_mojos_amount: 5
   finished_signage_point_handler:
     enable: true
   block_handler:
