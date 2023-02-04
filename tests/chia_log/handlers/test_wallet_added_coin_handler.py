@@ -23,8 +23,8 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
         self.example_logs_path = Path(__file__).resolve().parents[1] / "logs/wallet_added_coin"
 
     def testConfig(self):
-        self.assertEqual(self.handler_config["enable"].get(), True)
-        self.assertEqual(self.handler_config["min_mojos_amount"].get(), 5)
+        self.assertEqual(self.handler_config["enable"].get(bool), True)
+        self.assertEqual(self.handler_config["min_mojos_amount"].get(int), 5)
 
     def testNominal(self):
         with open(self.example_logs_path / "nominal-before-1.4.0.txt", encoding="UTF-8") as f:

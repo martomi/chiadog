@@ -20,7 +20,7 @@ from src.notifier.notify_manager import NotifyManager
 def _check_handler_enabled(config: dict, handler_name: str) -> bool:
     """Fallback to True for backwards compatability"""
     try:
-        return config["handlers"][handler_name]["enable"].get()
+        return config["handlers"][handler_name]["enable"].get(bool)
     except KeyError as key:
         logging.error(f"Invalid config.yaml. Missing key: {key}")
     return True
@@ -60,7 +60,7 @@ class LogHandler(LogConsumerSubscriber):
         self._handlers = []
         for handler in available_handlers:
             if _check_handler_enabled(config, handler.config_name()):
-                self._handlers.append(handler(config["handlers"][handler.config_name()].get()))
+                self._handlers.append(handler(config["handlers"][handler.config_name()]))
             else:
                 logging.info(f"Disabled handler: {handler.config_name()}")
 

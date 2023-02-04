@@ -2,6 +2,9 @@
 import os
 import unittest
 
+# lib
+import confuse
+
 # project
 from src.notifier.mqtt_notifier import MqttNotifier
 from .dummy_events import DummyEvents
@@ -25,9 +28,9 @@ class TestMqttNotifier(unittest.TestCase):
             qos, [0, 1, 2], "QoS level must be set to 0 (At most once), 1 (at least once) or " "2 (Exactly once)"
         )
 
-        self.notifier = MqttNotifier(
-            title_prefix="Test",
-            config={
+        self.config = confuse.Configuration("chiadog", __name__)
+        self.config.set(
+            {
                 "enable": True,
                 "daily_stats": True,
                 "wallet_events": True,
@@ -42,7 +45,12 @@ class TestMqttNotifier(unittest.TestCase):
                     "username": username,
                     "password": password,
                 },
-            },
+            }
+        )
+
+        self.notifier = MqttNotifier(
+            title_prefix="Test",
+            config=self.config,
         )
 
     @unittest.skipUnless(os.getenv("TOPIC"), "Run only if MQTT topic available")

@@ -38,7 +38,7 @@ jobs:
         flake8 src tests --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Type Check with MyPy
       run: |
-        mypy --install-types --non-interactive src tests
+        mypy --install-types --non-interactive --check-untyped-defs src tests
     - name: Unit Tests
       run: |
         python -m unittest

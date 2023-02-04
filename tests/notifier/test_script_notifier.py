@@ -1,6 +1,9 @@
 # std
 import unittest
 
+# lib
+import confuse
+
 # project
 from src.notifier.script_notifier import ScriptNotifier
 from .dummy_events import DummyEvents
@@ -8,16 +11,20 @@ from .dummy_events import DummyEvents
 
 class TestScriptNotifier(unittest.TestCase):
     def setUp(self) -> None:
-        self.notifier = ScriptNotifier(
-            title_prefix="Test",
-            config={
+        self.config = confuse.Configuration("chiadog", __name__)
+        self.config.set(
+            {
                 "enable": True,
                 "daily_stats": True,
                 "wallet_events": True,
                 "decreasing_plot_events": True,
                 "increasing_plot_events": True,
                 "script_path": "tests/test_script.sh",
-            },
+            }
+        )
+        self.notifier = ScriptNotifier(
+            title_prefix="Test",
+            config=self.config,
         )
 
     def testLowPriorityNotifications(self):

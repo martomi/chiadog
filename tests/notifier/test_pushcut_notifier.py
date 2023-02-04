@@ -2,6 +2,9 @@
 import os
 import unittest
 
+# lib
+import confuse
+
 # project
 from src.notifier import Event, EventType, EventPriority, EventService
 from src.notifier.pushcut_notifier import PushcutNotifier
@@ -14,14 +17,18 @@ class TestPushcutNotifier(unittest.TestCase):
         self.notification_name = os.getenv("PUSHCUT_NOTIFICATION_NAME")
         self.assertIsNotNone(self.api_token, "You must export PUSHCUT_API_TOKEN as env variable")
         self.assertIsNotNone(self.notification_name, "You must export PUSHCUT_NOTIFICATION_NAME as env variable")
-        self.notifier = PushcutNotifier(
-            title_prefix="Test",
-            config={
+        self.config = confuse.Configuration("chiadog", __name__)
+        self.config.set(
+            {
                 "enable": True,
                 "daily_stats": True,
                 "wallet_events": True,
                 "credentials": {"api_token": self.api_token, "notification_name": self.notification_name},
-            },
+            }
+        )
+        self.notifier = PushcutNotifier(
+            title_prefix="Test",
+            config=self.config,
         )
 
     @unittest.skipUnless(os.getenv("PUSHCUT_API_TOKEN"), "Run only if token available")
@@ -44,15 +51,15 @@ class TestPushcutNotifier(unittest.TestCase):
         notifiers = [
             PushcutNotifier(
                 title_prefix="Harvester 1",
-                config={"enable": True, "api_token": self.api_token, "notification_name": self.notification_name},
+                config=self.config,
             ),
             PushcutNotifier(
                 title_prefix="Harvester 2",
-                config={"enable": True, "api_token": self.api_token, "notification_name": self.notification_name},
+                config=self.config,
             ),
             PushcutNotifier(
                 title_prefix="Harvester 3",
-                config={"enable": True, "api_token": self.api_token, "notification_name": self.notification_name},
+                config=self.config,
             ),
         ]
         found_proof_event = Event(
@@ -70,15 +77,15 @@ class TestPushcutNotifier(unittest.TestCase):
         notifiers = [
             PushcutNotifier(
                 title_prefix="Harvester 1",
-                config={"enable": True, "api_token": self.api_token, "notification_name": self.notification_name},
+                config=self.config,
             ),
             PushcutNotifier(
                 title_prefix="Harvester 2",
-                config={"enable": True, "api_token": self.api_token, "notification_name": self.notification_name},
+                config=self.config,
             ),
             PushcutNotifier(
                 title_prefix="Harvester 3",
-                config={"enable": True, "api_token": self.api_token, "notification_name": self.notification_name},
+                config=self.config,
             ),
         ]
         disconnected_hdd = Event(

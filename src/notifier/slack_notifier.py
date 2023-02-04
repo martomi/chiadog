@@ -5,16 +5,19 @@ import json
 import urllib.parse
 from typing import List
 
+# lib
+from confuse import ConfigView
+
 # project
 from . import Notifier, Event
 
 
 class SlackNotifier(Notifier):
-    def __init__(self, title_prefix: str, config: dict):
+    def __init__(self, title_prefix: str, config: ConfigView):
         logging.info("Initializing Slack notifier.")
         super().__init__(title_prefix, config)
         try:
-            credentials = config["credentials"]
+            credentials = config["credentials"].get()
             self.webhook_url = credentials["webhook_url"]
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")

@@ -6,17 +6,19 @@ import email.utils
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+# lib
+from confuse import ConfigView
 
 # project
 from . import Notifier, Event
 
 
 class SMTPNotifier(Notifier):
-    def __init__(self, title_prefix: str, config: dict):
+    def __init__(self, title_prefix: str, config: ConfigView):
         logging.info("Initializing Email notifier.")
         super().__init__(title_prefix, config)
         try:
-            credentials = config["credentials"]
+            credentials = config["credentials"].get(dict)
             self.sender = credentials["sender"]
             self.sender_name = credentials["sender_name"]
             self.recipient = credentials["recipient"]

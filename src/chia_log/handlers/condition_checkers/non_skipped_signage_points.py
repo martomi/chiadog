@@ -1,6 +1,7 @@
 # std
 import logging
 from typing import Optional
+from datetime import datetime
 
 # project
 from . import FinishedSignageConditionChecker
@@ -17,7 +18,7 @@ class NonSkippedSignagePoints(FinishedSignageConditionChecker):
 
     def __init__(self):
         logging.info("Enabled check for finished signage points.")
-        self._last_signage_point_timestamp = None
+        self._last_signage_point_timestamp = datetime.fromtimestamp(0)
         self._last_signage_point = None
 
     def check(self, obj: FinishedSignagePointMessage) -> Optional[Event]:

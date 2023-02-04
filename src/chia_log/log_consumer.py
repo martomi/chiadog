@@ -203,7 +203,7 @@ def get_host_info(host: str, user: str, path: str, port: int) -> Tuple[OS, PureP
 def create_log_consumer_from_config(config: confuse.core.Configuration) -> Optional[LogConsumer]:
     enabled_consumer = None
     for consumer in config.keys():
-        if config[consumer]["enable"].get():
+        if config[consumer]["enable"].get(bool):
             if enabled_consumer:
                 logging.error("Detected multiple enabled consumers. This is unsupported configuration!")
                 return None
@@ -218,20 +218,19 @@ def create_log_consumer_from_config(config: confuse.core.Configuration) -> Optio
         if "file_path" not in enabled_consumer_config or not enabled_consumer_config["file_path"]:
             return None
 
-        return FileLogConsumer(log_path=Path(enabled_consumer_config["file_path"].get()))
+        return FileLogConsumer(log_path=Path(enabled_consumer_config["file_path"].get(confuse.Path())))
 
     if enabled_consumer == "network_log_consumer":
         for key in ["remote_file_path", "remote_host", "remote_user"]:
             if key not in enabled_consumer_config or not enabled_consumer_config[key]:
                 return None
 
-        # default SSH Port : 22
-        remote_port = enabled_consumer_config["remote_port"].get()
+        remote_port = enabled_consumer_config["remote_port"].get(int)
 
         platform, path = get_host_info(
             enabled_consumer_config["remote_host"].get(),
             enabled_consumer_config["remote_user"].get(),
-            enabled_consumer_config["remote_file_path"].get(),
+            enabled_consumer_config["remote_file_path"].get(confuse.Path()),
             remote_port,
         )
 

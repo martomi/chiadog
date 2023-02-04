@@ -2,6 +2,9 @@
 import os
 import unittest
 
+# lib
+import confuse
+
 # project
 from src.notifier.grafana_notifier import GrafanaNotifier
 from .dummy_events import DummyEvents
@@ -13,15 +16,19 @@ class TestGrafanaNotifier(unittest.TestCase):
         api_token = os.getenv("GRAFANA_API_TOKEN")
         self.assertIsNotNone(base_url, "You must export GRAFANA_BASE_URL as env variable")
         self.assertIsNotNone(api_token, "You must export GRAFANA_API_TOKEN as env variable")
-        self.notifier = GrafanaNotifier(
-            title_prefix="Test",
-            config={
+        self.config = confuse.Configuration("chiadog", __name__)
+        self.config.set(
+            {
                 "enable": True,
                 "credentials": {
                     "base_url": base_url,
                     "api_token": api_token,
                 },
-            },
+            }
+        )
+        self.notifier = GrafanaNotifier(
+            title_prefix="Test",
+            config=self.config,
         )
 
     @unittest.skipUnless(
