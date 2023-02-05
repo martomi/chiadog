@@ -1,5 +1,7 @@
 # Please copy this example config to config.yaml
 # and adjust it to your needs.
+# Most config values have sane defaults! This example is more verbose than it needs to be,
+# your config only needs to override what you want to change.
 
 # This is useful to differentiate multiple chiadog
 # instances monitoring multiple harvesters
