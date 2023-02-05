@@ -20,8 +20,8 @@ from src.util import OS
 
 # lib
 import paramiko
+import confuse
 from confuse import ConfigView
-from confuse import Path as confuse_Path
 from paramiko.channel import ChannelStdinFile, ChannelStderrFile, ChannelFile
 from pygtail import Pygtail  # type: ignore
 from retry import retry
@@ -219,7 +219,7 @@ def create_log_consumer_from_config(config: ConfigView) -> Optional[LogConsumer]
         if "file_path" not in enabled_consumer_config or not enabled_consumer_config["file_path"]:
             return None
 
-        return FileLogConsumer(log_path=Path(enabled_consumer_config["file_path"].get(confuse_Path())))
+        return FileLogConsumer(log_path=Path(enabled_consumer_config["file_path"].get(confuse.Path())))
 
     if enabled_consumer == "network_log_consumer":
         for key in ["remote_file_path", "remote_host", "remote_user"]:
@@ -231,7 +231,7 @@ def create_log_consumer_from_config(config: ConfigView) -> Optional[LogConsumer]
         platform, path = get_host_info(
             enabled_consumer_config["remote_host"].get(),
             enabled_consumer_config["remote_user"].get(),
-            enabled_consumer_config["remote_file_path"].get(confuse_Path()),
+            enabled_consumer_config["remote_file_path"].get(confuse.Path()),
             remote_port,
         )
 
