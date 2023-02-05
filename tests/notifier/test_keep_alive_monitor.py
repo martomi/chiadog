@@ -28,7 +28,7 @@ class TestKeepAliveMonitor(unittest.TestCase):
     def setUp(self) -> None:
         self.threshold_seconds = 3
         # Services that support keepalives
-        test_services = [EventService.HARVESTER]
+        test_services = [EventService.HARVESTER, EventService.WALLET]
 
         self.service_count = len(test_services)
         self.config = confuse.Configuration("chiadog", __name__)

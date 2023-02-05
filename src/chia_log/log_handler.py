@@ -13,6 +13,7 @@ from src.chia_log.handlers.partial_handler import PartialHandler
 from src.chia_log.handlers.block_handler import BlockHandler
 from src.chia_log.handlers.finished_signage_point_handler import FinishedSignagePointHandler
 from src.chia_log.handlers.wallet_added_coin_handler import WalletAddedCoinHandler
+from src.chia_log.handlers.wallet_peak_handler import WalletPeakHandler
 from src.chia_log.log_consumer import LogConsumerSubscriber, LogConsumer
 from src.notifier import EventService
 from src.notifier.notify_manager import NotifyManager
@@ -41,7 +42,7 @@ class LogHandler(LogConsumerSubscriber):
     ):
         self.services: Dict[EventService, List[Type[LogHandlerInterface]]] = {
             EventService.HARVESTER: [HarvesterActivityHandler],
-            EventService.WALLET: [WalletAddedCoinHandler],
+            EventService.WALLET: [WalletAddedCoinHandler, WalletPeakHandler],
             EventService.FULL_NODE: [BlockHandler, FinishedSignagePointHandler],
             EventService.FARMER: [PartialHandler],
         }

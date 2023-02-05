@@ -46,6 +46,8 @@ daily_stats:
 handlers:
   wallet_added_coin_handler:
     min_mojos_amount: 0
+  wallet_peak_handler:
+    max_drift_seconds: 120 # Observed usual drift is about a minute
 
 
 # No notifier or notifier feature is enabled by default

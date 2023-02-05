@@ -58,6 +58,10 @@ handlers:
     # Transactions with lower amount mojos will be ignored
     # Use this to avoid notification spam during dust storms
     min_mojos_amount:  5 # default: 0
+  wallet_peak_handler:
+    # Observed delay is usually about a minute.
+    # If the delay is consistently over this for the WALLET notify_threshold_seconds value, the keep-alive triggers.
+    max_drift_seconds: 120
 
 
 # We support a lot of notifiers, please check the README for more
