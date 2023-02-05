@@ -22,7 +22,6 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
         self.example_logs_path = Path(__file__).resolve().parents[1] / "logs/wallet_added_coin"
 
     def tearDown(self) -> None:
-        # self.handler_config.clear()
         self.config.clear()
 
     def testConfig(self):
