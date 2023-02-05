@@ -17,7 +17,7 @@ class SlackNotifier(Notifier):
         logging.info("Initializing Slack notifier.")
         super().__init__(title_prefix, config)
         try:
-            credentials = config["credentials"].get()
+            credentials = config["credentials"].get(dict)
             self.webhook_url = credentials["webhook_url"]
         except KeyError as key:
             logging.error(f"Invalid config.yaml. Missing key: {key}")
