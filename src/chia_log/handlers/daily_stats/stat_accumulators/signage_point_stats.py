@@ -9,8 +9,8 @@ from .. import FinishedSignagePointMessage, FinishedSignageConsumer, StatAccumul
 class SignagePointStats(FinishedSignageConsumer, StatAccumulator):
     def __init__(self):
         self._last_reset_time = datetime.now()
-        self._last_signage_point_timestamp = datetime.fromtimestamp(0)
-        self._last_signage_point = None
+        self._last_signage_point_timestamp: datetime = datetime.fromtimestamp(0)
+        self._last_signage_point: int = 0
         self._skips_total = 0
         self._total = 0
 
@@ -20,7 +20,7 @@ class SignagePointStats(FinishedSignageConsumer, StatAccumulator):
         self._total = 0
 
     def consume(self, obj: FinishedSignagePointMessage):
-        if self._last_signage_point is None:
+        if self._last_signage_point == 0:
             self._last_signage_point_timestamp = obj.timestamp
             self._last_signage_point = obj.signage_point
             return
