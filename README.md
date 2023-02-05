@@ -125,7 +125,7 @@ cd chiadog
 cp config-example.yaml config.yaml
 ```
 
-4. Open up `config.yaml` in your editor and configure it to your preferences.
+4. Open up `config.yaml` in your editor and configure it to your preferences. The example is large, feel free to omit any portions where you're fine with the defaults!
 
 ### Updating to the latest release
 
@@ -140,8 +140,6 @@ git pull
 
 ./install.sh
 ```
-
-> Important: Automated migration of config is not supported. Please check that your `config.yaml` has all new fields introduced in `config-example.yaml` and add anything missing. If correctly migrated, you shouldn't get any ERROR logs.
 
 ## Monitoring a local harvester / farmer
 
