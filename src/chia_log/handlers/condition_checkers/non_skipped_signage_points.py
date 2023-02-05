@@ -18,11 +18,11 @@ class NonSkippedSignagePoints(FinishedSignageConditionChecker):
 
     def __init__(self):
         logging.info("Enabled check for finished signage points.")
-        self._last_signage_point_timestamp = datetime.fromtimestamp(0)
-        self._last_signage_point = None
+        self._last_signage_point_timestamp: datetime = datetime.fromtimestamp(0)
+        self._last_signage_point: int = 0
 
     def check(self, obj: FinishedSignagePointMessage) -> Optional[Event]:
-        if self._last_signage_point is None:
+        if self._last_signage_point == 0:
             self._last_signage_point_timestamp = obj.timestamp
             self._last_signage_point = obj.signage_point
             return None
