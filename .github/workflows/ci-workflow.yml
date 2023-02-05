@@ -29,7 +29,7 @@ jobs:
         pip install types-PyYAML types-python-dateutil types-paramiko types-retry
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Format check with Black
-      run: black --check src tests
+      run: black --check .
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -38,7 +38,7 @@ jobs:
         flake8 src tests --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Type Check with MyPy
       run: |
-        mypy --install-types --non-interactive --check-untyped-defs src tests
+        mypy --install-types --non-interactive --check-untyped-defs .
     - name: Unit Tests
       run: |
         python -m unittest
