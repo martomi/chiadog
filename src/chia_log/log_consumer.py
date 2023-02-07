@@ -27,6 +27,19 @@ from pygtail import Pygtail  # type: ignore
 from retry import retry
 
 
+# Define the minimum valid 'chia_logs' config sections as needed by the log consumers
+file_log_consumer_template = {
+        'enable': bool,
+        'file_path': confuse.Path(),
+        }
+network_log_consumer_template = {
+        'enable': bool,
+        'remote_file_path': confuse.Path(),
+        'remote_host': str,
+        'remote_user': str,
+        'remote_port': int,
+        }
+
 class LogConsumerSubscriber(ABC):
     """Interface for log consumer subscribers (i.e. handlers)"""
 
@@ -216,38 +229,35 @@ def create_log_consumer_from_config(config: ConfigView) -> Optional[LogConsumer]
     enabled_consumer_config = config[enabled_consumer]
 
     if enabled_consumer == "file_log_consumer":
-        if "file_path" not in enabled_consumer_config or not enabled_consumer_config["file_path"]:
-            return None
-
-        return FileLogConsumer(log_path=Path(enabled_consumer_config["file_path"].get(confuse.Path())))
+        # Validate config against template
+        valid_config = enabled_consumer_config.get(file_log_consumer_template)
+        return FileLogConsumer(log_path=valid_config["file_path"])
 
     if enabled_consumer == "network_log_consumer":
-        for key in ["remote_file_path", "remote_host", "remote_user"]:
-            if key not in enabled_consumer_config or not enabled_consumer_config[key]:
-                return None
-
-        remote_port = enabled_consumer_config["remote_port"].get(int)
+        # Validate config against template
+        valid_config = enabled_consumer_config.get(network_log_consumer_template)
+        remote_port = valid_config["remote_port"]
 
         platform, path = get_host_info(
-            enabled_consumer_config["remote_host"].get(),
-            enabled_consumer_config["remote_user"].get(),
-            enabled_consumer_config["remote_file_path"].get(confuse.Path()),
+            valid_config["remote_host"],
+            valid_config["remote_user"],
+            valid_config["remote_file_path"],
             remote_port,
         )
 
         if platform == OS.WINDOWS:
             return WindowsNetworkLogConsumer(
                 remote_log_path=path,
-                remote_host=enabled_consumer_config["remote_host"].get(),
-                remote_user=enabled_consumer_config["remote_user"].get(),
+                remote_host=valid_config["remote_host"],
+                remote_user=valid_config["remote_user"],
                 remote_port=remote_port,
                 remote_platform=platform,
             )
         else:
             return PosixNetworkLogConsumer(
                 remote_log_path=path,
-                remote_host=enabled_consumer_config["remote_host"].get(),
-                remote_user=enabled_consumer_config["remote_user"].get(),
+                remote_host=valid_config["remote_host"],
+                remote_user=valid_config["remote_user"],
                 remote_port=remote_port,
                 remote_platform=platform,
             )
