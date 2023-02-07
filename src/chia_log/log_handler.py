@@ -4,6 +4,7 @@ import logging
 
 # lib
 from confuse import ConfigView
+from confuse.exceptions import ConfigTypeError
 
 # project
 from src.chia_log.handlers import LogHandlerInterface
@@ -21,8 +22,8 @@ def _check_handler_enabled(config: dict, handler_name: str) -> bool:
     """Fallback to True for backwards compatability"""
     try:
         return config["handlers"][handler_name]["enable"].get(bool)
-    except KeyError as key:
-        logging.error(f"Invalid config.yaml. Missing key: {key}")
+    except ConfigTypeError as e:
+        logging.error(f"Invalid config.yaml, enabling handler anyway: {e}")
     return True
 
 
