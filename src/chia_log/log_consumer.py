@@ -29,16 +29,17 @@ from retry import retry
 
 # Define the minimum valid 'chia_logs' config sections as needed by the log consumers
 file_log_consumer_template = {
-        'enable': bool,
-        'file_path': confuse.Path(),
-        }
+    "enable": bool,
+    "file_path": confuse.Path(),
+}
 network_log_consumer_template = {
-        'enable': bool,
-        'remote_file_path': confuse.Path(),
-        'remote_host': str,
-        'remote_user': str,
-        'remote_port': int,
-        }
+    "enable": bool,
+    "remote_file_path": confuse.Path(),
+    "remote_host": str,
+    "remote_user": str,
+    "remote_port": int,
+}
+
 
 class LogConsumerSubscriber(ABC):
     """Interface for log consumer subscribers (i.e. handlers)"""
