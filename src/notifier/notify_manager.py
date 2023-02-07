@@ -1,7 +1,7 @@
 # std
 import logging
 import time
-from typing import List, Dict
+from typing import List, Dict, Type
 
 # lib
 from confuse import ConfigView
@@ -36,7 +36,7 @@ class NotifyManager:
         self._initialize_notifiers()
 
     def _initialize_notifiers(self) -> None:
-        key_notifier_mapping = {
+        key_notifier_mapping: Dict[str, Type[Notifier]] = {
             "pushover": PushoverNotifier,
             "pushcut": PushcutNotifier,
             "script": ScriptNotifier,
@@ -48,11 +48,11 @@ class NotifyManager:
             "grafana": GrafanaNotifier,
             "ifttt": IftttNotifier,
         }
-        for key in self._config.keys():
+        for key in self._config:
             if key not in key_notifier_mapping.keys():
                 logging.warning(f"Cannot find mapping for {key} notifier.")
             if self._config[key]["enable"].get(bool):
-                self._notifiers[key] = key_notifier_mapping[key](  # type: ignore[abstract]
+                self._notifiers[key] = key_notifier_mapping[key](
                     title_prefix=self._notification_title_prefix, config=self._config[key]
                 )
 
