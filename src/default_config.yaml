@@ -44,14 +44,14 @@ handlers:
 
 # No notifier or notifier feature is enabled by default
 # This section is dense, read config-example.yaml instead!
-notifier:
-  notifier_defaults: &notifier_defaults
-    enable: false
-    daily_stats: false
-    wallet_events: false
-    decreasing_plot_events: false
-    increasing_plot_events: false
+notifier_defaults: &notifier_defaults
+  enable: false
+  daily_stats: false
+  wallet_events: false
+  decreasing_plot_events: false
+  increasing_plot_events: false
 
+notifier:
   pushover:
     <<: *notifier_defaults
     credentials:
