@@ -26,7 +26,7 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
 
     def testConfig(self):
         self.assertEqual(self.handler_config["enable"].get(bool), True)
-        self.assertEqual(self.handler_config["min_mojos_amount"].get(int), 5)  # Dependent on default value being 5
+        self.assertEqual(self.handler_config["min_mojos_amount"].get(int), 0)  # Dependent on default value being 0
 
     def testNominal(self):
         with open(self.example_logs_path / "nominal-before-1.4.0.txt", encoding="UTF-8") as f:
@@ -46,11 +46,7 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
         with open(self.example_logs_path / "small_values.txt", encoding="UTF-8") as f:
             logs = f.readlines()
 
-        # Default mojo filter excludes the event we will expect
-        self.handler_config["min_mojos_amount"].set(0)
-        handler = WalletAddedCoinHandler(self.handler_config)
-
-        events = handler.handle("".join(logs))
+        events = self.handler.handle("".join(logs))
         self.assertEqual(1, len(events))
         self.assertEqual(events[0].type, EventType.USER, "Unexpected event type")
         self.assertEqual(events[0].priority, EventPriority.LOW, "Unexpected priority")
@@ -58,11 +54,11 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
         self.assertEqual(events[0].message, "Cha-ching! Just received 0.000000000001 XCH ☘️")
 
     def testTransactionAmountFilter(self):
-        default_config = self.handler_config
-        no_filter_config = copy.deepcopy(default_config)
-        no_filter_config["min_mojos_amount"].set(0)
+        no_filter_config = self.handler_config
+        filter_config = copy.deepcopy(self.handler_config)
+        filter_config["min_mojos_amount"].set(5)
 
-        filter_handler = WalletAddedCoinHandler(default_config)
+        filter_handler = WalletAddedCoinHandler(filter_config)
         no_filter_handler = WalletAddedCoinHandler(no_filter_config)
         with open(self.example_logs_path / "small_values.txt", encoding="UTF-8") as f:
             logs = f.readlines()

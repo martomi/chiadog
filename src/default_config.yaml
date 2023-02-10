@@ -23,7 +23,7 @@ keep_alive_monitor:
   ping_url: null
 
 daily_stats:
-  enable: true
+  enable: false
   time_of_day: "21:00"
   frequency_hours: 24
 
@@ -31,7 +31,7 @@ daily_stats:
 handlers:
   wallet_added_coin_handler:
     enable: true
-    min_mojos_amount: 5
+    min_mojos_amount: 0
   finished_signage_point_handler:
     enable: true
   block_handler:
@@ -42,41 +42,33 @@ handlers:
     enable: true
 
 
-# No notifier is enabled by default but sane defaults for all are provided, minus tokens
+# No notifier or notifier feature is enabled by default
+# This section is dense, read config-example.yaml instead!
 notifier:
-  pushover:
+  notifier_defaults: &notifier_defaults
     enable: false
-    daily_stats: true
-    wallet_events: true
-    decreasing_plot_events: true
+    daily_stats: false
+    wallet_events: false
+    decreasing_plot_events: false
     increasing_plot_events: false
+
+  pushover:
+    <<: *notifier_defaults
     credentials:
       api_token: null
       user_key: null
   pushcut:
-    enable: false
-    daily_stats: true
-    wallet_events: true
-    decreasing_plot_events: true
-    increasing_plot_events: false
+    <<: *notifier_defaults
     credentials:
       api_token: null
       user_key: null
   telegram:
-    enable: false
-    daily_stats: true
-    wallet_events: true
-    decreasing_plot_events: true
-    increasing_plot_events: false
+    <<: *notifier_defaults
     credentials:
       bot_token: null
       chat_id: null
   smtp:
-    enable: false
-    daily_stats: true
-    wallet_events: true
-    decreasing_plot_events: true
-    increasing_plot_events: false
+    <<: *notifier_defaults
     credentials:
       sender: null
       sender_name: 'chiadog'
@@ -87,36 +79,20 @@ notifier:
       host: null
       port: 587
   script:
-    enable: false
-    daily_stats: true
-    wallet_events: true
-    decreasing_plot_events: true
-    increasing_plot_events: false
+    <<: *notifier_defaults
     script_path: 'tests/test_script.sh'
   discord:
-    enable: false
-    daily_stats: true
-    wallet_events: true
-    decreasing_plot_events: true
-    increasing_plot_events: false
+    <<: *notifier_defaults
     credentials:
       webhook_url: null
   slack:
-    enable: false
-    daily_stats: true
-    wallet_events: true
-    decreasing_plot_events: true
-    increasing_plot_events: false
+    <<: *notifier_defaults
     credentials:
       webhook_url: null
   mqtt:
-    enable: false
-    daily_stats: true
-    wallet_events: true
-    decreasing_plot_events: true
-    increasing_plot_events: false
+    <<: *notifier_defaults
     topic: chia/chiadog/alert
-    qos: 1
+    qos: 0
     retain: false
     credentials:
       host: null
@@ -131,11 +107,7 @@ notifier:
       dashboard_id: -1
       panel_id: -1
   ifttt:
-    enable: false
-    daily_stats: false
-    wallet_events: false
-    decreasing_plot_events: true
-    increasing_plot_events: false
+    <<: *notifier_defaults
     credentials:
       api_token: null
       webhook_name: null
