@@ -70,7 +70,13 @@ class SMTPNotifier(Notifier):
                     # stmplib docs recommend calling ehlo() before & after starttls()
                     server.ehlo()
                     if self.enable_smtp_auth:
-                        server.login(self.username_smtp, self.password_smtp)
+                        try:
+                            server.login(self.username_smtp, self.password_smtp)
+                        except smtplib.SMTPNotSupportedError:
+                            logging.error(
+                                "'enable_smtp_auth' is enabled but your SMTP server does not support it."
+                                + "Trying to continue without auth."
+                            )
                     server.sendmail(self.sender, self.recipient, msg.as_string())
                     server.quit()
                 # Display an error message if something goes wrong.
