@@ -5,6 +5,7 @@ from typing import List
 
 # lib
 from confuse import ConfigView
+from confuse.exceptions import ConfigTypeError
 
 # project
 from . import Notifier, Event
@@ -19,18 +20,17 @@ class MqttNotifier(Notifier):
         self._password = None
 
         try:
-            credentials = config["credentials"].get(dict)
             self._set_config(config)
-            self._set_credentials(credentials)
-        except KeyError as key:
-            logging.error(f"Invalid config.yaml. Missing key: {key}")
+            self._set_credentials(config["credentials"])
+        except ConfigTypeError as e:
+            logging.error(f"Invalid config.yaml: {e}")
 
         self._init_mqtt()
 
-    def _set_config(self, config: dict):
+    def _set_config(self, config: ConfigView):
         """
-        :raises KeyError: If a key in the config doesn't exist
-        :param config: The YAML config for this notifier
+        :raises ConfigError: If a key in the config doesn't exist
+        :param config: The confuse ConfigView of this notifier
         :returns: None
         """
         self._topic = config["topic"].get()
@@ -44,19 +44,19 @@ class MqttNotifier(Notifier):
             )
             self._qos = 0
 
-    def _set_credentials(self, credentials: dict):
+    def _set_credentials(self, credentials: ConfigView):
         """
-        :raises KeyError: If a key in the config doesn't exist
-        :param credentials: The YAML config for this notifier
+        :raises ConfigError: If a key in the config doesn't exist
+        :param credentials: The ConfigView of the credentials section
         :returns: None
         """
-        self._host = credentials["host"]
-        self._port: int = credentials["port"]
+        self._host = credentials["host"].get(str)
+        self._port: int = credentials["port"].get(int)
 
-        if "username" in credentials and credentials["username"] != "":
-            self._username = credentials["username"]
-        if "password" in credentials and credentials["password"] != "":
-            self._password = credentials["password"]
+        if credentials["username"]:
+            self._username = credentials["username"].get(str)
+        if credentials["password"]:
+            self._password = credentials["password"].get(str)
 
     def _init_mqtt(self) -> bool:
         try:
@@ -124,6 +124,7 @@ class MqttNotifier(Notifier):
                 response = self._client.publish(self._topic, payload=payload, qos=self._qos, retain=self._retain)
 
                 if response.rc == paho.MQTT_ERR_SUCCESS:
+                    logging.debug("MQTT message sent successfully.")
                     pass
                 elif response.rc == paho.MQTT_ERR_NO_CONN:
                     logging.warning("Message delivery failed because the MQTT Client was not connected")
