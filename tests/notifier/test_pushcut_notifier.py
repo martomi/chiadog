@@ -46,6 +46,7 @@ class TestPushcutNotifier(unittest.TestCase):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
         self.assertTrue(success)
 
+    @unittest.skipUnless(os.getenv("PUSHCUT_API_TOKEN"), "Run only if token available")
     @unittest.skipUnless(os.getenv("SHOWCASE_NOTIFICATIONS"), "Only for showcasing")
     def testShowcaseGoodNotifications(self):
         notifiers = [
@@ -72,6 +73,7 @@ class TestPushcutNotifier(unittest.TestCase):
             success = notifier.send_events_to_user(events=[found_proof_event])
             self.assertTrue(success)
 
+    @unittest.skipUnless(os.getenv("PUSHCUT_API_TOKEN"), "Run only if token available")
     @unittest.skipUnless(os.getenv("SHOWCASE_NOTIFICATIONS"), "Only for showcasing")
     def testShowcaseBadNotifications(self):
         notifiers = [
