@@ -38,7 +38,14 @@ verify the sender email.
 Test with:
 
 ```
-SENDER="sender@example.com" SENDER_NAME="ChiaDog" RECIPIENT="you@example.com" HOST=smtp.example.com PORT=587 USERNAME_SMTP=username PASSWORD_SMTP=password python3 -m unittest tests.notifier.test_smtp_notifier
+SMTP_SENDER="sender@example.com" \
+SMTP_SENDER_NAME="ChiaDog" \
+SMTP_RECIPIENT="you@example.com" \
+SMTP_HOST=smtp.example.com \
+SMTP_PORT=587 \
+SMTP_USERNAME=username \
+SMTP_PASSWORD=password \
+python3 -m unittest tests.notifier.test_smtp_notifier
 ```
 
 ## Slack
@@ -113,7 +120,7 @@ Messages sent to the MQTT topic look like this:
 Test with:
 
 ```
-HOST=<hostname> PORT=<port> TOPIC=<mqtt_topic> python3 -m unittest tests.notifier.test_mqtt_notifier 
+MQTT_HOST=<hostname> MQTT_PORT=<port> MQTT_TOPIC=<mqtt_topic> python3 -m unittest tests.notifier.test_mqtt_notifier 
 ```
 
 Or with full parameters:

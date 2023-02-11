@@ -12,20 +12,20 @@ from .dummy_events import DummyEvents
 
 class TestSMTPNotifier(unittest.TestCase):
     def setUp(self) -> None:
-        sender = os.getenv("SENDER")
-        sender_name = os.getenv("SENDER_NAME")
-        recipient = os.getenv("RECIPIENT")
-        username_smtp = os.getenv("USERNAME_SMTP")
-        password_smtp = os.getenv("PASSWORD_SMTP")
-        host = os.getenv("HOST")
-        port = os.getenv("PORT")
-        self.assertIsNotNone(sender, "You must export SENDER as env variable")
-        self.assertIsNotNone(sender_name, "You must export SENDER_NAME as env variable")
-        self.assertIsNotNone(recipient, "You must export RECIPIENT as env variable")
-        self.assertIsNotNone(username_smtp, "You must export USERNAME_SMTP as env variable")
-        self.assertIsNotNone(password_smtp, "You must export PASSWORD_SMTP as env variable")
-        self.assertIsNotNone(host, "You must export HOST as env variable")
-        self.assertIsNotNone(port, "You must export PORT as env variable")
+        sender = os.getenv("SMTP_SENDER")
+        sender_name = os.getenv("SMTP_SENDER_NAME")
+        recipient = os.getenv("SMTP_RECIPIENT")
+        username_smtp = os.getenv("SMTP_USERNAME")
+        password_smtp = os.getenv("SMTP_PASSWORD")
+        host = os.getenv("SMTP_HOST")
+        port = os.getenv("SMTP_PORT")
+        self.assertIsNotNone(sender, "You must export SMTP_SENDER as env variable")
+        self.assertIsNotNone(sender_name, "You must export SMTP_SENDER_NAME as env variable")
+        self.assertIsNotNone(recipient, "You must export SMTP_RECIPIENT as env variable")
+        self.assertIsNotNone(username_smtp, "You must export SMTP_USERNAME as env variable")
+        self.assertIsNotNone(password_smtp, "You must export SMTP_PASSWORD as env variable")
+        self.assertIsNotNone(host, "You must export SMTP_HOST as env variable")
+        self.assertIsNotNone(port, "You must export SMTP_PORT as env variable")
 
         self.config = confuse.Configuration("chiadog", __name__)
         self.config.set(
@@ -52,17 +52,17 @@ class TestSMTPNotifier(unittest.TestCase):
             config=self.config,
         )
 
-    @unittest.skipUnless(os.getenv("USERNAME_SMTP"), "Run only if SMTP available")
+    @unittest.skipUnless(os.getenv("SMTP_HOST"), "Run only if SMTP available")
     def testSTMPLowPriorityNotifications(self):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
         self.assertTrue(success)
 
-    @unittest.skipUnless(os.getenv("USERNAME_SMTP"), "Run only if SMTP available")
+    @unittest.skipUnless(os.getenv("SMTP_HOST"), "Run only if SMTP available")
     def testSMTPNormalPriorityNotifications(self):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
         self.assertTrue(success)
 
-    @unittest.skipUnless(os.getenv("USERNAME_SMTP"), "Run only if SMTP available")
+    @unittest.skipUnless(os.getenv("SMTP_HOST"), "Run only if SMTP available")
     def testSTMPHighPriorityNotifications(self):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
         self.assertTrue(success)
