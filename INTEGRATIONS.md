@@ -43,6 +43,7 @@ SMTP_SENDER_NAME="ChiaDog" \
 SMTP_RECIPIENT="you@example.com" \
 SMTP_HOST=smtp.example.com \
 SMTP_PORT=587 \
+SMTP_ENABLE_AUTH=true \
 SMTP_USERNAME=username \
 SMTP_PASSWORD=password \
 python3 -m unittest tests.notifier.test_smtp_notifier

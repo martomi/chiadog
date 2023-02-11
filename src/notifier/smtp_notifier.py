@@ -7,29 +7,38 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 # lib
-from confuse import ConfigView
+from confuse import ConfigView, OneOf
 
 # project
 from . import Notifier, Event
+
+# Config validation template for SMTP credentials section
+smtp_credentials_template = {
+    "sender": str,
+    "sender_name": str,
+    "recipient": str,
+    "username_smtp": OneOf([str, None]),
+    "password_smtp": OneOf([str, None]),
+    "host": str,
+    "port": int,
+    "enable_smtp_auth": bool,
+}
 
 
 class SMTPNotifier(Notifier):
     def __init__(self, title_prefix: str, config: ConfigView):
         logging.info("Initializing Email notifier.")
         super().__init__(title_prefix, config)
-        try:
-            credentials = config["credentials"].get(dict)
-            self.sender = credentials["sender"]
-            self.sender_name = credentials["sender_name"]
-            self.recipient = credentials["recipient"]
-            self.username_smtp = credentials["username_smtp"]
-            self.password_smtp = credentials["password_smtp"]
-            self.host = credentials["host"]
-            self.port = credentials["port"]
-            self.enable_smtp_auth = credentials.get("enable_smtp_auth", True)
 
-        except KeyError as key:
-            logging.error(f"Invalid config.yaml. Missing key: {key}")
+        credentials = config["credentials"].get(smtp_credentials_template)
+        self.sender = credentials["sender"]
+        self.sender_name = credentials["sender_name"]
+        self.recipient = credentials["recipient"]
+        self.username_smtp = credentials["username_smtp"]
+        self.password_smtp = credentials["password_smtp"]
+        self.host = credentials["host"]
+        self.port = credentials["port"]
+        self.enable_smtp_auth = credentials["enable_smtp_auth"]
 
     def send_events_to_user(self, events: List[Event]) -> bool:
         errors = False

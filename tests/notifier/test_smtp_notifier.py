@@ -18,14 +18,16 @@ class TestSMTPNotifier(unittest.TestCase):
         username_smtp = os.getenv("SMTP_USERNAME")
         password_smtp = os.getenv("SMTP_PASSWORD")
         host = os.getenv("SMTP_HOST")
-        port = os.getenv("SMTP_PORT")
+        port: int = 587
+        if os.getenv("SMTP_PORT"):
+            port = int(os.environ["SMTP_PORT"])
+        smtp_auth = True
+        if os.getenv("SMTP_ENABLE_AUTH"):
+            smtp_auth = os.environ["SMTP_ENABLE_AUTH"].lower() in ["true", "1", "yes"]
         self.assertIsNotNone(sender, "You must export SMTP_SENDER as env variable")
         self.assertIsNotNone(sender_name, "You must export SMTP_SENDER_NAME as env variable")
         self.assertIsNotNone(recipient, "You must export SMTP_RECIPIENT as env variable")
-        self.assertIsNotNone(username_smtp, "You must export SMTP_USERNAME as env variable")
-        self.assertIsNotNone(password_smtp, "You must export SMTP_PASSWORD as env variable")
         self.assertIsNotNone(host, "You must export SMTP_HOST as env variable")
-        self.assertIsNotNone(port, "You must export SMTP_PORT as env variable")
 
         self.config = confuse.Configuration("chiadog", __name__)
         self.config.set(
@@ -39,6 +41,7 @@ class TestSMTPNotifier(unittest.TestCase):
                     "sender": sender,
                     "sender_name": sender_name,
                     "recipient": recipient,
+                    "enable_smtp_auth": smtp_auth,
                     "username_smtp": username_smtp,
                     "password_smtp": password_smtp,
                     "host": host,
