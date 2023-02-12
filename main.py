@@ -73,9 +73,7 @@ def init(config: confuse.core.Configuration):
 
     # Link stuff up in the log handler
     # Pipeline: Consume -> Handle -> Notify
-    log_handler = LogHandler(
-        config=config, log_consumer=log_consumer, notify_manager=notify_manager, stats_manager=stats_manager
-    )
+    LogHandler(config=config, log_consumer=log_consumer, notify_manager=notify_manager, stats_manager=stats_manager)
 
     def interrupt(signal_number, frame):
         if signal_number == signal.SIGINT:
@@ -103,7 +101,7 @@ def version():
         f = subprocess.Popen(command_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = f.communicate()
         return stdout.decode(encoding="utf-8").rstrip()
-    except:
+    except (OSError, subprocess.CalledProcessError):
         return "unknown"
 
 
