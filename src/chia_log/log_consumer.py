@@ -13,7 +13,7 @@ from pathlib import Path, PurePosixPath, PureWindowsPath, PurePath
 from tempfile import mkdtemp
 from threading import Thread
 from time import sleep
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 
 # project
 from src.util import OS

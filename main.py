@@ -12,7 +12,7 @@ import confuse
 
 # project
 from src.chia_log.handlers.daily_stats.stats_manager import StatsManager
-from src.chia_log.log_consumer import create_log_consumer_from_config, LogConsumer
+from src.chia_log.log_consumer import create_log_consumer_from_config
 from src.chia_log.log_handler import LogHandler
 from src.util import is_win_platform
 from src.notifier.keep_alive_monitor import KeepAliveMonitor
@@ -57,7 +57,7 @@ def init(config: confuse.core.Configuration):
 
     # Create log consumer based on provided configuration
     chia_logs_config = config["chia_logs"]
-    log_consumer: LogConsumer = create_log_consumer_from_config(chia_logs_config)
+    log_consumer = create_log_consumer_from_config(chia_logs_config)
     if log_consumer is None:
         exit(0)
 
