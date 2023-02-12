@@ -11,6 +11,9 @@ from abc import ABC, abstractmethod
 from typing import List, Optional
 import logging
 
+# lib
+from confuse import ConfigView
+
 # project
 from .daily_stats.stats_manager import StatsManager
 from src.notifier import Event
@@ -24,7 +27,7 @@ class LogHandlerInterface(ABC):
     def config_name() -> str:
         pass
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: ConfigView):
         logging.info(f"Initializing handler: {self.config_name()}")
 
     @abstractmethod

@@ -1,5 +1,7 @@
 # Please copy this example config to config.yaml
 # and adjust it to your needs.
+# Most config values have sane defaults! This example is more verbose than it needs to be,
+# your config only needs to override what you want to change.
 
 # This is useful to differentiate multiple chiadog
 # instances monitoring multiple harvesters
@@ -29,7 +31,7 @@ keep_alive_monitor:
 # Enable this and you'll receive a daily summary notification
 # on your farm performance at the specified time of the day.
 daily_stats:
-  enable: true
+  enable: true # default: false
   time_of_day: "21:00"
   frequency_hours: 24
 
@@ -40,7 +42,7 @@ handlers:
     enable: true
     # Transactions with lower amount mojos will be ignored
     # Use this to avoid notification spam during dust storms
-    min_mojos_amount:  5
+    min_mojos_amount:  5 # default: 0
   # Checks for skipped signage points (full node)
   finished_signage_point_handler:
     enable: true
@@ -61,6 +63,9 @@ handlers:
 # notifications to each of them. E.g. enable daily_stats only to E-mail.
 # If you enable wallet_events you'll get notifications anytime your
 # wallet receives some XCH (e.g. farming reward).
+#
+# NOTE: No notifier is enabled by default, and all notification topics are disabled by default.
+# You'll need to enable the notifiers and topics that you want to see!
 notifier:
   pushover:
     enable: false
@@ -134,7 +139,7 @@ notifier:
     decreasing_plot_events: true
     increasing_plot_events: false
     topic: chia/chiadog/alert
-    qos: 1
+    qos: 1 # default: 0
     retain: false
     credentials:
       host: '192.168.0.10'

@@ -2,6 +2,9 @@
 import logging
 from typing import List, Optional
 
+# lib
+from confuse import ConfigView
+
 # project
 from . import LogHandlerInterface
 from ..parsers.wallet_added_coin_parser import WalletAddedCoinParser
@@ -18,11 +21,10 @@ class WalletAddedCoinHandler(LogHandlerInterface):
     def config_name() -> str:
         return "wallet_added_coin_handler"
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: ConfigView):
         super().__init__(config)
         self._parser = WalletAddedCoinParser()
-        config = config or {}
-        self.min_mojos_amount = config.get("min_mojos_amount", 0)
+        self.min_mojos_amount = config["min_mojos_amount"].get(int)
         logging.info(f"Filtering transaction with mojos less than {self.min_mojos_amount}")
 
     def handle(self, logs: str, stats_manager: Optional[StatsManager] = None) -> List[Event]:

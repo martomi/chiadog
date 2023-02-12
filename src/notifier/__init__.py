@@ -8,6 +8,9 @@ from dataclasses import dataclass
 from typing import List
 from enum import Enum
 
+# lib
+from confuse import ConfigView
+
 
 class EventPriority(Enum):
     """Event priority dictates how urgently
@@ -60,17 +63,17 @@ class Notifier(ABC):
     Pushover, E-mail, Slack, WhatsApp, etc
     """
 
-    def __init__(self, title_prefix: str, config: dict):
+    def __init__(self, title_prefix: str, config: ConfigView):
         self._title_prefix = title_prefix
         self._config = config
         self._conn_timeout_seconds = 10
         self._notification_types = [EventType.USER]
         self._notification_services = [EventService.HARVESTER, EventService.FARMER, EventService.FULL_NODE]
 
-        daily_stats = config.get("daily_stats", False)
-        wallet_events = config.get("wallet_events", False)
-        decreasing_plot_events = config.get("decreasing_plot_events", False)
-        increasing_plot_events = config.get("increasing_plot_events", False)
+        daily_stats = config["daily_stats"].get(bool)
+        wallet_events = config["wallet_events"].get(bool)
+        decreasing_plot_events = config["decreasing_plot_events"].get(bool)
+        increasing_plot_events = config["increasing_plot_events"].get(bool)
         if daily_stats:
             self._notification_types.append(EventType.DAILY_STATS)
             self._notification_services.append(EventService.DAILY)

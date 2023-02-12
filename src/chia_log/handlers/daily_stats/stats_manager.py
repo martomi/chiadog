@@ -6,6 +6,9 @@ from typing import cast, List, Union
 from threading import Thread
 from time import sleep
 
+# lib
+from confuse import ConfigView
+
 # project
 from . import (
     HarvesterActivityConsumer,
@@ -36,10 +39,10 @@ class StatsManager:
     with a summary from all stats that have been collected for the past 24 hours.
     """
 
-    def __init__(self, config: dict, notify_manager: NotifyManager):
-        self._enable = config.get("enable", False)
-        self._notify_time = self._parse_notify_time(config.get("time_of_day", "21:00"))
-        self._frequency_hours = config.get("frequency_hours", 24)
+    def __init__(self, config: ConfigView, notify_manager: NotifyManager):
+        self._enable = config["enable"].get(bool)
+        self._notify_time = self._parse_notify_time(config["time_of_day"].get())
+        self._frequency_hours = config["frequency_hours"].get(int)
 
         if not self._enable:
             logging.warning("Disabled stats and daily notifications")

@@ -1,0 +1,113 @@
+# !!YOU SHOULD NOT MODIFY THIS FILE!!
+# Instead create and provide a minimal config.yaml that overrides what you need to change.
+# While this can be a useful reference for all available options,
+# config-example.yaml provides more useful comments and examples.
+
+notification_title_prefix: 'Chia'
+log_level: INFO
+
+# Only one consumer can be enabled at a time, we default to local default path
+chia_logs:
+  file_log_consumer:
+    enable: true
+    file_path: '~/.chia/mainnet/log/debug.log'
+  network_log_consumer:
+    enable: false
+    remote_file_path: '~/.chia/mainnet/log/debug.log'
+    remote_host: null # no sane default can be set
+    remote_user: "chia"
+    remote_port: 22
+
+keep_alive_monitor:
+  enable_remote_ping: false
+  ping_url: null
+
+daily_stats:
+  enable: false
+  time_of_day: "21:00"
+  frequency_hours: 24
+
+# All handlers are enabled by default
+handlers:
+  wallet_added_coin_handler:
+    enable: true
+    min_mojos_amount: 0
+  finished_signage_point_handler:
+    enable: true
+  block_handler:
+    enable: true
+  partial_handler:
+    enable: true
+  harvester_activity_handler:
+    enable: true
+
+
+# No notifier or notifier feature is enabled by default
+# This section is dense, read config-example.yaml instead!
+notifier_defaults: &notifier_defaults
+  enable: false
+  daily_stats: false
+  wallet_events: false
+  decreasing_plot_events: false
+  increasing_plot_events: false
+
+notifier:
+  pushover:
+    <<: *notifier_defaults
+    credentials:
+      api_token: null
+      user_key: null
+  pushcut:
+    <<: *notifier_defaults
+    credentials:
+      api_token: null
+      user_key: null
+  telegram:
+    <<: *notifier_defaults
+    credentials:
+      bot_token: null
+      chat_id: null
+  smtp:
+    <<: *notifier_defaults
+    credentials:
+      sender: null
+      sender_name: 'chiadog'
+      recipient: null
+      username_smtp: null
+      password_smtp: null
+      enable_smtp_auth: true
+      host: null
+      port: 587
+  script:
+    <<: *notifier_defaults
+    script_path: 'tests/test_script.sh'
+  discord:
+    <<: *notifier_defaults
+    credentials:
+      webhook_url: null
+  slack:
+    <<: *notifier_defaults
+    credentials:
+      webhook_url: null
+  mqtt:
+    <<: *notifier_defaults
+    topic: chia/chiadog/alert
+    qos: 0
+    retain: false
+    credentials:
+      host: null
+      port: 8883
+      username: null
+      password: null
+  grafana:
+    enable: false
+    credentials:
+      base_url: null
+      api_token: null
+      dashboard_id: -1
+      panel_id: -1
+  ifttt:
+    <<: *notifier_defaults
+    credentials:
+      api_token: null
+      webhook_name: null

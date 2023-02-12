@@ -8,11 +8,14 @@ from argparse import Namespace, ArgumentParser
 from pathlib import Path
 from typing import Tuple
 
+# lib
+import confuse
+
 # project
 from src.chia_log.handlers.daily_stats.stats_manager import StatsManager
 from src.chia_log.log_consumer import create_log_consumer_from_config
 from src.chia_log.log_handler import LogHandler
-from src.config import Config, is_win_platform
+from src.util import is_win_platform
 from src.notifier.keep_alive_monitor import KeepAliveMonitor
 from src.notifier.notify_manager import NotifyManager
 
@@ -43,8 +46,8 @@ def get_log_level(log_level: str) -> int:
     return logging.INFO
 
 
-def init(config:Config):
-    log_level = get_log_level(config.get_log_level_config())
+def init(config: confuse.core.Configuration):
+    log_level = get_log_level(config["log_level"].get())
     logging.basicConfig(
         format="[%(asctime)s] [%(levelname)8s] --- %(message)s (%(filename)s:%(lineno)s)",
         level=log_level,
@@ -54,24 +57,24 @@ def init(config:Config):
     logging.info(f"Starting Chiadog ({version()})")
 
     # Create log consumer based on provided configuration
-    chia_logs_config = config.get_chia_logs_config()
+    chia_logs_config = config['chia_logs']
     log_consumer = create_log_consumer_from_config(chia_logs_config)
     if log_consumer is None:
         exit(0)
 
     # Keep a reference here so we can stop the thread
     # TODO: read keep-alive thresholds from config
-    keep_alive_monitor = KeepAliveMonitor(config=config.get_keep_alive_monitor_config())
+    keep_alive_monitor = KeepAliveMonitor(config=config['keep_alive_monitor'])
 
     # Notify manager is responsible for the lifecycle of all notifiers
     notify_manager = NotifyManager(config=config, keep_alive_monitor=keep_alive_monitor)
 
     # Stats manager accumulates stats over 24 hours and sends a summary each day
-    stats_manager = StatsManager(config=config.get_daily_stats_config(), notify_manager=notify_manager)
+    stats_manager = StatsManager(config=config['daily_stats'], notify_manager=notify_manager)
 
     # Link stuff up in the log handler
     # Pipeline: Consume -> Handle -> Notify
-    log_handler = LogHandler(config=config.get_handlers_config(), log_consumer=log_consumer, notify_manager=notify_manager,
+    log_handler = LogHandler(config=config, log_consumer=log_consumer, notify_manager=notify_manager,
                              stats_manager=stats_manager)
 
     def interrupt(signal_number, frame):
@@ -108,8 +111,15 @@ if __name__ == "__main__":
     # Parse config and configure logger
     argparse, args = parse_arguments()
 
+    # init sane config defaults
+    source_path = Path(__file__).resolve()
+    source_dir = source_path.parent
+    config = confuse.Configuration('chiadog', __name__)
+    config.set_file(source_dir / 'src/default_config.yaml')
+
+    # Override with given config
     if args.config:
-        conf = Config(Path(args.config))
-        init(conf)
+        config.set_file(Path(args.config))
+        init(config)
     elif args.version:
         print(version())

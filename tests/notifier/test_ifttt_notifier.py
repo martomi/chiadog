@@ -2,6 +2,9 @@
 import os
 import unittest
 
+# lib
+import confuse
+
 # project
 from src.notifier import Event, EventType, EventPriority, EventService
 from src.notifier.ifttt_notifier import IftttNotifier
@@ -14,16 +17,20 @@ class TestIftttNotifier(unittest.TestCase):
         self.webhook_name = os.getenv("IFTTT_WEBHOOK_NAME")
         self.assertIsNotNone(self.api_token, "You must export IFTTT_API_TOKEN as env variable")
         self.assertIsNotNone(self.webhook_name, "You must export IFTTT_WEBHOOK_NAME as env variable")
-        self.notifier = IftttNotifier(
-            title_prefix="Test",
-            config={
+        self.config = confuse.Configuration("chiadog", __name__)
+        self.config.set(
+            {
                 "enable": True,
                 "daily_stats": True,
                 "wallet_events": True,
                 "decreasing_plot_events": True,
                 "increasing_plot_events": True,
                 "credentials": {"api_token": self.api_token, "webhook_name": self.webhook_name},
-            },
+            }
+        )
+        self.notifier = IftttNotifier(
+            title_prefix="Test",
+            config=self.config,
         )
 
     @unittest.skipUnless(os.getenv("IFTTT_API_TOKEN"), "Run only if token available")
@@ -41,20 +48,21 @@ class TestIftttNotifier(unittest.TestCase):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
         self.assertTrue(success)
 
+    @unittest.skipUnless(os.getenv("IFTTT_API_TOKEN"), "Run only if token available")
     @unittest.skipUnless(os.getenv("SHOWCASE_NOTIFICATIONS"), "Only for showcasing")
     def testShowcaseGoodNotifications(self):
         notifiers = [
             IftttNotifier(
                 title_prefix="Harvester 1",
-                config={"enable": True, "api_token": self.api_token, "webhook_name": self.webhook_name},
+                config=self.config,
             ),
             IftttNotifier(
                 title_prefix="Harvester 2",
-                config={"enable": True, "api_token": self.api_token, "webhook_name": self.webhook_name},
+                config=self.config,
             ),
             IftttNotifier(
                 title_prefix="Harvester 3",
-                config={"enable": True, "api_token": self.api_token, "webhook_name": self.webhook_name},
+                config=self.config,
             ),
         ]
         found_proof_event = Event(
@@ -67,20 +75,21 @@ class TestIftttNotifier(unittest.TestCase):
             success = notifier.send_events_to_user(events=[found_proof_event])
             self.assertTrue(success)
 
+    @unittest.skipUnless(os.getenv("IFTTT_API_TOKEN"), "Run only if token available")
     @unittest.skipUnless(os.getenv("SHOWCASE_NOTIFICATIONS"), "Only for showcasing")
     def testShowcaseBadNotifications(self):
         notifiers = [
             IftttNotifier(
                 title_prefix="Harvester 1",
-                config={"enable": True, "api_token": self.api_token, "webhook_name": self.webhook_name},
+                config=self.config,
             ),
             IftttNotifier(
                 title_prefix="Harvester 2",
-                config={"enable": True, "api_token": self.api_token, "webhook_name": self.webhook_name},
+                config=self.config,
             ),
             IftttNotifier(
                 title_prefix="Harvester 3",
-                config={"enable": True, "api_token": self.api_token, "webhook_name": self.webhook_name},
+                config=self.config,
             ),
         ]
         disconnected_hdd = Event(

@@ -9,14 +9,14 @@ class SearchTimeStats(HarvesterActivityConsumer, StatAccumulator):
     def __init__(self):
         self._last_reset_time = datetime.now()
         self._num_measurements = 0
-        self._avg_time_seconds = 0
+        self._avg_time_seconds = 0.0
         self._over_5_seconds = 0
         self._over_15_seconds = 0
 
     def reset(self):
         self._last_reset_time = datetime.now()
         self._num_measurements = 0
-        self._avg_time_seconds = 0
+        self._avg_time_seconds = 0.0
         self._over_5_seconds = 0
         self._over_15_seconds = 0
 
@@ -29,7 +29,6 @@ class SearchTimeStats(HarvesterActivityConsumer, StatAccumulator):
             self._over_15_seconds += 1
 
     def get_summary(self) -> str:
-
         pct_over_5seconds: float = 0
         pct_over_15seconds: float = 0
 

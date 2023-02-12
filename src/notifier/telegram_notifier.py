@@ -4,16 +4,19 @@ import logging
 import json
 from typing import List
 
+# lib
+from confuse import ConfigView
+
 # project
 from . import Notifier, Event
 
 
 class TelegramNotifier(Notifier):
-    def __init__(self, title_prefix: str, config: dict):
+    def __init__(self, title_prefix: str, config: ConfigView):
         logging.info("Initializing Telegram notifier.")
         super().__init__(title_prefix, config)
         try:
-            credentials = config["credentials"]
+            credentials = config["credentials"].get(dict)
             self.bot_token = credentials["bot_token"]
             self.chat_id = credentials["chat_id"]
         except KeyError as key:

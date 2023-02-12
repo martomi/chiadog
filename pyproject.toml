@@ -1,2 +1,7 @@
 [tool.black]
 line-length = 120
+
+# No type hints: https://github.com/beetbox/confuse/issues/121
+[[tool.mypy.overrides]]
+module = ["confuse", "confuse.exceptions"]
+ignore_missing_imports = true
