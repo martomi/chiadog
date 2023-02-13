@@ -13,7 +13,7 @@ from pathlib import Path, PurePosixPath, PureWindowsPath, PurePath
 from tempfile import mkdtemp
 from threading import Thread
 from time import sleep
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 
 # project
 from src.util import OS
@@ -215,7 +215,7 @@ def get_host_info(host: str, user: str, path: str, port: int) -> Tuple[OS, PureP
     return OS.LINUX, PurePosixPath(path)
 
 
-def create_log_consumer_from_config(config: ConfigView) -> Optional[LogConsumer]:
+def create_log_consumer_from_config(config: ConfigView) -> LogConsumer:
     enabled_consumer = None
     for consumer in config.keys():
         if config[consumer]["enable"].get(bool):
@@ -224,8 +224,8 @@ def create_log_consumer_from_config(config: ConfigView) -> Optional[LogConsumer]
                 return None
             enabled_consumer = consumer
     if enabled_consumer is None:
-        logging.error("Couldn't find enabled log consumer in config.yaml")
-        return None
+        logging.critical("Couldn't find enabled log consumer in config.yaml")
+        exit(1)
 
     enabled_consumer_config = config[enabled_consumer]
 
@@ -263,5 +263,5 @@ def create_log_consumer_from_config(config: ConfigView) -> Optional[LogConsumer]
                 remote_platform=platform,
             )
 
-    logging.error("Unhandled consumer type")
-    return None
+    logging.critical("Unknown log consumer type enabled, typo?")
+    exit(1)
