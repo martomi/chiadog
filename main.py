@@ -63,7 +63,7 @@ def init(config: confuse.core.Configuration):
 
     # Keep a reference here so we can stop the thread
     # TODO: read keep-alive thresholds from config
-    keep_alive_monitor = KeepAliveMonitor(config=config["keep_alive_monitor"])
+    keep_alive_monitor = KeepAliveMonitor(config=config["keep_alive_monitor"].get(dict))
 
     # Notify manager is responsible for the lifecycle of all notifiers
     notify_manager = NotifyManager(config=config, keep_alive_monitor=keep_alive_monitor)
