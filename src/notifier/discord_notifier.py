@@ -25,8 +25,8 @@ class DiscordNotifier(Notifier):
         errors = False
         for event in events:
             if event.type in self._notification_types and event.service in self._notification_services:
-                if event.priority== EventPriority.HIGH:
-                    event.message+="\n@here"
+                if event.priority == EventPriority.HIGH:
+                    event.message += "\n@here"
                 o = urllib.parse.urlparse(self.webhook_url)
                 conn = http.client.HTTPSConnection(o.netloc, timeout=self._conn_timeout_seconds)
                 conn.request(
