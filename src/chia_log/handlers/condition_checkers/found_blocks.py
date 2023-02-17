@@ -12,7 +12,7 @@ class FoundBlocks(BlockConditionChecker):
     """Check if any blocks were found."""
 
     def __init__(self):
-        logging.info("Enabled check for found blocks.")
+        logging.debug("Enabled check for found blocks.")
 
     def check(self, obj: BlockMessage) -> Optional[Event]:
         if obj.blocks_count > 0:

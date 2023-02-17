@@ -71,10 +71,9 @@ class LogConsumer(ABC):
 class FileLogConsumer(LogConsumer):
     def __init__(self, log_path: Path):
         super().__init__()
-        logging.info("Enabled local file log consumer.")
         self._expanded_log_path = str(log_path.expanduser())
         self._offset_path = mkdtemp() / Path("debug.log.offset")
-        logging.info(f"Using temporary directory {self._offset_path}")
+        logging.debug(f"Using temporary directory {self._offset_path} for FileLogConsumer")
         self._is_running = True
         self._thread = Thread(target=self._consume_loop)
         self._thread.start()
@@ -85,7 +84,7 @@ class FileLogConsumer(LogConsumer):
 
         # Cleanup the temporary file
         if self._offset_path.exists():
-            logging.info(f"Deleting {self._offset_path}")
+            logging.debug(f"Deleting {self._offset_path}")
             self._offset_path.unlink()
 
         self._is_running = False
@@ -232,19 +231,21 @@ def create_log_consumer_from_config(config: ConfigView) -> LogConsumer:
     if enabled_consumer == "file_log_consumer":
         # Validate config against template
         valid_config = enabled_consumer_config.get(file_log_consumer_template)
-        return FileLogConsumer(log_path=valid_config["file_path"])
+        log_path = valid_config["file_path"]
+        logging.info(f"Consuming logs locally from {log_path}")
+        return FileLogConsumer(log_path=log_path)
 
     if enabled_consumer == "network_log_consumer":
         # Validate config against template
         valid_config = enabled_consumer_config.get(network_log_consumer_template)
         remote_port = valid_config["remote_port"]
+        remote_user = valid_config["remote_user"]
+        remote_host = valid_config["remote_host"]
+        remote_path = valid_config["remote_file_path"]
 
-        platform, path = get_host_info(
-            valid_config["remote_host"],
-            valid_config["remote_user"],
-            valid_config["remote_file_path"],
-            remote_port,
-        )
+        logging.info(f"Consuming logs remotely from {remote_user}@{remote_host}:{remote_port}:{remote_path}")
+
+        platform, path = get_host_info(remote_host, remote_user, remote_path, remote_port)
 
         if platform == OS.WINDOWS:
             return WindowsNetworkLogConsumer(

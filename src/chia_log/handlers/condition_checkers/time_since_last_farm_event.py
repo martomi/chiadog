@@ -19,7 +19,7 @@ class TimeSinceLastFarmEvent(HarvesterConditionChecker):
     """
 
     def __init__(self):
-        logging.info("Enabled check for farming events.")
+        logging.debug("Enabled check for farming events.")
         self._info_threshold = 30
         self._warning_threshold = 90
         self._last_timestamp = None

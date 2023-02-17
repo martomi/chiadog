@@ -15,7 +15,7 @@ class QuickPlotSearchTime(HarvesterConditionChecker):
     """
 
     def __init__(self):
-        logging.info("Enabled check for time taken to respond to challenges.")
+        logging.debug("Enabled check for time taken to respond to challenges.")
         self._warning_threshold = 20  # seconds
 
     def check(self, obj: HarvesterActivityMessage) -> Optional[Event]:

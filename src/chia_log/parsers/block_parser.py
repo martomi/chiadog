@@ -25,7 +25,7 @@ class BlockParser:
     """
 
     def __init__(self):
-        logging.info("Enabled parser for block found stats.")
+        logging.debug("Enabled parser for block found stats.")
         self._regex = re.compile(
             r"([0-9:.]*) full_node (?:src|chia).full_node.full_node\s*: INFO\s* ((?:🍀 ️|.)\s*Farmed unfinished_block)"
         )

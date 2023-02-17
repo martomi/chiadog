@@ -51,10 +51,11 @@ class LogHandler(LogConsumerSubscriber):
         self._active_handlers = []
         for service, service_handlers in self.services.items():
             if service.name in config["monitored_services"].get(list):
+                logging.info(f"Enabled service monitoring: {service.name}")
                 for handler in service_handlers:
                     self._active_handlers.append(handler(config["handlers"][handler.config_name()]))
             else:
-                logging.info(f"Disabled service monitoring: {service.name}")
+                logging.debug(f"Disabled service monitoring: {service.name}")
         log_consumer.subscribe(self)
 
     def consume_logs(self, logs: str):
