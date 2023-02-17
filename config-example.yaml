@@ -27,6 +27,15 @@ chia_logs:
 keep_alive_monitor:
   enable_remote_ping: false
   ping_url: ''
+  # These thresholds determine how long a service can be unhealthy,
+  # before we trigger a high priority alert.
+  # The lowest value here determines how often the keep-alive checks run,
+  # and thus how often a notification for an unhealthy service will trigger!
+  notify_threshold_seconds:
+    FULL_NODE: 300
+    HARVESTER: 300
+    FARMER: 300
+    WALLET: 300
 
 # Enable this and you'll receive a daily summary notification
 # on your farm performance at the specified time of the day.
