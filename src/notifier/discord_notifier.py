@@ -25,8 +25,9 @@ class DiscordNotifier(Notifier):
         errors = False
         for event in events:
             if event.type in self._notification_types and event.service in self._notification_services:
+                content = f"**{self.get_title_for_event(event)}**\n{event.message}"
                 if event.priority == EventPriority.HIGH:
-                    event.message += "\n@here"
+                    content += "\n@here"
                 o = urllib.parse.urlparse(self.webhook_url)
                 conn = http.client.HTTPSConnection(o.netloc, timeout=self._conn_timeout_seconds)
                 conn.request(
@@ -35,7 +36,7 @@ class DiscordNotifier(Notifier):
                     urllib.parse.urlencode(
                         {
                             "username": "chiadog",
-                            "content": f"**{self.get_title_for_event(event)}**\n{event.message}",
+                            "content": content,
                         }
                     ),
                     {"Content-type": "application/x-www-form-urlencoded"},
