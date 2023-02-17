@@ -72,11 +72,15 @@ class KeepAliveMonitor:
             for service in self._last_keep_alive.keys():
                 seconds_since_last = (datetime.now() - self._last_keep_alive[service]).seconds
                 threshold = self._last_keep_alive_threshold_seconds[service]
-                logging.debug(f"Keep-alive check for {service}: Last activity {seconds_since_last}s/{threshold}s")
-                if seconds_since_last > threshold:
+                logging.debug(
+                    f"Keep-alive check for {service}: "
+                    + f"Last activity {seconds_since_last}s ago (notify threshold {threshold}s)"
+                )
+                if seconds_since_last >= threshold:
                     message = (
-                        f"Your {service.name} appears to be offline! "
-                        f"No events for the past {seconds_since_last} seconds."
+                        f"Your {service.name} is unhealthy! "
+                        + f"No healthy events received for {seconds_since_last} seconds."
+                        + "\n(This check can be adjusted.)"
                     )
                     logging.warning(message)
                     events.append(
@@ -116,7 +120,6 @@ class KeepAliveMonitor:
     def _set_services(self, services: List[EventService]) -> None:
         """Set the services monitored for keepalive and the service check period."""
         for service in services:
-            logging.debug(f"Enabling {service}")
             # TODO: This check will become obsolete once all services emit keepalive events
             if service in [EventService.HARVESTER]:
                 threshold = self.config["notify_threshold_seconds"][service.name].get(int)
@@ -125,6 +128,12 @@ class KeepAliveMonitor:
                 logging.info(f"Keepalive monitor started for {service.name} with a threshold of {threshold}s")
             else:
                 logging.debug(f"Keepalive not yet implemented for {service.name}, not enabling it.")
+
+        if len(self._last_keep_alive) < 1 and self.config["enable_remote_ping"].get(bool):
+            logging.warning(
+                "monitored_services did not have any service enabled that supports keep-alive. "
+                + "Your external keep-alive service will never be pinged."
+            )
 
         # Calculate check period from lowest service value
         for threshold in self._last_keep_alive_threshold_seconds.values():
