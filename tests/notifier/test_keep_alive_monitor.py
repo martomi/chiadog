@@ -27,26 +27,27 @@ class DummyNotifyManager:
 class TestKeepAliveMonitor(unittest.TestCase):
     def setUp(self) -> None:
         self.threshold_seconds = 3
+        # Services that support keepalives
+        test_services = [EventService.HARVESTER]
+
+        self.service_count = len(test_services)
         self.config = confuse.Configuration("chiadog", __name__)
         self.config.set(
             {
-                "enable_remote_ping": False,
-                "ping_url": None,
-                "notify_threshold_seconds": {
-                    "HARVESTER": self.threshold_seconds,
+                "monitored_services": [service.name for service in test_services],
+                "keep_alive_monitor": {
+                    "enable_remote_ping": False,
+                    "ping_url": None,
+                    "notify_threshold_seconds": {service.name: self.threshold_seconds for service in test_services},
                 },
             }
         )
-        self.keep_alive_monitor = KeepAliveMonitor(self.config)
-
-        # Services that support keepalives
-        self.services = [
-            EventService.HARVESTER,
-        ]
         # And their events
         self.keep_alive_events = [
-            Event(type=EventType.KEEPALIVE, priority=EventPriority.NORMAL, service=EventService.HARVESTER, message=""),
+            Event(type=EventType.KEEPALIVE, priority=EventPriority.NORMAL, service=service, message="")
+            for service in test_services
         ]
+        self.keep_alive_monitor = KeepAliveMonitor(self.config)
 
     def tearDown(self) -> None:
         self.keep_alive_monitor.stop()
@@ -57,14 +58,13 @@ class TestKeepAliveMonitor(unittest.TestCase):
 
         def callback(events: List[Event]):
             nonlocal received_high_priority_event
-            self.assertEqual(len(events), len(self.services), "Unexpected number of events")
+            self.assertEqual(len(events), self.service_count, "Unexpected number of events")
             self.assertEqual(events[0].type, EventType.USER, "Unexpected event type")
             self.assertEqual(events[0].priority, EventPriority.HIGH, "Unexpected event priority")
             received_high_priority_event = True
 
         notify_manager = DummyNotifyManager(callback)
         self.keep_alive_monitor.set_notify_manager(notify_manager)
-        self.keep_alive_monitor.set_services(self.services)
 
         begin_tp = datetime.now()
 

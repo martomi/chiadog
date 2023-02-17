@@ -49,16 +49,12 @@ class LogHandler(LogConsumerSubscriber):
         self._stats_manager = stats_manager
 
         self._active_handlers = []
-        self._active_services = []
         for service, service_handlers in self.services.items():
             if service.name in config["monitored_services"].get(list):
-                self._active_services.append(service)
                 for handler in service_handlers:
                     self._active_handlers.append(handler(config["handlers"][handler.config_name()]))
             else:
                 logging.info(f"Disabled service monitoring: {service.name}")
-        # Init the keepalive monitor with enabled services
-        notify_manager._keep_alive_monitor.set_services(self._active_services)
         log_consumer.subscribe(self)
 
     def consume_logs(self, logs: str):
