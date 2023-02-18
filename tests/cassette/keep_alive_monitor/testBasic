@@ -9,7 +9,7 @@ interactions:
       User-Agent:
       - Python-urllib/3.7
     method: GET
-    uri: https://hc-ping.com/mock
+    uri: https://hc-ping.com/
   response:
     body:
       string: OK
@@ -23,7 +23,7 @@ interactions:
       content-type:
       - text/plain; charset=utf-8
       date:
-      - Sat, 18 Feb 2023 13:52:23 GMT
+      - Sat, 18 Feb 2023 21:24:57 GMT
       ping-body-limit:
       - '100000'
       server:
@@ -41,7 +41,7 @@ interactions:
       User-Agent:
       - Python-urllib/3.7
     method: GET
-    uri: https://hc-ping.com/mock
+    uri: https://hc-ping.com/
   response:
     body:
       string: OK
@@ -55,7 +55,7 @@ interactions:
       content-type:
       - text/plain; charset=utf-8
       date:
-      - Sat, 18 Feb 2023 13:52:26 GMT
+      - Sat, 18 Feb 2023 21:25:00 GMT
       ping-body-limit:
       - '100000'
       server:

@@ -5,6 +5,7 @@ import unittest
 from datetime import datetime
 from time import sleep
 from typing import List
+from urllib.parse import urlsplit
 
 # lib
 import confuse
@@ -16,6 +17,17 @@ from src.notifier.keep_alive_monitor import KeepAliveMonitor
 
 logging.basicConfig(level=logging.DEBUG)
 
+def sanitize_ping_url(request):
+    # Ping services tend to have path based tokens, so drop the path
+    request.uri = urlsplit(request.uri)._replace(path='/').geturl()
+    return request
+
+v = vcr.VCR(
+    cassette_library_dir='tests/cassette/keep_alive_monitor',
+    record_mode='once',
+    match_on=['method', 'host'],
+    before_record_request=sanitize_ping_url,
+)
 
 class DummyNotifyManager:
     def __init__(self, callback):
@@ -71,9 +83,7 @@ class TestKeepAliveMonitor(unittest.TestCase):
 
         begin_tp = datetime.now()
 
-        with vcr.use_cassette(
-            "tests/cassette/keep_alive_monitor_remote_ping.yaml", match_on=["method", "host"]
-        ) as cass:
+        with v.use_cassette('testBasic') as cass:
             for _ in range(self.threshold_seconds):
                 self.keep_alive_monitor.process_events(self.keep_alive_events)
                 sleep(1)
