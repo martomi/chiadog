@@ -41,7 +41,7 @@ jobs:
     - name: Unit Tests
       run: |
         python -m coverage run -m unittest
-        python -m coverage xml coverage.xml
+        python -m coverage xml -o coverage.xml
     - name: Check Coverage
       uses: orgoro/coverage@v3
       with:
