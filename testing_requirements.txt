@@ -1,0 +1,10 @@
+coverage
+flake8
+black
+mypy
+vcrpy
+
+types-PyYAML
+types-python-dateutil
+types-paramiko
+types-retry

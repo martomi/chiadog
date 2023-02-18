@@ -31,14 +31,13 @@ Before submitting a PR make sure that your feature is covered with tests.
 1. Install dependencies for auto-formatting and linting:
 
 ```
-pip3 install black flake8 mypy
-pip3 install types-PyYAML types-python-dateutil types-paramiko types-retry
+pip3 install -r testing_requirements.txt
 ```
 
 2. Run formatting, type checking and linting:
 
 ```
-black src tests && mypy src tests && flake8 src tests
+black src tests *.py && mypy src tests *.py && flake8 src tests *.py
 ```
 
 3. Run tests:
@@ -55,6 +54,29 @@ any tokens:
 ```
 python3 -m unittest
 ```
+
+4. Verify test coverage:
+
+As before, include env variables needed to live test functionality you touched.
+
+```
+python3 -m coverage run -m unittest
+python3 -m coverage report
+```
+
+## Testing remote APIs
+
+To strike a balance between hermetic tests and actually testing against a live API, `VCR.py` is utilized.
+By default tests with prerecorded interactions are tested hermetically. If you instead want to test live or record a new cassette, remove the casette file and run the test with sufficient env variables to produce a valid replacement result.
+
+For example:
+```
+rm tests/cassette/keep_alive_monitor_remote_ping.yaml
+REMOTE_PING_URL=https://hc-ping.com/<your-token> python3 -m unittest tests.notifier.test_keep_alive_monitor
+```
+
+> **Warning**
+> Before committing a cassette file make sure you've sanitized it of your own tokens!
 
 ## Have fun
 

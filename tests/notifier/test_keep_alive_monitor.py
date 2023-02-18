@@ -1,5 +1,6 @@
 # std
 import logging
+import os
 import unittest
 from datetime import datetime
 from time import sleep
@@ -7,6 +8,7 @@ from typing import List
 
 # lib
 import confuse
+import vcr
 
 # project
 from src.notifier import Event, EventService, EventType, EventPriority
@@ -31,13 +33,14 @@ class TestKeepAliveMonitor(unittest.TestCase):
         test_services = [EventService.HARVESTER]
 
         self.service_count = len(test_services)
+        ping_url = os.getenv("REMOTE_PING_URL") or "https://hc-ping.com/mock"
         self.config = confuse.Configuration("chiadog", __name__)
         self.config.set(
             {
                 "monitored_services": [service.name for service in test_services],
                 "keep_alive_monitor": {
-                    "enable_remote_ping": False,
-                    "ping_url": None,
+                    "enable_remote_ping": True,
+                    "ping_url": ping_url,
                     "notify_threshold_seconds": {service.name: self.threshold_seconds for service in test_services},
                 },
             }
@@ -68,20 +71,20 @@ class TestKeepAliveMonitor(unittest.TestCase):
 
         begin_tp = datetime.now()
 
-        for _ in range(self.threshold_seconds):
-            self.keep_alive_monitor.process_events(self.keep_alive_events)
-            sleep(1)
+        with vcr.use_cassette(
+            "tests/cassette/keep_alive_monitor_remote_ping.yaml", match_on=["method", "host"]
+        ) as cass:
+            for _ in range(self.threshold_seconds):
+                self.keep_alive_monitor.process_events(self.keep_alive_events)
+                sleep(1)
 
-        while not received_high_priority_event:
-            logging.info(f"Waiting for high priority event, this should only take {self.threshold_seconds}s")
-            sleep(1)
+            while not received_high_priority_event:
+                logging.info(f"Waiting for high priority event, this should only take {self.threshold_seconds}s")
+                sleep(1)
+            self.assertTrue(cass.all_played, "Remote ping requests did not happen as expected.")
 
         end_tp = datetime.now()
         seconds_elapsed = (end_tp - begin_tp).seconds
 
         # Check that high priority event did not fire before keep-alive signal stopped
         self.assertGreater(seconds_elapsed, 2 * self.threshold_seconds - 1)
-
-
-if __name__ == "__main__":
-    unittest.main()

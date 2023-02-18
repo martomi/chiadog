@@ -92,7 +92,7 @@ class KeepAliveMonitor:
             if len(events):
                 if self._notify_manager:
                     self._notify_manager.process_events(events)
-                else:
+                else:  # pragma: no cover
                     logging.warning("Notify manager is not set - can't propagate high priority event!")
 
     def process_events(self, events: List[Event]):
@@ -112,7 +112,7 @@ class KeepAliveMonitor:
             logging.debug("Pinging remote keep-alive endpoint")
             try:
                 urllib.request.urlopen(self._ping_url, timeout=10)
-            except Exception as e:
+            except Exception as e:  # pragma: no cover
                 logging.error(f"Failed to ping keep-alive: {e}")
 
     def _set_services(self, services: List[EventService]) -> None:
@@ -124,10 +124,10 @@ class KeepAliveMonitor:
                 self._last_keep_alive[service] = datetime.now()
                 self._last_keep_alive_threshold_seconds[service] = threshold
                 logging.info(f"Keepalive monitor started for {service.name} with a threshold of {threshold}s")
-            else:
+            else:  # pragma: no cover
                 logging.debug(f"Keepalive not yet implemented for {service.name}, not enabling it.")
 
-        if len(self._last_keep_alive) < 1 and self.config["enable_remote_ping"].get(bool):
+        if len(self._last_keep_alive) < 1 and self.config["enable_remote_ping"].get(bool):  # pragma: no cover
             logging.warning(
                 "monitored_services did not have any service enabled that supports keep-alive. "
                 + "Your external keep-alive service will never be pinged."

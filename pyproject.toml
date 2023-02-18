@@ -3,5 +3,5 @@ line-length = 120
 
 # No type hints: https://github.com/beetbox/confuse/issues/121
 [[tool.mypy.overrides]]
-module = ["confuse", "confuse.exceptions"]
+module = ["confuse", "confuse.exceptions", "vcr"]
 ignore_missing_imports = true

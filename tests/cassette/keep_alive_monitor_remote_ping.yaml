@@ -1,0 +1,66 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection:
+      - close
+      Host:
+      - hc-ping.com
+      User-Agent:
+      - Python-urllib/3.7
+    method: GET
+    uri: https://hc-ping.com/mock
+  response:
+    body:
+      string: OK
+    headers:
+      access-control-allow-origin:
+      - '*'
+      connection:
+      - close
+      content-length:
+      - '2'
+      content-type:
+      - text/plain; charset=utf-8
+      date:
+      - Sat, 18 Feb 2023 13:52:23 GMT
+      ping-body-limit:
+      - '100000'
+      server:
+      - nginx
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Connection:
+      - close
+      Host:
+      - hc-ping.com
+      User-Agent:
+      - Python-urllib/3.7
+    method: GET
+    uri: https://hc-ping.com/mock
+  response:
+    body:
+      string: OK
+    headers:
+      access-control-allow-origin:
+      - '*'
+      connection:
+      - close
+      content-length:
+      - '2'
+      content-type:
+      - text/plain; charset=utf-8
+      date:
+      - Sat, 18 Feb 2023 13:52:26 GMT
+      ping-body-limit:
+      - '100000'
+      server:
+      - nginx
+    status:
+      code: 200
+      message: OK
+version: 1
