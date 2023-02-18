@@ -1,4 +1,6 @@
 # std
+import os
+import time
 import unittest
 from pathlib import Path
 
@@ -30,6 +32,10 @@ class TestWalledPeakHandler(unittest.TestCase):
         for name in partial_logs:
             with open(self.example_logs_path / name, encoding="UTF-8") as f:
                 self.partial_logs[name] = f.readlines()
+
+        # Our TZ naive example logs are assumed to be in UTC
+        os.environ["TZ"] = "UTC"
+        time.tzset()
 
     def tearDown(self) -> None:
         self.config.clear()
