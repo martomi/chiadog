@@ -47,6 +47,15 @@ class EventService(Enum):
     DAILY = 3
     WALLET = 4
 
+    @classmethod
+    def _missing_(cls, value):
+        """Allow init with a string representation of the service"""
+
+        names = [s.name.lower() for s in EventService]
+        if isinstance(value, str) and value.lower() in names:
+            return cls(names.index(value.lower()))
+        return super()._missing_(value)
+
 
 @dataclass
 class Event:

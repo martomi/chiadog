@@ -25,7 +25,6 @@ class TestWalledAddedCoinHandler(unittest.TestCase):
         self.config.clear()
 
     def testConfig(self):
-        self.assertEqual(self.handler_config["enable"].get(bool), True)
         self.assertEqual(self.handler_config["min_mojos_amount"].get(int), 0)  # Dependent on default value being 0
 
     def testNominal(self):

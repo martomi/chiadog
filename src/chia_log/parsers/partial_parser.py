@@ -25,7 +25,7 @@ class PartialParser:
     """
 
     def __init__(self):
-        logging.info("Enabled parser for partial submitting stats.")
+        logging.debug("Enabled parser for partial submitting stats.")
         self._regex = re.compile(r"([0-9:.]*) farmer (?:src|chia).farmer.farmer\s*: INFO\s* (Submitting partial)")
 
     def parse(self, logs: str) -> List[PartialMessage]:

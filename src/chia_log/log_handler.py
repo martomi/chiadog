@@ -1,10 +1,9 @@
 # std
-from typing import Optional, List, Type
+from typing import Optional, List, Type, Dict
 import logging
 
 # lib
 from confuse import ConfigView
-from confuse.exceptions import ConfigTypeError
 
 # project
 from src.chia_log.handlers import LogHandlerInterface
@@ -15,16 +14,8 @@ from src.chia_log.handlers.block_handler import BlockHandler
 from src.chia_log.handlers.finished_signage_point_handler import FinishedSignagePointHandler
 from src.chia_log.handlers.wallet_added_coin_handler import WalletAddedCoinHandler
 from src.chia_log.log_consumer import LogConsumerSubscriber, LogConsumer
+from src.notifier import EventService
 from src.notifier.notify_manager import NotifyManager
-
-
-def _check_handler_enabled(config: dict, handler_name: str) -> bool:
-    """Fallback to True for backwards compatability"""
-    try:
-        return config["handlers"][handler_name]["enable"].get(bool)
-    except ConfigTypeError as e:
-        logging.error(f"Invalid config.yaml, enabling handler anyway: {e}")
-    return True
 
 
 class LogHandler(LogConsumerSubscriber):
@@ -48,26 +39,26 @@ class LogHandler(LogConsumerSubscriber):
         notify_manager: NotifyManager,
         stats_manager: Optional[StatsManager] = None,
     ):
+        self.services: Dict[EventService, List[Type[LogHandlerInterface]]] = {
+            EventService.HARVESTER: [HarvesterActivityHandler],
+            EventService.WALLET: [WalletAddedCoinHandler],
+            EventService.FULL_NODE: [BlockHandler, FinishedSignagePointHandler],
+            EventService.FARMER: [PartialHandler],
+        }
         self._notify_manager = notify_manager
         self._stats_manager = stats_manager
 
-        available_handlers: List[Type[LogHandlerInterface]] = [
-            HarvesterActivityHandler,
-            PartialHandler,
-            BlockHandler,
-            FinishedSignagePointHandler,
-            WalletAddedCoinHandler,
-        ]
-        self._handlers = []
-        for handler in available_handlers:
-            if _check_handler_enabled(config, handler.config_name()):
-                self._handlers.append(handler(config["handlers"][handler.config_name()]))
+        self._active_handlers = []
+        for service, service_handlers in self.services.items():
+            if service.name in config["monitored_services"].get(list):
+                logging.info(f"Enabled service monitoring: {service.name}")
+                for handler in service_handlers:
+                    self._active_handlers.append(handler(config["handlers"][handler.config_name()]))
             else:
-                logging.info(f"Disabled handler: {handler.config_name()}")
-
+                logging.debug(f"Disabled service monitoring: {service.name}")
         log_consumer.subscribe(self)
 
     def consume_logs(self, logs: str):
-        for handler in self._handlers:
+        for handler in self._active_handlers:
             events = handler.handle(logs, self._stats_manager)
             self._notify_manager.process_events(events)

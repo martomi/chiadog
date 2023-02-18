@@ -28,7 +28,7 @@ class LogHandlerInterface(ABC):
         pass
 
     def __init__(self, config: ConfigView):
-        logging.info(f"Initializing handler: {self.config_name()}")
+        logging.debug(f"Initializing handler: {self.config_name()}")
 
     @abstractmethod
     def handle(self, logs: str, stats_manager: Optional[StatsManager] = None) -> List[Event]:
