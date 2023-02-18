@@ -36,8 +36,6 @@ class KeepAliveMonitor:
         self._last_keep_alive_threshold_seconds: Dict[EventService, int] = {}
         # Check period will be inferred from minimum threshold of all services.
         self._check_period = float("inf")
-        self._is_running = False
-        self._keep_alive_check_thread: Thread = Thread()
 
         # Enable all monitored_services for keepalive monitoring
         self._set_services([EventService(service_name) for service_name in config["monitored_services"].get(list)])
