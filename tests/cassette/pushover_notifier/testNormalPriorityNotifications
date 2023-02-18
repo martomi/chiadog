@@ -1,0 +1,66 @@
+interactions:
+- request:
+    body: title=%E2%9A%A0%EF%B8%8F+Test+HARVESTER&message=Normal+priority+notification+1.&priority=0
+    headers:
+      Content-type:
+      - application/x-www-form-urlencoded
+    method: POST
+    uri: https://api.pushover.net/1/messages.json
+  response:
+    body:
+      string: '{"status":1,"request":"c19b0ce8-8fa9-4d21-aeb0-44871685bb6a"}'
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With, X-Prototype-Version, Origin, Accept, Content-Type, X-CSRF-Token,
+        X-Pushover-App, Authorization
+      Access-Control-Allow-Methods:
+      - POST, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Max-Age:
+      - '1728000'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 18 Feb 2023 20:44:21 GMT
+      ETag:
+      - W/"c68f9c5b1b2f49ea05f6c1c4fe1d4b16"
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      - DENY
+      X-Limit-App-Limit:
+      - '10000'
+      X-Limit-App-Remaining:
+      - '8983'
+      X-Limit-App-Reset:
+      - '1677650400'
+      X-PO-H:
+      - t
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - c19b0ce8-8fa9-4d21-aeb0-44871685bb6a
+      X-Runtime:
+      - '0.056479'
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1
