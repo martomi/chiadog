@@ -11,6 +11,7 @@ venv*
 .mypy_cache
 .env*
 .coverage
+coverage.xml
 .python-version
 
 
