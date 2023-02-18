@@ -25,7 +25,7 @@ class WalletPeakParser:
     """
 
     def __init__(self):
-        logging.info("Enabled parser for wallet activity - peak age.")
+        logging.debug("Enabled parser for wallet activity - peak age.")
         self._regex = re.compile(
             r"([0-9:.T\-\+]*)"
             r" wallet (?:src|chia)\.wallet\.wallet_blockchain(?:\s*)?: INFO\s+"
@@ -53,6 +53,5 @@ class WalletPeakParser:
                 tz = datetime.timezone.utc
             peak_time = datetime.datetime.fromtimestamp(int(match[2]), tz=tz)
 
-            # logging.warning(f"\nor: {match[0]}\ndt: {log_time}\npe: {peak_time}")
             parsed_messages.append(WalletPeakMessage(peak=peak, peak_time=peak_time, log_time=log_time))
         return parsed_messages
