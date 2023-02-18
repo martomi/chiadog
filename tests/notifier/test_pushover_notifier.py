@@ -12,11 +12,12 @@ from src.notifier.pushover_notifier import PushoverNotifier
 from .dummy_events import DummyEvents
 
 v = vcr.VCR(
-    cassette_library_dir='tests/cassette/pushover_notifier',
-    record_mode='once',
-    match_on=['method', 'scheme', 'host', 'port', 'path', 'query', 'headers', 'body'],
-    filter_post_data_parameters=['token', 'user']
+    cassette_library_dir="tests/cassette/pushover_notifier",
+    record_mode="once",
+    match_on=["method", "scheme", "host", "port", "path", "query", "headers", "body"],
+    filter_post_data_parameters=["token", "user"],
 )
+
 
 class TestPushoverNotifier(unittest.TestCase):
     def setUp(self) -> None:

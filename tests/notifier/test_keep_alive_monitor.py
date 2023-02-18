@@ -17,17 +17,20 @@ from src.notifier.keep_alive_monitor import KeepAliveMonitor
 
 logging.basicConfig(level=logging.DEBUG)
 
+
 def sanitize_ping_url(request):
     # Ping services tend to have path based tokens, so drop the path
-    request.uri = urlsplit(request.uri)._replace(path='/').geturl()
+    request.uri = urlsplit(request.uri)._replace(path="/").geturl()
     return request
 
+
 v = vcr.VCR(
-    cassette_library_dir='tests/cassette/keep_alive_monitor',
-    record_mode='once',
-    match_on=['method', 'host'],
+    cassette_library_dir="tests/cassette/keep_alive_monitor",
+    record_mode="once",
+    match_on=["method", "host"],
     before_record_request=sanitize_ping_url,
 )
+
 
 class DummyNotifyManager:
     def __init__(self, callback):
@@ -83,7 +86,7 @@ class TestKeepAliveMonitor(unittest.TestCase):
 
         begin_tp = datetime.now()
 
-        with v.use_cassette('testBasic') as cass:
+        with v.use_cassette("testBasic") as cass:
             for _ in range(self.threshold_seconds):
                 self.keep_alive_monitor.process_events(self.keep_alive_events)
                 sleep(1)
