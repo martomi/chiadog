@@ -7,8 +7,12 @@ debug.log.offset
 
 # dev files
 .idea
-venv
+venv*
 .mypy_cache
+.env*
+.coverage
+.python-version
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

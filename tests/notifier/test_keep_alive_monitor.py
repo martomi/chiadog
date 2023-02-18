@@ -7,6 +7,7 @@ from typing import List
 
 # lib
 import confuse
+import vcr
 
 # project
 from src.notifier import Event, EventService, EventType, EventPriority
@@ -36,8 +37,8 @@ class TestKeepAliveMonitor(unittest.TestCase):
             {
                 "monitored_services": [service.name for service in test_services],
                 "keep_alive_monitor": {
-                    "enable_remote_ping": False,
-                    "ping_url": None,
+                    "enable_remote_ping": True,
+                    "ping_url": "https://hc-ping.com/mock",
                     "notify_threshold_seconds": {service.name: self.threshold_seconds for service in test_services},
                 },
             }
@@ -68,20 +69,18 @@ class TestKeepAliveMonitor(unittest.TestCase):
 
         begin_tp = datetime.now()
 
-        for _ in range(self.threshold_seconds):
-            self.keep_alive_monitor.process_events(self.keep_alive_events)
-            sleep(1)
+        with vcr.use_cassette("tests/cassette/keep_alive_monitor_remote_ping.yaml", record_mode="none") as cass:
+            for _ in range(self.threshold_seconds):
+                self.keep_alive_monitor.process_events(self.keep_alive_events)
+                sleep(1)
 
-        while not received_high_priority_event:
-            logging.info(f"Waiting for high priority event, this should only take {self.threshold_seconds}s")
-            sleep(1)
+            while not received_high_priority_event:
+                logging.info(f"Waiting for high priority event, this should only take {self.threshold_seconds}s")
+                sleep(1)
+            assert cass.play_count == 2, "Remote ping request did not happen as expected."
 
         end_tp = datetime.now()
         seconds_elapsed = (end_tp - begin_tp).seconds
 
         # Check that high priority event did not fire before keep-alive signal stopped
         self.assertGreater(seconds_elapsed, 2 * self.threshold_seconds - 1)
-
-
-if __name__ == "__main__":
-    unittest.main()
