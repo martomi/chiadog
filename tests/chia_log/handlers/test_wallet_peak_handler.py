@@ -14,6 +14,7 @@ from src.notifier import EventType, EventService, EventPriority
 
 logging.basicConfig(level=logging.DEBUG)
 
+
 class TestWalledPeakHandler(unittest.TestCase):
     def setUp(self) -> None:
         config_dir = Path(__file__).resolve().parents[3]
