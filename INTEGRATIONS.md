@@ -11,9 +11,10 @@ enable more than one at the same time - please refer to the [config-example.yaml
 from the Pushover app to overwrite any Silence or Do-Not-Disturb modes on your phone and sound a loud alarm at any time
 of the day to make you aware of any issues in a timely manner.
 
-Test with:
+To test live:
 
 ```
+rm tests/cassette/pushover_notifier/*
 PUSHOVER_API_TOKEN=<api_token> PUSHOVER_USER_KEY=<user_key> python3 -m unittest tests.notifier.test_pushover_notifier
 ```
 

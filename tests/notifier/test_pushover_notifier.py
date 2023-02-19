@@ -4,19 +4,25 @@ import unittest
 
 # lib
 import confuse
+import vcr
 
 # project
 from src.notifier import Event, EventType, EventPriority, EventService
 from src.notifier.pushover_notifier import PushoverNotifier
 from .dummy_events import DummyEvents
 
+v = vcr.VCR(
+    cassette_library_dir="tests/cassette/pushover_notifier",
+    record_mode="once",
+    match_on=["method", "scheme", "host", "port", "path", "query", "headers", "body"],
+    filter_post_data_parameters=["token", "user"],
+)
+
 
 class TestPushoverNotifier(unittest.TestCase):
     def setUp(self) -> None:
-        self.api_token = os.getenv("PUSHOVER_API_TOKEN")
-        self.user_key = os.getenv("PUSHOVER_USER_KEY")
-        self.assertIsNotNone(self.api_token, "You must export PUSHOVER_API_TOKEN as env variable")
-        self.assertIsNotNone(self.user_key, "You must export PUSHOVER_USER_KEY as env variable")
+        self.api_token = os.getenv("PUSHOVER_API_TOKEN") or "mock"
+        self.user_key = os.getenv("PUSHOVER_USER_KEY") or "mock"
         self.config = confuse.Configuration("chiadog", __name__)
         self.config.set(
             {
@@ -33,23 +39,22 @@ class TestPushoverNotifier(unittest.TestCase):
             config=self.config,
         )
 
-    @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
+    @v.use_cassette
     def testLowPriorityNotifications(self):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_low_priority_events())
         self.assertTrue(success)
 
-    @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
+    @v.use_cassette
     def testNormalPriorityNotifications(self):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_normal_priority_events())
         self.assertTrue(success)
 
-    @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
+    @v.use_cassette
     def testHighPriorityNotifications(self):
         success = self.notifier.send_events_to_user(events=DummyEvents.get_high_priority_events())
         self.assertTrue(success)
 
-    @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
-    @unittest.skipUnless(os.getenv("SHOWCASE_NOTIFICATIONS"), "Only for showcasing")
+    @v.use_cassette
     def testShowcaseGoodNotifications(self):
         notifiers = [
             PushoverNotifier(
@@ -75,8 +80,7 @@ class TestPushoverNotifier(unittest.TestCase):
             success = notifier.send_events_to_user(events=[found_proof_event])
             self.assertTrue(success)
 
-    @unittest.skipUnless(os.getenv("PUSHOVER_API_TOKEN"), "Run only if token available")
-    @unittest.skipUnless(os.getenv("SHOWCASE_NOTIFICATIONS"), "Only for showcasing")
+    @v.use_cassette
     def testShowcaseBadNotifications(self):
         notifiers = [
             PushoverNotifier(
