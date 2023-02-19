@@ -1,4 +1,5 @@
 # std
+import datetime
 import logging
 from typing import List, Optional
 
@@ -33,17 +34,26 @@ class WalletPeakHandler(LogHandlerInterface):
 
         for peak in peak_messages:
             drift = peak.log_time - peak.peak_time
-            if drift.total_seconds() < self.max_drift:
+            diff: str = self._context_aware_duration(drift)
+            if drift.total_seconds() > 0.0 and drift.total_seconds() < self.max_drift:
                 # Create a keep-alive event if the drift is small enough.
                 # Diffs over the limit won't trigger keepalives,
                 # which will eventually trigger a notification if not caught up.
-                logging.debug(f"Wallet peak is up to speed, diff: {drift}")
+                logging.debug(f"Wallet peak is up to speed, diff: {diff}")
                 events.append(
                     Event(
                         type=EventType.KEEPALIVE, priority=EventPriority.NORMAL, service=EventService.WALLET, message=""
                     )
                 )
+            elif drift.total_seconds() < 0.0:
+                logging.warning(f"Wallet peak is in the future, diff: {diff}")
             else:
-                logging.warning(f"Wallet peak is falling behind, diff: {drift}")
+                logging.warning(f"Wallet peak is falling behind, diff: {diff}")
 
         return events
+
+    def _context_aware_duration(self, duration: datetime.timedelta) -> str:
+        if duration.total_seconds() > 0.0 and duration < datetime.timedelta(minutes=30):
+            return f"{duration.total_seconds():.0f}s"
+        else:
+            return f"{duration} (Are you sure your timezone is set correctly?)"
