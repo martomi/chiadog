@@ -106,12 +106,12 @@ notifier:
       username: null
       password: null
   grafana:
-    enable: false
+    <<: *notifier_defaults
     credentials:
       base_url: null
       api_token: null
-      dashboard_id: -1
-      panel_id: -1
+      dashboard_id: null # default to global annotation
+      panel_id: null # default to global annotation
   ifttt:
     <<: *notifier_defaults
     credentials:

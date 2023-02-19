@@ -7,8 +7,10 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import List
 from enum import Enum
+import logging
 
 # lib
+import confuse
 from confuse import ConfigView
 
 
@@ -79,7 +81,10 @@ class Notifier(ABC):
         self._notification_types = [EventType.USER]
         self._notification_services = [EventService.HARVESTER, EventService.FARMER, EventService.FULL_NODE]
 
-        daily_stats = config["daily_stats"].get(bool)
+        try:
+            daily_stats = config["daily_stats"].get(bool)
+        except confuse.exceptions.NotFoundError:
+            logging.debug(f"Not initializing daily_stats for {__name__}, not supported")
         wallet_events = config["wallet_events"].get(bool)
         decreasing_plot_events = config["decreasing_plot_events"].get(bool)
         increasing_plot_events = config["increasing_plot_events"].get(bool)

@@ -20,6 +20,10 @@ class TestGrafanaNotifier(unittest.TestCase):
         self.config.set(
             {
                 "enable": True,
+                "daily_stats": False,
+                "wallet_events": False,
+                "decreasing_plot_events": True,
+                "increasing_plot_events": True,
                 "credentials": {
                     "base_url": base_url,
                     "api_token": api_token,

@@ -124,7 +124,6 @@ class GrafanaNotifier(Notifier):
     def _send_request(self, method: str, endpoint: ParseResult, payload: dict) -> HTTPResponse:
         request_body = json.dumps(payload)
         conn = self._get_connection(endpoint)
-
         conn.request(
             method=method,
             url=endpoint.path,
