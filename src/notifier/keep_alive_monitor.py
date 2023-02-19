@@ -119,7 +119,7 @@ class KeepAliveMonitor:
         """Set the services monitored for keepalive and the service check period."""
         for service in services:
             # TODO: This check will become obsolete once all services emit keepalive events
-            if service in [EventService.HARVESTER]:
+            if service in [EventService.HARVESTER, EventService.WALLET]:
                 threshold = self.config["notify_threshold_seconds"][service.name].get(int)
                 self._last_keep_alive[service] = datetime.now()
                 self._last_keep_alive_threshold_seconds[service] = threshold

@@ -1,0 +1,10 @@
+2023-02-05T19:29:29.434+02:00 wallet chia.wallet.wallet_blockchain: INFO     Peak set to: 3207808 timestamp: 1675618141
+2023-02-05T19:29:59.778+02:00 wallet chia.wallet.wallet_blockchain: INFO     Peak set to: 3207809 timestamp: 1675618141
+2023-02-05T19:30:06.042+02:00 wallet chia.wallet.wallet_blockchain: INFO     Peak set to: 3207810 timestamp: 1675618141
+2023-02-05T19:30:25.772+02:00 wallet chia.wallet.wallet_blockchain: INFO     Peak set to: 3207811 timestamp: 1675618187
+2023-02-05T19:30:37.280+02:00 wallet chia.wallet.wallet_blockchain: INFO     Peak set to: 3207812 timestamp: 1675618187
+2023-02-05T19:31:07.683+02:00 wallet chia.wallet.wallet_blockchain: INFO     Peak set to: 3207813 timestamp: 1675618235
+2023-02-05T19:31:34.427+02:00 wallet chia.wallet.wallet_blockchain: INFO     Peak set to: 3207814 timestamp: 1675618235
+2023-02-05T19:31:44.063+02:00 wallet chia.wallet.wallet_blockchain: INFO     Peak set to: 3207815 timestamp: 1675618261
+2023-02-05T19:31:52.369+02:00 wallet chia.wallet.wallet_blockchain: INFO     Peak set to: 3207816 timestamp: 1675618261
+2023-02-05T19:32:07.833+02:00 wallet chia.wallet.wallet_blockchain: INFO     Peak set to: 3207817 timestamp: 1675618261

@@ -175,6 +175,12 @@ on [Remote Monitoring Multiple Harvesters](https://github.com/martomi/chiadog/wi
 You can enable more verbose logging from `config.yaml` by changing `INFO` to `DEBUG`. You should see logs for every
 keep-alive event from the harvester.
 
+### Times are wrong?
+
+Chia has not yet introduced timezone aware log timestamps. Until they do make sure the `TZ` environment variable matches 
+between the machine producing the logs and running chiadog. If running chiadog on Docker, pass in `-e TZ=UTC`, substituting
+`UTC` with your timezone, for example `Europe/London`.
+
 # Advanced Usage
 
 ## Redundant monitoring for `chiadog`
