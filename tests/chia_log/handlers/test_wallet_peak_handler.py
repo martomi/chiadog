@@ -1,4 +1,5 @@
 # std
+import logging
 import os
 import time
 import unittest
@@ -11,6 +12,7 @@ import confuse
 from src.chia_log.handlers.wallet_peak_handler import WalletPeakHandler
 from src.notifier import EventType, EventService, EventPriority
 
+logging.basicConfig(level=logging.DEBUG)
 
 class TestWalledPeakHandler(unittest.TestCase):
     def setUp(self) -> None:

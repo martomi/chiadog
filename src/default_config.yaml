@@ -47,7 +47,9 @@ handlers:
   wallet_added_coin_handler:
     min_mojos_amount: 0
   wallet_peak_handler:
-    max_drift_seconds: 120 # Observed usual drift is about a minute
+    # Observed usual drift is about a minute on a beefy node.
+    # A conservative value is used however to avoid flooding low powered users by default.
+    max_drift_seconds: 300
 
 
 # No notifier or notifier feature is enabled by default
