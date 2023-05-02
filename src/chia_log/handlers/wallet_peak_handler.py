@@ -53,7 +53,7 @@ class WalletPeakHandler(LogHandlerInterface):
         return events
 
     def _context_aware_duration(self, duration: datetime.timedelta) -> str:
-        if duration.total_seconds() > 0.0 and duration < datetime.timedelta(minutes=30):
+        if abs(duration.total_seconds()) < 1800.0:  # 30 minutes
             return f"{duration.total_seconds():.0f}s"
         else:
             return f"{duration} (Are you sure your timezone is set correctly?)"
