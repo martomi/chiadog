@@ -1,0 +1,46 @@
+C:\Users\chia> Get-Item "$env:USERPROFILE\.chia\mainnet\log\debug.log"
+
+
+    Directory: C:\Users\chia\.chia\mainnet\log
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----       09/12/2025     12:03       46222274 debug.log
+
+
+C:\Users\chia> Get-Content "$env:USERPROFILE\.chia\mainnet\log\debug.log" -Tail 100 | Select-String -Pattern "harvester"
+
+2025-12-09T12:02:10.467 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...72 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.53100 s. Total 18321 plots
+2025-12-09T12:02:19.941 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...72 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.54700 s. Total 18321 plots
+2025-12-09T12:02:30.089 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...75 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.53200 s. Total 18321 plots
+2025-12-09T12:02:40.515 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...72 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.53200 s. Total 18321 plots
+2025-12-09T12:02:49.634 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...78 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.53100 s. Total 18321 plots
+2025-12-09T12:02:58.960 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...75 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.53200 s. Total 18321 plots
+2025-12-09T12:03:08.231 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...76 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.53100 s. Total 18321 plots
+2025-12-09T12:03:17.891 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...65 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.51500 s. Total 18321 plots
+
+
+C:\Users\chia> chia configure --show | Select-String -Pattern "log"
+Traceback (most recent call last):
+  File "chia\cmds\chia.py", line 9, in <module>
+  File "PyInstaller\loader\pyimod02_importers.py", line 385, in exec_module
+  File "chia\cmds\beta.py", line 10, in <module>
+  File "PyInstaller\loader\pyimod02_importers.py", line 385, in exec_module
+  File "chia\cmds\beta_funcs.py", line 8, in <module>
+  File "PyInstaller\loader\pyimod02_importers.py", line 385, in exec_module
+  File "chia\util\beta_metrics.py", line 11, in <module>
+  File "PyInstaller\loader\pyimod02_importers.py", line 385, in exec_module
+  File "psutil\__init__.py", line 109, in <module>
+  File "PyInstaller\loader\pyimod02_importers.py", line 385, in exec_module
+  File "psutil\_pswindows.py", line 35, in <module>
+ModuleNotFoundError: No module named 'psutil._psutil_windows'
+[9244] Failed to execute script 'chia' due to unhandled exception!
+C:\Users\chia> Get-Content "$env:USERPROFILE\.chia\mainnet\log\debug.log" -Wait -Tail 50 | Select-String -Pattern "eligible"
+
+2025-12-09T12:03:08.231 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...76 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.53100 s. Total 18321 plots
+2025-12-09T12:03:17.891 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...65 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.51500 s. Total 18321 plots
+2025-12-09T12:03:28.244 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...69 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.54700 s. Total 18321 plots
+2025-12-09T12:03:37.294 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...75 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.51600 s. Total 18321 plots
+2025-12-09T12:03:46.599 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...83 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.51500 s. Total 18321 plots
+2025-12-09T12:03:56.750 2.5.7 harvester chia.harvester.harvester: INFO     challenge_hash: 486db1449e ...64 plots were eligible for farming challengeFound 0 V1 proofs and 0 V2 qualities. Time: 0.51600 s. Total 18321 plots
