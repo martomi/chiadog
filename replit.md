@@ -54,4 +54,5 @@ python main.py --version
 - confuse (configuration)
 
 ## Recent Changes
+- December 2024: Added support for Chia 2.5.7 log format with V1 proofs and V2 qualities parsing
 - December 2024: Imported to Replit, configured Python 3.11 environment
