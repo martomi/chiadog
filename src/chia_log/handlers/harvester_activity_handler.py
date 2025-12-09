@@ -10,6 +10,7 @@ from .condition_checkers.non_decreasing_plots import NonDecreasingPlots
 from .condition_checkers.quick_plot_search_time import QuickPlotSearchTime
 from .condition_checkers.time_since_last_farm_event import TimeSinceLastFarmEvent
 from .daily_stats.stats_manager import StatsManager
+from .wins_tracker import WinsTracker
 from src.notifier import Event, EventService, EventType, EventPriority
 
 
@@ -32,6 +33,12 @@ class HarvesterActivityHandler(LogHandlerInterface):
             NonDecreasingPlots(),
             QuickPlotSearchTime(),
         ]
+        self._wins_tracker: Optional[WinsTracker] = None
+
+    def set_wins_tracker(self, wins_tracker: WinsTracker) -> None:
+        """Set the wins tracker for recording found proofs."""
+        self._wins_tracker = wins_tracker
+        logging.info("Wins tracker enabled for harvester activity handler")
 
     def handle(self, logs: str, stats_manager: Optional[StatsManager] = None) -> List[Event]:
         """Process incoming logs, check all conditions
@@ -59,5 +66,12 @@ class HarvesterActivityHandler(LogHandlerInterface):
                 event = checker.check(msg)
                 if event:
                     events.append(event)
+            
+            # Record wins if tracker is enabled
+            if self._wins_tracker and msg.found_proofs_count > 0:
+                try:
+                    self._wins_tracker.record_win(msg)
+                except Exception as e:
+                    logging.error(f"Failed to record win: {e}")
 
         return events

@@ -14,6 +14,7 @@ from src.chia_log.handlers.block_handler import BlockHandler
 from src.chia_log.handlers.finished_signage_point_handler import FinishedSignagePointHandler
 from src.chia_log.handlers.wallet_added_coin_handler import WalletAddedCoinHandler
 from src.chia_log.handlers.wallet_peak_handler import WalletPeakHandler
+from src.chia_log.handlers.wins_tracker import WinsTracker
 from src.chia_log.log_consumer import LogConsumerSubscriber, LogConsumer
 from src.notifier import EventService
 from src.notifier.notify_manager import NotifyManager
@@ -48,13 +49,24 @@ class LogHandler(LogConsumerSubscriber):
         }
         self._notify_manager = notify_manager
         self._stats_manager = stats_manager
+        self._wins_tracker: Optional[WinsTracker] = None
+
+        wins_config = config["wins_history"]
+        if wins_config["enable"].get(bool):
+            file_path = wins_config["file_path"].get(str)
+            backup_dir = wins_config["backup_dir"].get()
+            self._wins_tracker = WinsTracker(file_path=file_path, backup_dir=backup_dir)
+            logging.info(f"Wins history tracking enabled: {file_path}")
 
         self._active_handlers = []
         for service, service_handlers in self.services.items():
             if service.name in config["monitored_services"].get(list):
                 logging.info(f"Enabled service monitoring: {service.name}")
                 for handler in service_handlers:
-                    self._active_handlers.append(handler(config["handlers"][handler.config_name()]))
+                    handler_instance = handler(config["handlers"][handler.config_name()])
+                    if isinstance(handler_instance, HarvesterActivityHandler) and self._wins_tracker:
+                        handler_instance.set_wins_tracker(self._wins_tracker)
+                    self._active_handlers.append(handler_instance)
             else:
                 logging.debug(f"Disabled service monitoring: {service.name}")
         log_consumer.subscribe(self)
