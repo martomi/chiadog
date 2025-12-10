@@ -84,10 +84,27 @@ class Notifier(ABC):
         try:
             daily_stats = config["daily_stats"].get(bool)
         except confuse.exceptions.NotFoundError:
+            daily_stats = False
             logging.debug(f"Not initializing daily_stats for {__name__}, not supported")
-        wallet_events = config["wallet_events"].get(bool)
-        decreasing_plot_events = config["decreasing_plot_events"].get(bool)
-        increasing_plot_events = config["increasing_plot_events"].get(bool)
+
+        try:
+            wallet_events = config["wallet_events"].get(bool)
+        except confuse.exceptions.NotFoundError:
+            wallet_events = False
+            logging.debug(f"Not initializing wallet_events for {__name__}, not supported")
+
+        try:
+            decreasing_plot_events = config["decreasing_plot_events"].get(bool)
+        except confuse.exceptions.NotFoundError:
+            decreasing_plot_events = False
+            logging.debug(f"Not initializing decreasing_plot_events for {__name__}, not supported")
+
+        try:
+            increasing_plot_events = config["increasing_plot_events"].get(bool)
+        except confuse.exceptions.NotFoundError:
+            increasing_plot_events = False
+            logging.debug(f"Not initializing increasing_plot_events for {__name__}, not supported")
+
         if daily_stats:
             self._notification_types.append(EventType.DAILY_STATS)
             self._notification_services.append(EventService.DAILY)
