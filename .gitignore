@@ -22,3 +22,8 @@ __pycache__/
 
 # System files
 .DS_Store
+
+# Replit
+.pythonlibs/
+.upm/
+.cache/

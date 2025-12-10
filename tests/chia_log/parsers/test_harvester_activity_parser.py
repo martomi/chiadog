@@ -14,6 +14,8 @@ class TestHarvesterActivityParser(unittest.TestCase):
             self.nominal_logs = f.read()
         with open(self.example_logs_path / "nominal_old_log_format.txt", encoding="UTF-8") as f:
             self.nominal_logs_old_format = f.read()
+        with open(self.example_logs_path / "nominal_v2_format.txt", encoding="UTF-8") as f:
+            self.nominal_logs_v2_format = f.read()
 
     def tearDown(self) -> None:
         pass
@@ -46,6 +48,27 @@ class TestHarvesterActivityParser(unittest.TestCase):
                 seconds_since_last_activity = (msg.timestamp - prev_timestamp).seconds
                 self.assertLess(seconds_since_last_activity, 10, "Unexpected duration between harvesting events")
                 prev_timestamp = msg.timestamp
+
+    def testV2FormatParsing(self):
+        """Test parsing of Chia 2.5.7+ log format with V1/V2 proofs"""
+        activity_messages = self.parser.parse(self.nominal_logs_v2_format)
+        self.assertEqual(len(activity_messages), 7, "Expected 7 log messages")
+
+        expected_eligible_plot_counts = [72, 72, 75, 72, 78, 80, 65]
+        expected_proofs_found_counts = [0, 0, 0, 0, 1, 1, 0]
+        expected_v1_proofs = [0, 0, 0, 0, 1, 1, 0]
+        expected_v2_qualities = [0, 0, 0, 0, 2, 0, 1]
+        expected_search_times = [0.531, 0.547, 0.532, 0.532, 0.531, 0.52, 0.51]
+        expected_total_plots_counts = [18321, 18321, 18321, 18321, 18321, 18321, 18321]
+
+        for i, msg in enumerate(activity_messages):
+            self.assertEqual(msg.eligible_plots_count, expected_eligible_plot_counts[i], f"Eligible plots count don't match at index {i}")
+            self.assertEqual(msg.found_proofs_count, expected_proofs_found_counts[i], f"Found proofs count don't match at index {i}")
+            self.assertEqual(msg.found_v1_proofs_count, expected_v1_proofs[i], f"V1 proofs count don't match at index {i}")
+            self.assertEqual(msg.found_v2_qualities_count, expected_v2_qualities[i], f"V2 qualities count don't match at index {i}")
+            self.assertEqual(msg.search_time_seconds, expected_search_times[i], f"Search time seconds don't match at index {i}")
+            self.assertEqual(msg.total_plots_count, expected_total_plots_counts[i], f"Total plots count don't match at index {i}")
+            self.assertEqual(msg.challenge_hash, "486db1449e", f"Challenge hash don't match at index {i}")
 
 
 if __name__ == "__main__":

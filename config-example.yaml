@@ -44,6 +44,14 @@ daily_stats:
   time_of_day: "21:00"
   frequency_hours: 24
 
+# Enable this to track all proof wins to a JSON file.
+# Daily backups are created automatically in the backup_dir.
+# The JSON file can be used to filter and count wins easily.
+wins_history:
+  enable: true # default: false
+  file_path: "wins_history.json"  # Path to the main wins history file
+  backup_dir: null  # Directory for daily backups (null = same as file_path)
+
 # Remove any service your node isn't running. All are enabled by default.
 # Services listed here are checked for health and will start alerting if missing.
 monitored_services:
